@@ -25,15 +25,17 @@ const Header: React.FC<HeaderProps> = ({title, walletNumber}) => {
 
 const styles = StyleSheet.create({
   header: {
+    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 10,
-    backgroundColor: '#3498db', // Set your desired background color
+    padding: 20,
+    backgroundColor: '#7a9f86',
+    height: 180
   },
   backButton: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 16,
+    fontWeight: 'normal'
   },
   title: {
     color: 'white',
@@ -42,7 +44,6 @@ const styles = StyleSheet.create({
   },
   walletContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
   },
   walletIcon: {
     marginRight: 5,

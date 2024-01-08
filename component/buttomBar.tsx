@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, Text, StyleSheet, Dimensions} from 'react-native';
 // import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 // const Tab = createBottomTabNavigator();
 
@@ -42,10 +42,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: '#ccc',
     height: 60,
+    zIndex: 1,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    elevation: 0,
+    backgroundColor: '#fff',
+    width: Dimensions.get('window').width
   },
   navItem: {
     flex: 1,
