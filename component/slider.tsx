@@ -1,51 +1,85 @@
 import React from 'react';
-import {View, Image, StyleSheet} from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
+import DefaultImage1 from './assets/RiotintoBanner1.jpg';
+import DefaultImage2 from './assets/RiotintoBanner2.jpg';
+import DefaultImage3 from './assets/RiotintoBanner3.jpg';
+import DefaultImage4 from './assets/RiotintoBanner4.jpg';
+import DefaultImage5 from './assets/RiotintoBanner5.jpg';
+import DefaultImage6 from './assets/RiotintoBanner6.jpg';
+import DefaultImage7 from './assets/RiotintoBanner7.jpg';
+import DefaultImage8 from './assets/RiotintoBanner8.jpg';
 
 const ImageSlider = () => {
   return (
-    <Swiper showsButtons={false} dot={false} height={250}>
-      <View style={styles.slide}>
-        <Image
-          source={{
-            uri: 'https://images.freeimages.com/images/large-previews/aed/three-bees-on-sunflower-1337029.jpg',
-          }}
-          style={styles.image}
-        />
-      </View>
-      <View style={styles.slide}>
-        <Image
-          source={{
-            uri: 'https://images.freeimages.com/images/large-previews/aed/three-bees-on-sunflower-1337029.jpg',
-          }}
-          style={styles.image}
-        />
-      </View>
-      <View style={styles.slide}>
-        <Image
-          source={{
-            uri: 'https://images.freeimages.com/images/large-previews/aed/three-bees-on-sunflower-1337029.jpg',
-          }}
-          style={styles.image}
-        />
-      </View>
-      <View style={styles.slide}>
-        <Image
-          source={{
-            uri: 'https://images.freeimages.com/images/large-previews/aed/three-bees-on-sunflower-1337029.jpg',
-          }}
-          style={styles.image}
-        />
-      </View>
-      <View style={styles.slide}>
-        <Image
-          source={{
-            uri: 'https://images.freeimages.com/images/large-previews/aed/three-bees-on-sunflower-1337029.jpg',
-          }}
-          style={styles.image}
-        />
-      </View>
-    </Swiper>
+    <View style={{ padding: 20, position: 'absolute', marginTop: 60 }}>
+      <Swiper showsButtons={false} dot={false} height={180} >
+        <View style={styles.slide}>
+          <Image
+            source={{
+              uri: Image.resolveAssetSource(DefaultImage1).uri,
+            }}
+            style={styles.image}
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={{
+              uri: Image.resolveAssetSource(DefaultImage2).uri,
+            }}
+            style={styles.image}
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={{
+              uri: Image.resolveAssetSource(DefaultImage3).uri,
+            }}
+            style={styles.image}
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={{
+              uri: Image.resolveAssetSource(DefaultImage4).uri,
+            }}
+            style={styles.image}
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={{
+              uri: Image.resolveAssetSource(DefaultImage5).uri,
+            }}
+            style={styles.image}
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={{
+              uri: Image.resolveAssetSource(DefaultImage6).uri,
+            }}
+            style={styles.image}
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={{
+              uri: Image.resolveAssetSource(DefaultImage7).uri,
+            }}
+            style={styles.image}
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={{
+              uri: Image.resolveAssetSource(DefaultImage8).uri,
+            }}
+            style={styles.image}
+          />
+        </View>
+      </Swiper>
+    </View>
   );
 };
 
@@ -59,7 +93,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: '100%',
     height: '100%',
-    borderRadius: 1,
+    borderRadius: 10,
     overflow: 'hidden',
   },
   image: {

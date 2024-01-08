@@ -1,5 +1,7 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity, Linking} from 'react-native';
+import { View, Text, Image, TouchableOpacity, Linking } from 'react-native';
+import whatsappLogo from './assets/whatsapp.png';
+import telegramLogo from './assets/telegram.png';
 
 const Support = () => {
   function handlePress(path: string) {
@@ -21,12 +23,14 @@ const Support = () => {
               <View style={styles.iconWrap}>
                 <Image
                   source={{
-                    uri: 'https://www.trumpfe.com/static/img/whatsapp.svg',
+                    uri: Image.resolveAssetSource(whatsappLogo).uri,
                   }}
                   style={styles.image}
                 />
               </View>
-              <Text style={styles.title}>Whats apps</Text>
+              <View style={styles.titleCell}>
+                <Text style={styles.title}>Whats apps</Text>
+              </View>
             </View>
             <Text style={styles.description}>
               The first contact, the account manager will provide you with
@@ -49,12 +53,14 @@ const Support = () => {
               <View style={styles.iconWrap}>
                 <Image
                   source={{
-                    uri: '	https://www.trumpfe.com/static/img/telegram.svg',
+                    uri: Image.resolveAssetSource(telegramLogo).uri,
                   }}
                   style={styles.image}
                 />
               </View>
-              <Text style={styles.title}>Telegrams</Text>
+              <View style={styles.titleCell}>
+                <Text style={styles.title}>Telegrams</Text>
+              </View>
             </View>
             <Text style={styles.description}>
               If you don’t have WHATSAPP, you can contact your account manager
@@ -73,32 +79,43 @@ const Support = () => {
 const styles = {
   appContent: {
   },
-  image:{
-    width: 30,
-    height: 30,
-    backgroundColor:"#333333"
+  image: {
+    width: 70,
+    height: 70,
   },
   row: {
     // Add your styles here
   },
   col: {
-    // Add your styles here
+    borderWidth: 1,
+    borderRadius:10,
+    borderColor: '#cccccc',
+    marginVertical: 10,
+    marginHorizontal: 20
   },
   iconedBox: {
-    // Add your styles here
+    paddingVertical: 10,
+    paddingHorizontal: 20
   },
   calls: {
-    // Add your styles here
+    flexDirection: 'row',
+    alignItem: 'center',
+    paddingVertical: 15
   },
   iconWrap: {
     // Add your styles here
   },
   title: {
-    color:"#000"
-    // Add your styles here
+    color: "#000",
+    padding: 10,
+    fontWeight: 500,
+    fontSize: 20
+  },
+  titleCell: {
+    flexDirection: 'row', alignItems: 'center', 
   },
   description: {
-    color:"#000"
+    color: "#000"
     // Add your styles here
   },
   divider: {

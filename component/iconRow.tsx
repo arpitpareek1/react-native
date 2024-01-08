@@ -1,6 +1,10 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 // import {SvgXml} from 'react-native-svg';
+import DefaultImage1 from './assets/tab1.png';
+import DefaultImage2 from './assets/tab2.png';
+import DefaultImage3 from './assets/tab3.png';
+import DefaultImage4 from './assets/tab4.png';
 
 interface IconRow {
   navigation: any;
@@ -12,14 +16,18 @@ const IconRow: React.FC<IconRow> = ({navigation}) => {
       <TouchableOpacity style={styles.palaceGrid} onPress={() => {
         navigation("profile")
       }}>
-        <View style={styles.palaceGridIcon}></View>
+        <View style={styles.palaceGridIcon}>
+          <Image source={{uri: Image.resolveAssetSource(DefaultImage1).uri}} style={{width: 50, height: 50}} />
+        </View>
         <View style={styles.palaceGridText}>
           <Text style={styles.gridText}>About</Text>
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.palaceGrid} onPress={() => {}}>
-        <View style={styles.palaceGridIcon}></View>
+        <View style={styles.palaceGridIcon}>
+          <Image source={{uri: Image.resolveAssetSource(DefaultImage2).uri}} style={{width: 50, height: 50}} />
+        </View>
         <View style={styles.palaceGridText}>
           <Text style={styles.gridText}>Help</Text>
         </View>
@@ -30,7 +38,9 @@ const IconRow: React.FC<IconRow> = ({navigation}) => {
         onPress={() => {
           navigation('Refferer');
         }}>
-        <View style={styles.palaceGridIcon}></View>
+        <View style={styles.palaceGridIcon}>
+          <Image source={{uri: Image.resolveAssetSource(DefaultImage3).uri}} style={{width: 50, height: 50}} />
+        </View>
         <View style={styles.palaceGridText}>
           <Text style={styles.gridText}>Friends</Text>
         </View>
@@ -41,7 +51,9 @@ const IconRow: React.FC<IconRow> = ({navigation}) => {
         onPress={() => {
           navigation('Support');
         }}>
-        <View style={styles.palaceGridIcon}></View>
+        <View style={styles.palaceGridIcon}>
+          <Image source={{uri: Image.resolveAssetSource(DefaultImage4).uri}} style={{width: 50, height: 50}} />
+        </View>
         <View style={styles.palaceGridText}>
           <Text style={styles.gridText}>Services</Text>
         </View>
@@ -52,26 +64,28 @@ const IconRow: React.FC<IconRow> = ({navigation}) => {
 
 const styles = StyleSheet.create({
   palaceContainer: {
+    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    padding: 20,
+    marginTop: 100,
   },
   palaceGrid: {
-    flex: 1,
-    alignItems: 'center',
-    margin: 10,
+    alignItems: 'center'
   },
-  palaceGridIcon: {
-    marginBottom: 10,
+  palaceGridIcon:{
+    marginBottom: 5,
+    borderRadius: 200,
   },
   iconImage: {
     width: 50,
     height: 50,
   },
-  palaceGridText: {},
+  palaceGridText: {
+  },
   gridText: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 15,
+    fontWeight: 'normal',
     color: '#000',
   },
 });
