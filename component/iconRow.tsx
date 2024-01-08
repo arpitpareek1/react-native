@@ -24,7 +24,9 @@ const IconRow: React.FC<IconRow> = ({navigation}) => {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.palaceGrid} onPress={() => {}}>
+      <TouchableOpacity style={styles.palaceGrid} onPress={() => {
+         navigation("LuckySpinner")
+      }}>
         <View style={styles.palaceGridIcon}>
           <Image source={{uri: Image.resolveAssetSource(DefaultImage2).uri}} style={{width: 50, height: 50}} />
         </View>

@@ -4,7 +4,7 @@ import Header from './header';
 import IconRow from './iconRow';
 import ImageSlider from './slider';
 import BottomNavigation from './buttomBar';
-import { GoodItemProps, ProductItemProps, NewsItemProps } from '../interfaces';
+import { GoodItemProps, ProductItemProps, NewsItemProps, SupportProps } from '../interfaces';
 import { Directions } from 'react-native-gesture-handler';
 
 const ListItem: React.FC<GoodItemProps> = ({
@@ -55,7 +55,7 @@ const ListItem: React.FC<GoodItemProps> = ({
 
     <TouchableOpacity onPress={() => { }} style={{ marginTop: 20 }}>
       <Text
-        style={{ color: '#6b9478', backgroundColor: '#e1eae4', textAlign: 'center', padding: 10, borderRadius: 20, fontWeight: 600 }}
+        style={{ color: '#6b9478', backgroundColor: '#e1eae4', textAlign: 'center', padding: 10, borderRadius: 20, fontWeight: "600" }}
         onPress={() => {
           navigate('ViewProduct');
         }}>
@@ -117,7 +117,7 @@ const NewsItem: React.FC<NewsItemProps> = ({ imageSource, category, date }) => (
     </View>
   </TouchableOpacity>
 );
-const HomeScreen = ({ navigation }) => {
+const HomeScreen:React.FC<SupportProps> = ({ navigation }) => {
   return (
     <ScrollView>
       <Header title="Home" walletNumber={100} />

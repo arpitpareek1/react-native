@@ -1,10 +1,9 @@
 import React from 'react';
-import {View, TouchableOpacity, Text, StyleSheet, Dimensions} from 'react-native';
-// import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-// const Tab = createBottomTabNavigator();
-
-const BottomNavigation = ({navigation}) => {
-  const navigateTo = routeName => {
+import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
+const BottomNavigation: React.FC<{
+  navigation: (r: string) => void
+}> = ({ navigation }) => {
+  const navigateTo = (routeName: string) => {
     navigation(routeName);
   };
   return (

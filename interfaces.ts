@@ -1,3 +1,5 @@
+import { NavigationProp } from "@react-navigation/native";
+
 export interface ProductItemProps {
     imageSource: string;
     title: string;
@@ -19,4 +21,7 @@ export interface ProductItemProps {
     validityPeriod: string;
     purchaseLimit: string;
     navigate:any
+  }
+  export interface SupportProps {
+    navigation: NavigationProp<any>; // Adjust the type based on your navigation configuration
   }
