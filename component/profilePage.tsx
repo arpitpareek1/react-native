@@ -42,24 +42,19 @@ const Profile = () => {
                 onPress={() => {
                   RNUpiPayment.initializePayment(
                     {
-                      vpa: 'vipin613@paytm', // or can be john@ybl or mobileNo@upi
-                      payeeName: 'John Doe',
-                      amount: '1',
+                      vpa: 'shivamsharma7899@ybl', // or can be john@ybl or mobileNo@upi
+                      payeeName: 'Kalyan Satta',
+                      amount: 100,
                       transactionRef: 'aasf-332-aoei-fn',
+                      transactionNote: 'Kalyan Satta App',
                     },
-                    res => {
-                      console.log('res', res);
-                    },
-                    err => {
-                      console.log('err', err);
-                    },
+                    console.log,
+                    console.log
                   );
                 }}></Button>
-              {/* Add other card info blocks here */}
             </View>
           </View>
         </View>
-        {/* Add other components with styles here */}
       </View>
     </ScrollView>
   );
