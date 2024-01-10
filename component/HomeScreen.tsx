@@ -217,6 +217,7 @@ const HomeScreen: React.FC<SupportProps> = ({navigation}) => {
       console.log(error, result);
       if (!result) {
         //comment this vipin to fix the view going to login
+
         navigation.navigate('LoginScreen');
       }
     });

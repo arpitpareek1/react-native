@@ -57,7 +57,7 @@ const App = () => {
           />
           <Stack.Screen
             name="Personal"
-            component={HomeScreen}
+            component={Profile}
             options={{headerShown: false}}
           />
           <Stack.Screen

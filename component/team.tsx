@@ -1,21 +1,25 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import CommonHeader from './commonHeader'
+import DefaultImage1 from './assets/py.png';
+import DefaultImage2 from './assets/team.png';
 
 const TeamPage = () => {
   return (
     <View style={styles.content}>
+      <CommonHeader title='Team' previousPage='' />
       <View style={styles.appContent}>
         <View style={styles.teamtop}>
           <View style={styles.info}>
             <View style={styles.levelt}>
-              <Text>VIP-0</Text>
+              <Text style={{ color: 'white', textAlign: 'center', fontWeight: '500', fontSize: 18 }}>VIP-0</Text>
             </View>
             <View style={styles.uname}>
               <View style={styles.label}>
-                <Text>Account</Text>
+                <Text style={{ color: 'black', fontWeight: '500', fontSize: 20 }}>Account</Text>
               </View>
               <View style={styles.name}>
-                <Text>9950929557</Text>
+                <Text style={{ color: 'black', fontWeight: '400' }}>9950929557</Text>
               </View>
             </View>
           </View>
@@ -27,9 +31,14 @@ const TeamPage = () => {
                     {/* <Image source={require('/static/img/yq.svg')} style={styles.icon} /> */}
                   </View>
                   <View style={styles.tview}>
-                    <Text style={styles.mb0}>0(0)</Text>
-                    <View style={styles.cLabel}>
-                      <Text>Invite</Text>
+                    <View>
+                      <Image source={{ uri: Image.resolveAssetSource(DefaultImage1).uri }} style={{ width: 30, height: 30, marginTop: 5 }} />
+                    </View>
+                    <View>
+                      <Text style={styles.mb0}>0(0)</Text>
+                      <View>
+                        <Text style={styles.cLabel}>Invite</Text>
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -41,9 +50,14 @@ const TeamPage = () => {
                     {/* <Image source={require('/static/img/team.svg')} style={styles.icon} /> */}
                   </View>
                   <View style={styles.tview}>
-                    <Text style={styles.mb0}>0(0)</Text>
-                    <View style={styles.cLabel}>
-                      <Text>Team</Text>
+                    <View>
+                      <Image source={{ uri: Image.resolveAssetSource(DefaultImage2).uri }} style={{ width: 30, height: 32, marginTop: 3 }} />
+                    </View>
+                    <View>
+                      <Text style={styles.mb0}>0(0)</Text>
+                      <View>
+                        <Text style={styles.cLabel}>Team</Text>
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -96,25 +110,43 @@ const TeamPage = () => {
 
 const styles = StyleSheet.create({
   icon: {},
-  teamrule: {},
+  teamrule: {
+    borderWidth: 0.5,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: '#e1eae4',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
   content: {
     paddingBottom: 2,
   },
   appContent: {
-    padding: 0,
+    padding: 20,
     marginTop: 3,
+    gap: 20
   },
   teamtop: {
-    // Style for teamtop
+    borderWidth: 0.5,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    padding: 10,
+    gap: 20
   },
   info: {
-    // Style for info
+    flexDirection: 'row'
   },
   levelt: {
-    // Style for levelt
+    backgroundColor: '#EEB31C',
+    padding: 10,
+    borderRadius: 10,
+    width: 70,
+    height: 70,
+    justifyContent: 'center',
   },
   uname: {
-    // Style for uname
+    padding: 10
   },
   label: {
     // Style for label
@@ -123,7 +155,9 @@ const styles = StyleSheet.create({
     // Style for name
   },
   data: {
-    // Style for data
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '#e1eae4'
   },
   cardInfo: {
     flexDirection: 'row',
@@ -140,19 +174,27 @@ const styles = StyleSheet.create({
     // Style for iconself
   },
   tview: {
-    // Style for tview
+    flexDirection: 'row',
+    gap: 15
   },
   mb0: {
     marginBottom: 0,
+    color: 'black',
+    fontWeight: 'bold'
   },
   cLabel: {
-    // Style for cLabel
+    color: 'black',
+    fontWeight: '400'
   },
   inlineh2: {
     // Style for inlineh2
   },
   wrap: {
-    // Style for wrap
+    
+    borderWidth: 0.5,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    padding: 10,
   },
   tablebt: {
     // Style for tablebt
@@ -170,7 +212,8 @@ const styles = StyleSheet.create({
   },
   coinName: {
     // Style for coinName
-    color: '#8B31E4',
+    color: '#7a9f86',
+    fontWeight: '500'
   },
   loglistRq: {
     // Style for loglist rq
@@ -182,7 +225,7 @@ const styles = StyleSheet.create({
     // Style for dropload noData
   },
   span: {
-    // Style for span
+    color: '#000'
   },
   select: {
     // Style for select

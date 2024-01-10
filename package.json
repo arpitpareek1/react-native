@@ -28,7 +28,7 @@
     "react-native-screens": "^3.29.0",
     "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "^14.1.0",
-    "react-native-svg-uri": "^1.2.3",
+    "react-native-svg-uri": "^0.0.1",
     "react-native-swiper": "^1.6.0",
     "react-native-upi-payment": "^1.0.5",
     "react-native-vector-icons": "^10.0.3",
