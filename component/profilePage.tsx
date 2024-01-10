@@ -103,8 +103,8 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                   
           </View>
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
