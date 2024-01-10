@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, Linking } from 'react-native';
 import whatsappLogo from './assets/whatsapp.png';
 import telegramLogo from './assets/telegram.png';
+import CommonHeader from './commonHeader'
 
 const Support = () => {
   function handlePress(path: string) {
@@ -13,6 +14,7 @@ const Support = () => {
   }
   return (
     <View style={styles.appContent}>
+    <CommonHeader title='Support' previousPage='' />
       <View style={styles.row}>
         {/* WhatsApp item */}
         <TouchableOpacity
@@ -84,7 +86,7 @@ const styles = {
     height: 70,
   },
   row: {
-    // Add your styles here
+    marginTop: 50
   },
   col: {
     borderWidth: 1,

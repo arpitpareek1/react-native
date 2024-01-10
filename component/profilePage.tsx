@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Image,
@@ -7,90 +7,130 @@ import {
   StyleSheet,
   ScrollView,
   Button,
+  Dimensions,
 } from 'react-native';
+import {
+  GoodItemProps,
+  ProductItemProps,
+  NewsItemProps,
+  SupportProps,
+} from '../interfaces';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import RNUpiPayment from 'react-native-upi-payment';
+import CommonHeader from './commonHeader'
+import BottomNavigation from './buttomBar';
+import DefaultImage1 from './assets/user.png';
 
-const Profile = () => {
+const Profile: React.FC<SupportProps> = ({ navigation }) => {
+
+  useEffect(() => {
+
+    AsyncStorage.getItem('user', (error, result) => {
+      console.log(error, result);
+      if (!result) {
+        //comment this vipin to fix the view going to login
+        //navigation.navigate('LoginScreen');
+      }
+    });
+  }, []);
+
   return (
-    <ScrollView>
-      <View style={styles.content}>
-        <View style={styles.desc}>
-          <View style={styles.listView}>
-            <View style={styles.listItem}>
-              <View style={styles.iconBox}>
-                {/* <Image source={require('./path/to/user-icon.png')} /> */}
-              </View>
-              <View style={styles.text}>
-                <View>
-                  <View style={styles.leveltitle}>
-                    <Text style={styles.cInfo}>VIP-0</Text>
+    <View style={{ height: Dimensions.get('window').height }}>
+      <CommonHeader title='Account' previousPage='' />
+      <BottomNavigation navigation={navigation.navigate} />
+      <ScrollView>
+        <View style={styles.content}>
+          <View style={styles.desc}>
+            <View style={styles.listView}>
+              <View style={styles.listItem}>
+                <View style={styles.iconBox}>
+                  <Image source={{ uri: Image.resolveAssetSource(DefaultImage1).uri }} style={{ width: 50, height: 50 }} />
+                </View>
+                <View style={styles.text}>
+                  <View>
+                    <View style={styles.leveltitle}>
+                      <Text style={styles.cInfo}>VIP-0</Text>
+                    </View>
+                    <Text style={styles.leveltitle}>9950929557</Text>
                   </View>
-                  <Text style={styles.leveltitle}>9950929557</Text>
                 </View>
               </View>
-            </View>
-            <View style={styles.cardContent}>
-              <View style={styles.cardInfo}>
-                <View style={styles.holderInfo}>
-                  <Text style={styles.cName}>0</Text>
-                  <Text style={styles.cInfo}>Total income</Text>
+              <View style={styles.cardContent}>
+                <View style={styles.cardInfo}>
+                  <View style={styles.holderInfo}>
+                    <Text style={styles.cName}>0</Text>
+                    <Text style={styles.cInfo}>Total income</Text>
+                  </View>
+                  <View style={styles.holderInfo}>
+                    <Text style={styles.cName}>0</Text>
+                    <Text style={styles.cInfo}>Total income</Text>
+                  </View>
+                  <View style={styles.holderInfo}>
+                    <Text style={styles.cName}>0</Text>
+                    <Text style={styles.cInfo}>Total income</Text>
+                  </View>
                 </View>
+                <Button
+                  title="buy "
+                  onPress={() => {
+                    RNUpiPayment.initializePayment(
+                      {
+                        vpa: 'shivamsharma7899@ybl', // or can be john@ybl or mobileNo@upi
+                        payeeName: 'Kalyan Satta',
+                        amount: 100,
+                        transactionRef: 'aasf-332-aoei-fn',
+                        transactionNote: 'Kalyan Satta App',
+                      },
+                      console.log,
+                      console.log
+                    );
+                  }}></Button>
               </View>
-              <Button
-                title="buy "
-                onPress={() => {
-                  RNUpiPayment.initializePayment(
-                    {
-                      vpa: 'vipin613@paytm', // or can be john@ybl or mobileNo@upi
-                      payeeName: 'John Doe',
-                      amount: '1',
-                      transactionRef: 'aasf-332-aoei-fn',
-                    },
-                    res => {
-                      console.log('res', res);
-                    },
-                    err => {
-                      console.log('err', err);
-                    },
-                  );
-                }}></Button>
-              {/* Add other card info blocks here */}
             </View>
           </View>
+          <View style={styles.currentBalance}>
+            <View style={styles.currentBalanceBlock}>
+              <Text style={styles.cName}>0</Text>
+              <Text style={styles.cInfo}>Recharge</Text>
+            </View>
+            <View style={styles.currentBalanceBlock}>
+              <Text style={styles.cName}>0</Text>
+              <Text style={styles.cInfo}>Recharge</Text>
+            </View>
+          </View>
+          <View style={{padding: 10, backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20,height: 600, marginTop: 70}}>
+                  
+          </View>
         </View>
-        {/* Add other components with styles here */}
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = {
   content: {
-    paddingBottom: 2,
+    backgroundColor: '#7a9f86',
+    borderTopColor: '#6b9478',
+    borderTopWidth: 1
   },
   desc: {
-    marginTop: 0,
-    paddingLeft: 0,
-    backgroundColor: 'transparent',
+    padding: 20,
+    paddingvertical: 50,
   },
   listView: {},
   listItem: {
-    // backgroundColor: 'transparent',
-    // paddingLeft: 0,
-    // marginTop: 0,
-    // flexDirection: 'row',
+    flexDirection: 'row',gap: 10
   },
   iconBox: {
     marginRight: 8,
   },
-  holderInfo: {},
   text: {
-    marginTop: 2,
+    paddingVertical: 5
   },
   leveltitle: {
-    fontSize: 18,
-    fontWeight: '500',
+    fontSize: 15,
+    fontWeight: '400',
     color: '#000000', // Change text color to black
   },
   cardContent: {
@@ -99,16 +139,41 @@ const styles = {
     // justifyContent: 'center',
   },
   cardInfo: {
-    // textalign: '',
+    flexDirection: 'row',
+    paddingVertical: 30,
+  },
+  holderInfo: {
+    width: (Dimensions.get('window').width - 40) / 3,
+    padding: 10
   },
   cName: {
-    marginTop: 2,
-    marginBottom: 0,
-    color: '#000000', // Change text color to black
+    fontSize: 18,
+    color: '#000',
+    fontWeight: '700',
+    textAlign: 'center'
   },
   cInfo: {
     fontSize: 12,
     color: '#000',
+    fontWeight: '400',
+    textAlign: 'center'
+  },
+  currentBalance:{
+    flexDirection: 'row',
+    paddingVertical: 30,
+    backgroundColor: 'white',
+    marginHorizontal: 30,
+    width: Dimensions.get('window').width - 60,
+    borderRadius: 20,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    position: 'absolute',
+    top: 250,
+    zIndex:1
+  },
+  currentBalanceBlock:{
+    width: (Dimensions.get('window').width - 60) / 2,
+    padding: 10
   },
   wallet: {
     backgroundColor: 'transparent',

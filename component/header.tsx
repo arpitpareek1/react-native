@@ -11,14 +11,14 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({title, walletNumber}) => {
   return (
     <View style={styles.header}>
-      <TouchableOpacity onPress={() => {}}>
+      {/* <TouchableOpacity onPress={() => {}}>
         <Text style={styles.backButton}>{'Back'}</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Text style={styles.title}>{title}</Text>
-      <View style={styles.walletContainer}>
+      {/* <View style={styles.walletContainer}>
         <Text style={styles.walletIcon}>💰</Text>
         <Text style={styles.walletNumber}>{walletNumber}</Text>
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   header: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     padding: 20,
     backgroundColor: '#7a9f86',
     height: 180
