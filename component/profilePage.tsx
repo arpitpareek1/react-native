@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Image,
@@ -16,16 +16,14 @@ import {
   SupportProps,
 } from '../interfaces';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+// import {openURL} from 'react-native-url-launcher';
 import RNUpiPayment from 'react-native-upi-payment';
-import CommonHeader from './commonHeader'
+import CommonHeader from './commonHeader';
 import BottomNavigation from './buttomBar';
 import DefaultImage1 from './assets/user.png';
 
-const Profile: React.FC<SupportProps> = ({ navigation }) => {
-
+const Profile: React.FC<SupportProps> = ({navigation}) => {
   useEffect(() => {
-
     AsyncStorage.getItem('user', (error, result) => {
       console.log(error, result);
       if (!result) {
@@ -36,8 +34,8 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ height: Dimensions.get('window').height }}>
-      <CommonHeader title='Account' previousPage='' />
+    <View style={{height: Dimensions.get('window').height}}>
+      <CommonHeader title="Account" previousPage="" />
       <BottomNavigation navigation={navigation.navigate} />
       <ScrollView>
         <View style={styles.content}>
@@ -45,7 +43,10 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
             <View style={styles.listView}>
               <View style={styles.listItem}>
                 <View style={styles.iconBox}>
-                  <Image source={{ uri: Image.resolveAssetSource(DefaultImage1).uri }} style={{ width: 50, height: 50 }} />
+                  <Image
+                    source={{uri: Image.resolveAssetSource(DefaultImage1).uri}}
+                    style={{width: 50, height: 50}}
+                  />
                 </View>
                 <View style={styles.text}>
                   <View>
@@ -73,18 +74,24 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                 </View>
                 <Button
                   title="buy "
-                  onPress={() => {
-                    RNUpiPayment.initializePayment(
-                      {
-                        vpa: 'shivamsharma7899@ybl', // or can be john@ybl or mobileNo@upi
-                        payeeName: 'Kalyan Satta',
-                        amount: 100,
-                        transactionRef: 'aasf-332-aoei-fn',
-                        transactionNote: 'Kalyan Satta App',
-                      },
-                      console.log,
-                      console.log
-                    );
+                  color={'#7a9f86'}
+                  onPress={async () => {
+                    // RNUpiPayment.initializePayment(
+                    //   {
+                    //     vpa: 'shivamsharma7899@ybl', // or can be john@ybl or mobileNo@upi
+                    //     payeeName: 'Kalyan Satta',
+                    //     amount: 1,
+                    //     transactionRef: 'aasf-332-aoei-fn-ii',
+                    //     transactionNote: 'Kalyan Satta App',
+                    //   },
+                    //   console.log,
+                    //   console.log,
+                    // );
+                    // const supported = await openURL("paytmmp://pay?pa=jaimaakalika31744@sbi&tn=51l&am=1.00&cu=INR&pn=null/");
+
+                    // if (!supported) {
+                    //   console.log(`URL opening failed: `);
+                    // }
                   }}></Button>
               </View>
             </View>
@@ -99,12 +106,18 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
               <Text style={styles.cInfo}>Recharge</Text>
             </View>
           </View>
-          <View style={{padding: 10, backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20,height: 600, marginTop: 70}}>
-                  
-          </View>
+          <View
+            style={{
+              padding: 10,
+              backgroundColor: 'white',
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+              height: 600,
+              marginTop: 70,
+            }}></View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -112,7 +125,7 @@ const styles = {
   content: {
     backgroundColor: '#7a9f86',
     borderTopColor: '#6b9478',
-    borderTopWidth: 1
+    borderTopWidth: 1,
   },
   desc: {
     padding: 20,
@@ -120,13 +133,14 @@ const styles = {
   },
   listView: {},
   listItem: {
-    flexDirection: 'row',gap: 10
+    flexDirection: 'row',
+    gap: 10,
   },
   iconBox: {
     marginRight: 8,
   },
   text: {
-    paddingVertical: 5
+    paddingVertical: 5,
   },
   leveltitle: {
     fontSize: 15,
@@ -144,21 +158,21 @@ const styles = {
   },
   holderInfo: {
     width: (Dimensions.get('window').width - 40) / 3,
-    padding: 10
+    padding: 10,
   },
   cName: {
     fontSize: 18,
     color: '#000',
     fontWeight: '700',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   cInfo: {
     fontSize: 12,
     color: '#000',
     fontWeight: '400',
-    textAlign: 'center'
+    textAlign: 'center',
   },
-  currentBalance:{
+  currentBalance: {
     flexDirection: 'row',
     paddingVertical: 30,
     backgroundColor: 'white',
@@ -169,11 +183,11 @@ const styles = {
     borderWidth: 1,
     position: 'absolute',
     top: 250,
-    zIndex:1
+    zIndex: 1,
   },
-  currentBalanceBlock:{
+  currentBalanceBlock: {
     width: (Dimensions.get('window').width - 60) / 2,
-    padding: 10
+    padding: 10,
   },
   wallet: {
     backgroundColor: 'transparent',

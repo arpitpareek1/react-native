@@ -10,10 +10,9 @@ import Support from './component/support';
 import LuckySpinner from './component/luckySpinner';
 import SignupScreen from './component/signup';
 import LoginScreen from './component/login';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Platform, StatusBar} from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
-import Header from './component/header';
+import AllProductList from './component/allProduct';
+import AllNewsList from './component/allNewsList';
 
 const Stack = createNativeStackNavigator();
 
@@ -93,6 +92,16 @@ const App = () => {
           <Stack.Screen
             name="LoginScreen"
             component={LoginScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="AllProductList"
+            component={AllProductList}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="AllNewsList"
+            component={AllNewsList}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

@@ -1,7 +1,17 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 
-const ViewProduct = () => {
+const ViewProduct = ({route}) => {
+  const {imageSource, title, price, dailyIncome, validityPeriod} = route.params;
+  console.log(route.params);
+
   return (
     <>
       <ScrollView>
@@ -9,29 +19,27 @@ const ViewProduct = () => {
           <View style={styles.postBody}>
             <Image
               source={{
-                uri: 'https://www.trumpfe.com/uploads/20231231/abe6b99bd33cc5600a8d4f48fb6e2350.png',
+                uri: imageSource,
               }}
               style={styles.image}
             />
           </View>
           <View style={styles.appContent}>
             <View style={styles.goodinfo}>
-              <Text style={styles.title}>
-                Premium 3D printing (TruPrint 2000)
-              </Text>
+              <Text style={styles.title}>{title}</Text>
               <View style={styles.text}>
                 <View style={styles.details}>
                   <View style={styles.detailsText}>
                     <Text style={styles.strong}>Price </Text>
-                    <Text style={styles.detailsItem}> 48500 Rs</Text>
+                    <Text style={styles.detailsItem}> {price} Rs</Text>
                   </View>
                   <View style={styles.detailsText}>
                     <Text style={styles.strong}>Daily income </Text>
-                    <Text style={styles.detailsItem}> 2910</Text>
+                    <Text style={styles.detailsItem}> {dailyIncome}</Text>
                   </View>
                   <View style={styles.detailsText}>
                     <Text style={styles.strong}>Validity period </Text>
-                    <Text style={styles.detailsItem}> 55</Text>
+                    <Text style={styles.detailsItem}> {validityPeriod}</Text>
                   </View>
                   <View style={styles.detailsText}>
                     <Text style={styles.strong}>Total revenue </Text>
@@ -64,19 +72,16 @@ const ViewProduct = () => {
       </ScrollView>
       <View style={styles.container}>
         <View style={styles.leftContent}>
-
           <View style={styles.titleColor} id="yueye">
-            <Text style={styles.strong}>{'\u20B9'} 2232.5</Text>
-            <Text style={styles.strikethrough}>{'\u20B9'} 2350</Text>
+            <Text style={styles.strikethrough}>{price}</Text>
           </View>
         </View>
 
-        <TouchableOpacity onPress={() => { }}>
+        <TouchableOpacity onPress={() => {}}>
           <Text style={styles.buyButton}>Buy</Text>
         </TouchableOpacity>
       </View>
     </>
-
   );
 };
 
@@ -89,7 +94,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#e5e5e5',
     borderTopWidth: 1,
     borderTopLeftRadius: 5,
-    borderTopRightRadius: 5
+    borderTopRightRadius: 5,
   },
   leftContent: {
     flex: 1,
@@ -98,11 +103,10 @@ const styles = StyleSheet.create({
     color: '#000',
     marginBottom: 0,
     flexDirection: 'row',
-    gap: 10
+    gap: 10,
   },
   strikethrough: {
-    textDecorationLine: 'line-through',
-    color: 'black'
+    color: 'black',
   },
   buyButton: {
     backgroundColor: '#60856c',
@@ -117,13 +121,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   btn: {
-    alignItems: "flex-end"
+    alignItems: 'flex-end',
   },
   appCapsule: {
     backgroundColor: 'white',
     padding: 15,
     flexDirection: 'column',
-    gap: 20
+    gap: 20,
   },
   postBody: {
     width: '100%',
@@ -133,7 +137,7 @@ const styles = StyleSheet.create({
     height: 300,
   },
   appContent: {
-    paddingVertical: 20
+    paddingVertical: 20,
   },
   goodinfo: {
     backgroundColor: '#F5F7F9',
@@ -148,22 +152,22 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     marginBottom: 10,
-    color: 'black'
+    color: 'black',
   },
   text: {
     marginTop: 2,
   },
   details: {
     paddingVertical: 10,
-    gap: 5
+    gap: 5,
   },
   detailsText: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   strong: {
     fontWeight: '400',
-    color: 'black'
+    color: 'black',
   },
   detailsItem: {
     color: 'black',
@@ -174,37 +178,37 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     color: 'black',
     padding: 15,
-    marginTop: 20
+    marginTop: 20,
   },
   walletTitle: {
     fontSize: 18,
     fontWeight: '500',
     marginBottom: 10,
-    color: 'black'
+    color: 'black',
   },
   tit: {
     paddingTop: 10,
     flexDirection: 'row',
-    gap: 10
+    gap: 10,
   },
   walletText: {
     color: 'black',
     padding: 10,
     borderWidth: 1,
-    borderRadius: 5
+    borderRadius: 5,
   },
   gooddesc: {
     backgroundColor: '#F5F7F9',
     borderRadius: 10,
     color: 'black',
     padding: 15,
-    marginTop: 20
+    marginTop: 20,
   },
   detailsTitle: {
     fontSize: 18,
     fontWeight: '500',
     marginBottom: 10,
-    color: 'black'
+    color: 'black',
   },
   cobn: {
     // Add your content inside cobn

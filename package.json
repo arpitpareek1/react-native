@@ -30,7 +30,7 @@
     "react-native-svg": "^14.1.0",
     "react-native-svg-uri": "^0.0.1",
     "react-native-swiper": "^1.6.0",
-    "react-native-upi-payment": "^1.0.5",
+    "react-native-upi-payment": "github:nitish24p/react-native-upi#fix-issue-transaction-limit-merchant",
     "react-native-vector-icons": "^10.0.3",
     "rn-qr-generator": "^1.4.0"
   },

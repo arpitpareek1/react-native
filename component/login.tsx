@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView, View, Text, TouchableOpacity, Alert} from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -10,13 +10,11 @@ import InputField from './commons/InputField';
 import Loader from './commons/Loader';
 import {
   responsiveFontSize,
-  responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import axios from 'axios';
 import {backend_url} from './helper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
 const LoginScreen = ({navigation}) => {
   const [email, setemail] = useState('');

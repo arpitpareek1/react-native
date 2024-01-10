@@ -1,8 +1,14 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 const BottomNavigation: React.FC<{
-  navigation: (r: string) => void
-}> = ({ navigation }) => {
+  navigation: (r: string) => void;
+}> = ({navigation}) => {
   const navigateTo = (routeName: string) => {
     navigation(routeName);
   };
@@ -16,7 +22,7 @@ const BottomNavigation: React.FC<{
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => navigateTo('Products')}
+          onPress={() => navigateTo('AllProductList')}
           style={styles.navItem}>
           <Text style={styles.navText}>Products</Text>
         </TouchableOpacity>
@@ -51,7 +57,7 @@ const styles = StyleSheet.create({
     right: 0,
     elevation: 0,
     backgroundColor: '#fff',
-    width: Dimensions.get('window').width
+    width: Dimensions.get('window').width,
   },
   navItem: {
     flex: 1,

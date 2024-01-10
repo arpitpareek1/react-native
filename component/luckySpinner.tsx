@@ -10,7 +10,6 @@ const LuckySpinner = () => {
     console.log("wheelRef.current", wheelRef.current);
 
     (wheelRef.current)!.start(() => {
-      // Handle the result of the spin
       console.log('Spin completed');
     });
   };

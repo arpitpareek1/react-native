@@ -1,15 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+  Alert,
+  Button,
+} from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import RNQRGenerator from 'rn-qr-generator';
-import CommonHeader from './commonHeader'
+import CommonHeader from './commonHeader';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const Refferer = () => {
-  // const inviteCode = 'gdjsgkd';
-
   const [qrData, setQrData] = useState('');
   const [qrComp, setQrComp] = useState(false);
+  const [reffe_code, setReferCode] = useState('SDEFSAZ');
 
   useEffect(() => {
     RNQRGenerator.generate({
@@ -20,10 +29,7 @@ const Refferer = () => {
       base64: true,
     })
       .then(response => {
-        // console.log(response, 'res');
-
-        const { uri, base64 } = response;
-        // this.setState({ imageUri: uri });
+        const {uri, base64} = response;
         setQrData('data:image/png;base64,' + base64);
       })
       .catch(error => console.log('Cannot create QR code', error));
@@ -33,30 +39,51 @@ const Refferer = () => {
     Clipboard.setString(
       `https://www.trumpfe.com/index/auth/signup/invitecode/gdjsgkd`,
     );
+    Alert.alert('Alert', 'Reffer Code has been copied');
   };
 
   return (
     <View>
-      <CommonHeader title='Refer a friend' previousPage='' />
+      <CommonHeader title="Refer a friend" previousPage="" />
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.referImage}>
-            <Image source={{ uri: 'https://img.freepik.com/free-vector/refer-friend-concept-illustration_114360-7039.jpg' }} style={{ width: Dimensions.get('window').width / 2, height: Dimensions.get('window').width / 2 }} />
+            <Image
+              source={{
+                uri: 'https://img.freepik.com/free-vector/refer-friend-concept-illustration_114360-7039.jpg',
+              }}
+              style={{
+                width: Dimensions.get('window').width / 2,
+                height: Dimensions.get('window').width / 2,
+              }}
+            />
           </View>
           <View>
-            <Text style={{ color: 'black', padding: 20 }}>Refer Your Friends & Family</Text>
+            <Text style={{color: 'black', padding: 20}}>
+              Refer Your Friends & Family
+            </Text>
           </View>
           <View style={styles.referCodebar}>
             <View style={styles.codeArea}>
-              <View><Text style={{ color: 'black', fontWeight: 'bold' }}>5D8ABC</Text></View>
-              <View><Text style={{ color: '#7a9f86', fontWeight: 'bold' }}>Copy</Text></View>
+              <View>
+                <Text style={{color: 'black', fontWeight: 'bold'}}>
+                  {reffe_code}
+                </Text>
+              </View>
+
+              <TouchableOpacity onPress={() => handleCopyPress()}>
+                <View>
+                  <Text style={{color: '#7a9f86', fontWeight: 'bold'}}>
+                    Copy
+                  </Text>
+                </View>
+              </TouchableOpacity>
             </View>
             <View style={styles.openQR}>
-              <MaterialIcons
-                name="alternate-email"
-                size={25}
-                color="#fff" onPress={() => { setQrComp(true) }}
-              />
+              <Button
+                title="Show QR"
+                color={'#7a9f86'}
+                onPress={() => setQrComp(true)}></Button>
             </View>
           </View>
           {qrComp ? (
@@ -64,7 +91,16 @@ const Refferer = () => {
               <View style={styles.qrComponentChile}>
                 <View>
                   <View>
-                    <Text style={{ color: 'black', textAlign: 'center', fontWeight: '500', fontSize: 16, paddingBottom: 10 }}>Scan the below QR code</Text>
+                    <Text
+                      style={{
+                        color: 'black',
+                        textAlign: 'center',
+                        fontWeight: '500',
+                        fontSize: 16,
+                        paddingBottom: 10,
+                      }}>
+                      Scan the below QR code
+                    </Text>
                   </View>
                   {qrData ? (
                     <Image
@@ -72,32 +108,61 @@ const Refferer = () => {
                         uri: qrData,
                       }}
                       style={styles.shareQrcode}
-                      onError={error => console.error('Error loading image:', error)}
+                      onError={error =>
+                        console.error('Error loading image:', error)
+                      }
                     />
                   ) : (
                     <Text>"not"</Text>
                   )}
                 </View>
                 <View>
-                  <Text style={styles.qrclose} onPress={() => { setQrComp(false) }}>Close</Text>
+                  <Text
+                    style={styles.qrclose}
+                    onPress={() => {
+                      setQrComp(false);
+                    }}>
+                    Close
+                  </Text>
                 </View>
               </View>
             </View>
-          ) : <View></View>}
+          ) : (
+            <View></View>
+          )}
 
-          <View style={{ paddingTop: 50, marginTop: 50, borderTopColor: 'black', borderTopWidth: 1 }}>
+          <View
+            style={{
+              paddingTop: 50,
+              marginTop: 50,
+              borderTopColor: 'black',
+              borderTopWidth: 1,
+            }}>
             <View>
-              <Text style={{ color: 'black', textAlign: 'center', fontWeight: '500', fontSize: 15 }}>How referrals work</Text>
+              <Text
+                style={{
+                  color: 'black',
+                  textAlign: 'center',
+                  fontWeight: '500',
+                  fontSize: 15,
+                }}>
+                How referrals work
+              </Text>
             </View>
-            <View style={{ gap: 10, paddingVertical: 20 }}>
-              <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>1. Share you referral code</Text>
-              <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>2. Ensure they apply referral code at Sign Up page</Text>
-              <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>3. How referrals work</Text>
+            <View style={{gap: 10, paddingVertical: 20}}>
+              <Text style={{color: '#000', fontWeight: '400', fontSize: 14}}>
+                1. Share you referral code
+              </Text>
+              <Text style={{color: '#000', fontWeight: '400', fontSize: 14}}>
+                2. Ensure they apply referral code at Sign Up page
+              </Text>
+              <Text style={{color: '#000', fontWeight: '400', fontSize: 14}}>
+                3. How referrals work
+              </Text>
             </View>
           </View>
         </View>
       </ScrollView>
-
     </View>
   );
 };
@@ -109,18 +174,28 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     padding: 20,
-    paddingVertical: 50
+    paddingVertical: 50,
   },
-  referImage: {
-  },
+  referImage: {},
   referCodebar: {
-    flexDirection: 'row', gap: 10
+    flexDirection: 'row',
+    gap: 10,
   },
   codeArea: {
-    flexDirection: 'row', borderColor: 'black', borderRadius: 5, borderWidth: 1, padding: 10, paddingHorizontal: 15, gap: 50
+    flexDirection: 'row',
+    borderColor: 'black',
+    borderRadius: 5,
+    borderWidth: 1,
+    padding: 10,
+    paddingHorizontal: 15,
+    gap: 50,
   },
   openQR: {
-    backgroundColor: '#7a9f86', paddingHorizontal: 10, paddingVertical: 3, paddingBottom: 8, borderRadius: 5
+    // backgroundColor: '#7a9f86',
+    // paddingHorizontal: 10,
+    // paddingVertical: 3,
+    // paddingBottom: 8,
+    // borderRadius: 5,
   },
   shareQrcode: {
     width: 250,
@@ -142,7 +217,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     gap: 10,
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   qrclose: {
     color: 'white',
@@ -152,7 +227,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '500',
     width: 100,
-  }
+  },
 });
 
 export default Refferer;
