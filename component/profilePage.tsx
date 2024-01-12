@@ -76,22 +76,17 @@ const Profile: React.FC<SupportProps> = ({navigation}) => {
                   title="buy "
                   color={'#7a9f86'}
                   onPress={async () => {
-                    // RNUpiPayment.initializePayment(
-                    //   {
-                    //     vpa: 'shivamsharma7899@ybl', // or can be john@ybl or mobileNo@upi
-                    //     payeeName: 'Kalyan Satta',
-                    //     amount: 1,
-                    //     transactionRef: 'aasf-332-aoei-fn-ii',
-                    //     transactionNote: 'Kalyan Satta App',
-                    //   },
-                    //   console.log,
-                    //   console.log,
-                    // );
-                    // const supported = await openURL("paytmmp://pay?pa=jaimaakalika31744@sbi&tn=51l&am=1.00&cu=INR&pn=null/");
-
-                    // if (!supported) {
-                    //   console.log(`URL opening failed: `);
-                    // }
+                    RNUpiPayment.initializePayment(
+                      {
+                        vpa: 'sahil-dholpuria@paytm',
+                        payeeName: 'Kalyan Satta',
+                        amount: 1,
+                        transactionRef: 'aasf-332-aoei-fn-ii',
+                        transactionNote: 'Kalyan Satta App',
+                      },
+                      console.log,
+                      console.log,
+                    );
                   }}></Button>
               </View>
             </View>
