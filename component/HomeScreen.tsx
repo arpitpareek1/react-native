@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   Dimensions,
   Image,
@@ -18,10 +18,10 @@ import {
   SupportProps,
 } from '../interfaces';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {newsData, productsData} from './helper';
+import { newsData, productsData } from './helper';
 import ProductItem from './commons/productItem';
 
-const NewsItem: React.FC<NewsItemProps> = ({imageSource, category, date}) => (
+const NewsItem: React.FC<NewsItemProps> = ({ imageSource, category, date }) => (
   <View
     style={{
       flexDirection: 'row',
@@ -29,24 +29,24 @@ const NewsItem: React.FC<NewsItemProps> = ({imageSource, category, date}) => (
       paddingVertical: 10,
       gap: 10,
     }}>
-    <View style={{borderRadius: 10, overflow: 'hidden', height: 70}}>
-      <Image source={{uri: imageSource}} style={{width: 70, height: 70}} />
+    <View style={{ borderRadius: 10, overflow: 'hidden', height: 70 }}>
+      <Image source={{ uri: imageSource }} style={{ width: 70, height: 70 }} />
     </View>
-    <View style={{padding: 2, width: Dimensions.get('window').width - 115}}>
-      <Text style={{fontSize: 16, color: '#000'}}>{category}</Text>
-      <Text style={{paddingVertical: 5, fontSize: 12, color: '#000'}}>
+    <View style={{ padding: 2, width: Dimensions.get('window').width - 115 }}>
+      <Text style={{ fontSize: 16, color: '#000' }}>{category}</Text>
+      <Text style={{ paddingVertical: 5, fontSize: 12, color: '#000' }}>
         {date}
       </Text>
     </View>
   </View>
 );
 
-const HomeScreen: React.FC<SupportProps> = ({navigation}) => {
+const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
   useEffect(() => {
     AsyncStorage.getItem('user', (error, result) => {
       console.log(error, result);
       if (!result) {
-        navigation.navigate('LoginScreen');
+        // navigation.navigate('LoginScreen');
       }
     });
   }, []);
@@ -64,17 +64,17 @@ const HomeScreen: React.FC<SupportProps> = ({navigation}) => {
             padding: 15,
           }}>
           <View>
-            <Text style={{color: 'black', fontSize: 28, fontWeight: '700'}}>
+            <Text style={{ color: 'black', fontSize: 28, fontWeight: '700' }}>
               Products
             </Text>
-            <Text style={{color: '#8D95A0', fontSize: 14}}>Overview</Text>
+            <Text style={{ color: '#8D95A0', fontSize: 14 }}>Overview</Text>
           </View>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('AllProductList');
             }}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={{color: '#8B31E4', fontWeight: '400', fontSize: 14}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={{ color: '#8B31E4', fontWeight: '400', fontSize: 14 }}>
                 View All
               </Text>
             </View>
@@ -115,14 +115,14 @@ const HomeScreen: React.FC<SupportProps> = ({navigation}) => {
             paddingTop: 50,
           }}>
           <View>
-            <Text style={{color: 'black', fontSize: 28, fontWeight: '700'}}>
+            <Text style={{ color: 'black', fontSize: 28, fontWeight: '700' }}>
               Today
             </Text>
-            <Text style={{color: '#8D95A0', fontSize: 14}}>NEWS</Text>
+            <Text style={{ color: '#8D95A0', fontSize: 14 }}>NEWS</Text>
           </View>
           <TouchableOpacity onPress={() => navigation.navigate('AllNewsList')}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={{color: '#8B31E4', fontWeight: '400', fontSize: 14}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={{ color: '#8B31E4', fontWeight: '400', fontSize: 14 }}>
                 View All
               </Text>
             </View>
@@ -141,7 +141,7 @@ const HomeScreen: React.FC<SupportProps> = ({navigation}) => {
         )}
         <View
           style={{
-            paddingBottom: 50,
+            paddingBottom: 100,
           }}></View>
       </ScrollView>
       <BottomNavigation navigation={navigation.navigate} />

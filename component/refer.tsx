@@ -191,11 +191,7 @@ const styles = StyleSheet.create({
     gap: 50,
   },
   openQR: {
-    // backgroundColor: '#7a9f86',
-    // paddingHorizontal: 10,
-    // paddingVertical: 3,
-    // paddingBottom: 8,
-    // borderRadius: 5,
+    padding: 5
   },
   shareQrcode: {
     width: 250,

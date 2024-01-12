@@ -17,6 +17,8 @@ const ListItem = ({
       padding: 20,
       backgroundColor: 'white',
       borderRadius: 10,
+      borderColor: '#7a9f86',
+      borderWidth: 1
     }}>
     <View
       style={{
@@ -47,7 +49,7 @@ const ListItem = ({
             color: '#fff',
             marginTop: -20,
             right: -20,
-            backgroundColor: '#1DC62E',
+            backgroundColor: '#7a9f86',
             paddingHorizontal: 15,
             paddingVertical: 5,
             borderBottomLeftRadius: 10,
@@ -112,8 +114,8 @@ const ListItem = ({
     <TouchableOpacity onPress={() => {}} style={{marginTop: 20}}>
       <Text
         style={{
-          color: '#6b9478',
-          backgroundColor: '#e1eae4',
+          color: '#fff',
+          backgroundColor: '#7a9f86',
           textAlign: 'center',
           padding: 10,
           borderRadius: 20,

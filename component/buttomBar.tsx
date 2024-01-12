@@ -5,10 +5,16 @@ import {
   Text,
   StyleSheet,
   Dimensions,
+  Image
 } from 'react-native';
+import DefaultImage1 from './assets/home.png';
+import DefaultImage2 from './assets/product.png';
+import DefaultImage3 from './assets/group.png';
+import DefaultImage4 from './assets/personal.png';
+
 const BottomNavigation: React.FC<{
   navigation: (r: string) => void;
-}> = ({navigation}) => {
+}> = ({ navigation }) => {
   const navigateTo = (routeName: string) => {
     navigation(routeName);
   };
@@ -18,24 +24,36 @@ const BottomNavigation: React.FC<{
         <TouchableOpacity
           onPress={() => navigateTo('Home')}
           style={styles.navItem}>
+          <View>
+            <Image source={{ uri: Image.resolveAssetSource(DefaultImage1).uri }} style={{ width: 20, height: 20, tintColor: '#7a9f86' }} />
+          </View>
           <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => navigateTo('AllProductList')}
           style={styles.navItem}>
+          <View>
+            <Image source={{ uri: Image.resolveAssetSource(DefaultImage2).uri }} style={{ width: 20, height: 20, tintColor: '#7a9f86' }} />
+          </View>
           <Text style={styles.navText}>Products</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => navigateTo('Team')}
           style={styles.navItem}>
+          <View>
+            <Image source={{ uri: Image.resolveAssetSource(DefaultImage3).uri }} style={{ width: 20, height: 20, tintColor: '#7a9f86' }} />
+          </View>
           <Text style={styles.navText}>Team</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => navigateTo('Personal')}
           style={styles.navItem}>
+          <View>
+            <Image source={{ uri: Image.resolveAssetSource(DefaultImage4).uri }} style={{ width: 20, height: 20, tintColor: '#7a9f86' }} />
+          </View>
           <Text style={styles.navText}>Personal</Text>
         </TouchableOpacity>
       </View>
@@ -48,8 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    height: 60,
+    borderTopColor: '#97b4a1',
     zIndex: 1,
     position: 'absolute',
     bottom: 0,
@@ -58,6 +75,8 @@ const styles = StyleSheet.create({
     elevation: 0,
     backgroundColor: '#fff',
     width: Dimensions.get('window').width,
+    paddingVertical: 12,
+    paddingTop: 10,
   },
   navItem: {
     flex: 1,
@@ -66,7 +85,9 @@ const styles = StyleSheet.create({
   },
   navText: {
     fontSize: 12,
-    color: '#000',
+    color: '#7a9f86',
+    fontWeight: '500',
+    paddingTop: 3
   },
 });
 

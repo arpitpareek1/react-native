@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
 import CommonHeader from './commonHeader'
+import BottomNavigation from './buttomBar';
 import DefaultImage1 from './assets/py.png';
 import DefaultImage2 from './assets/team.png';
 
-const TeamPage = () => {
+const TeamPage: React.FC = ({ navigation }: any) =>{
   return (
     <View style={styles.content}>
       <CommonHeader title='Team' previousPage='' />
@@ -104,6 +105,7 @@ const TeamPage = () => {
           </View>
         </View>
       </View>
+      <BottomNavigation navigation={navigation.navigate} />
     </View>
   );
 };
@@ -121,6 +123,7 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingBottom: 2,
+    minHeight: Dimensions.get('window').height
   },
   appContent: {
     padding: 20,

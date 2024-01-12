@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import CommonHeader from './commonHeader'
 
 const ViewProduct = ({route}) => {
   const {imageSource, title, price, dailyIncome, validityPeriod} = route.params;
@@ -14,6 +15,7 @@ const ViewProduct = ({route}) => {
 
   return (
     <>
+    <CommonHeader title='Product Details' previousPage='' />
       <ScrollView>
         <View style={styles.appCapsule}>
           <View style={styles.postBody}>
@@ -73,7 +75,7 @@ const ViewProduct = ({route}) => {
       <View style={styles.container}>
         <View style={styles.leftContent}>
           <View style={styles.titleColor} id="yueye">
-            <Text style={styles.strikethrough}>{price}</Text>
+            <Text style={styles.strikethrough}>₹ {price}</Text>
           </View>
         </View>
 
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 15,
-    borderTopColor: '#e5e5e5',
+    borderTopColor: '#97b4a1',
     borderTopWidth: 1,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
@@ -106,7 +108,9 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   strikethrough: {
-    color: 'black',
+    color: '#567660',
+    fontWeight: '500',
+    fontSize: 16
   },
   buyButton: {
     backgroundColor: '#60856c',

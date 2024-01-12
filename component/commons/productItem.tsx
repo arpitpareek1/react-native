@@ -10,13 +10,15 @@ const ProductItem: React.FC<ProductItemProps> = ({
     <View
       style={{
         flexDirection: 'row',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
+        marginHorizontal: 15,
+        marginVertical: 10,
+        borderWidth:1,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        overflow: 'hidden'
       }}>
       <View
         style={{
-          borderTopLeftRadius: 10,
-          borderBottomLeftRadius: 10,
           overflow: 'hidden',
           height: 130,
         }}>
@@ -27,8 +29,6 @@ const ProductItem: React.FC<ProductItemProps> = ({
           padding: 10,
           width: Dimensions.get('window').width - 160,
           backgroundColor: '#e1eae4',
-          borderTopRightRadius: 10,
-          borderBottomRightRadius: 10,
         }}>
         <Text style={{fontSize: 18, fontWeight: '500', color: '#000'}}>
           {title}
