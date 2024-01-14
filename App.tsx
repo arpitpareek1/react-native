@@ -18,7 +18,7 @@ import AddFundScreen from './component/addPoints';
 import { updateUserInfo } from './component/helper';
 import BuyProductPage from './component/buyProduct';
 import AboutUs from './component/aboutUs';
-import AllActiveTrasctions from './component/AllActiveTrasctions';
+import AllActiveTrasctions from './component/allActiveTrasctions';
 
 const Stack = createNativeStackNavigator();
 
