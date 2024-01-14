@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -13,31 +13,36 @@ import {
 import Clipboard from '@react-native-clipboard/clipboard';
 import RNQRGenerator from 'rn-qr-generator';
 import CommonHeader from './commonHeader';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserObjType } from '../interfaces';
 
 const Refferer = () => {
   const [qrData, setQrData] = useState('');
   const [qrComp, setQrComp] = useState(false);
-  const [reffe_code, setReferCode] = useState('SDEFSAZ');
+  const [user, setUser] = useState<null | UserObjType>(null)
 
   useEffect(() => {
-    RNQRGenerator.generate({
-      value: 'https://github.com/gevgasparyan/rn-qr-generator',
-      height: 100,
-      width: 100,
-      correctionLevel: 'L',
-      base64: true,
-    })
-      .then(response => {
-        const {uri, base64} = response;
+    AsyncStorage.getItem("user").then((result) => {
+      const user = JSON.parse(result!)
+      console.log(user.referralCode)
+      setUser(user)
+      RNQRGenerator.generate({
+        value: user.referralCode,
+        height: 100,
+        width: 100,
+        correctionLevel: 'L',
+        base64: true,
+      }).then(response => {
+        const { base64 } = response;
         setQrData('data:image/png;base64,' + base64);
       })
-      .catch(error => console.log('Cannot create QR code', error));
+        .catch(error => console.log('Cannot create QR code', error));
+    })
   }, []);
 
   const handleCopyPress = () => {
     Clipboard.setString(
-      `https://www.trumpfe.com/index/auth/signup/invitecode/gdjsgkd`,
+      user?.referralCode ?? "",
     );
     Alert.alert('Alert', 'Reffer Code has been copied');
   };
@@ -59,21 +64,21 @@ const Refferer = () => {
             />
           </View>
           <View>
-            <Text style={{color: 'black', padding: 20}}>
+            <Text style={{ color: 'black', padding: 20 }}>
               Refer Your Friends & Family
             </Text>
           </View>
           <View style={styles.referCodebar}>
             <View style={styles.codeArea}>
               <View>
-                <Text style={{color: 'black', fontWeight: 'bold'}}>
-                  {reffe_code}
+                <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                  {user?.referralCode}
                 </Text>
               </View>
 
               <TouchableOpacity onPress={() => handleCopyPress()}>
                 <View>
-                  <Text style={{color: '#7a9f86', fontWeight: 'bold'}}>
+                  <Text style={{ color: '#7a9f86', fontWeight: 'bold' }}>
                     Copy
                   </Text>
                 </View>
@@ -149,14 +154,14 @@ const Refferer = () => {
                 How referrals work
               </Text>
             </View>
-            <View style={{gap: 10, paddingVertical: 20}}>
-              <Text style={{color: '#000', fontWeight: '400', fontSize: 14}}>
+            <View style={{ gap: 10, paddingVertical: 20 }}>
+              <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>
                 1. Share you referral code
               </Text>
-              <Text style={{color: '#000', fontWeight: '400', fontSize: 14}}>
+              <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>
                 2. Ensure they apply referral code at Sign Up page
               </Text>
-              <Text style={{color: '#000', fontWeight: '400', fontSize: 14}}>
+              <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>
                 3. How referrals work
               </Text>
             </View>

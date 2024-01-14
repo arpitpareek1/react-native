@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity, Dimensions} from 'react-native';
+import { View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
 
 const ListItem = ({
   imageSource,
@@ -10,6 +10,7 @@ const ListItem = ({
   validityPeriod,
   purchaseLimit,
   navigate,
+  desc
 }) => (
   <View
     style={{
@@ -26,9 +27,9 @@ const ListItem = ({
         justifyContent: 'space-between',
         paddingVertical: 5,
       }}>
-      <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-        <View style={{borderRadius: 10, overflow: 'hidden'}}>
-          <Image source={{uri: imageSource}} style={{width: 60, height: 60}} />
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+        <View style={{ borderRadius: 10, overflow: 'hidden' }}>
+          <Image source={{ uri: imageSource }} style={{ width: 60, height: 60 }} />
         </View>
         <View>
           <Text
@@ -60,9 +61,9 @@ const ListItem = ({
       )}
     </View>
 
-    <View style={{margin: 10, gap: 5}}>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style={{width: 100, color: '#888'}}>Price</Text>
+    <View style={{ margin: 10, gap: 5 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Text style={{ width: 100, color: '#888' }}>Price</Text>
         <Text
           style={{
             width: 100,
@@ -73,8 +74,8 @@ const ListItem = ({
           {price}
         </Text>
       </View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style={{width: 100, color: '#888'}}>Daily income</Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Text style={{ width: 100, color: '#888' }}>Daily income</Text>
         <Text
           style={{
             width: 100,
@@ -85,8 +86,8 @@ const ListItem = ({
           {dailyIncome}
         </Text>
       </View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style={{width: 100, color: '#888'}}>Validity period</Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Text style={{ width: 100, color: '#888' }}>Validity period</Text>
         <Text
           style={{
             width: 100,
@@ -97,8 +98,8 @@ const ListItem = ({
           {validityPeriod}
         </Text>
       </View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style={{width: 100, color: '#888'}}>Purchase limit</Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Text style={{ width: 100, color: '#888' }}>Purchase limit</Text>
         <Text
           style={{
             width: 100,
@@ -111,7 +112,7 @@ const ListItem = ({
       </View>
     </View>
 
-    <TouchableOpacity onPress={() => {}} style={{marginTop: 20}}>
+    <TouchableOpacity onPress={() => { }} style={{ marginTop: 20 }}>
       <Text
         style={{
           color: '#fff',
@@ -130,6 +131,7 @@ const ListItem = ({
             dailyIncome,
             validityPeriod,
             purchaseLimit,
+            desc
           });
         }}>
         View

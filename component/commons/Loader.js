@@ -7,7 +7,7 @@ const Loader = ({ visible }) => {
 
     return (
         <View style={styles.loader}>
-            <ActivityIndicator size="large" color="#FF0000" />
+            <ActivityIndicator size="large" color="#7a9f86" />
         </View>
     );
 };
@@ -15,7 +15,7 @@ const Loader = ({ visible }) => {
 const styles = StyleSheet.create({
     loader: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: '#fefefe',
         justifyContent: 'center',
         alignItems: 'center',
     },

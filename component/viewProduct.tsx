@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Image,
@@ -6,16 +6,48 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import CommonHeader from './commonHeader'
+import { useFocusEffect } from '@react-navigation/native';
+import { UserObjType } from '../interfaces';
 
-const ViewProduct = ({route}) => {
-  const {imageSource, title, price, dailyIncome, validityPeriod} = route.params;
-  console.log(route.params);
+const ViewProduct = ({ route, navigation }) => {
+  const { imageSource, title, price, dailyIncome, validityPeriod, desc } = route.params;
+  const [paymentMode, setPaymentMode] = useState("")
+  const [userData, setUserData] = useState<null | UserObjType>(null)
+  console.log("paymentMode", paymentMode);
+
+  // useFocusEffect(() => {
+
+  // })
+
+  const handleBuyButton = () => {
+    let text = ""
+    if (paymentMode === "") {
+      text = "Please Choose an payment mode!!!"
+    } else if (paymentMode === "Recharge") {
+      navigation.navigate("AddFundScreen", {
+        pointsToAdd: price
+      })
+    } else if (paymentMode === "Balance") {
+      if (userData && price > userData?.money) {
+        text = "You didn't have points to buy the product. please recharge!!"
+      } else {
+        navigation.navigate("BuyProductPage", {
+          ...route.params
+        })
+      }
+    }
+    if (text !== "") {
+      Alert.alert("      !!!Alert!!!", text);
+    }
+
+  }
 
   return (
     <>
-    <CommonHeader title='Product Details' previousPage='' />
+      <CommonHeader title='Product Details' previousPage='' />
       <ScrollView>
         <View style={styles.appCapsule}>
           <View style={styles.postBody}>
@@ -41,11 +73,11 @@ const ViewProduct = ({route}) => {
                   </View>
                   <View style={styles.detailsText}>
                     <Text style={styles.strong}>Validity period </Text>
-                    <Text style={styles.detailsItem}> {validityPeriod}</Text>
+                    <Text style={styles.detailsItem}> {validityPeriod + " " + "Days"}</Text>
                   </View>
                   <View style={styles.detailsText}>
                     <Text style={styles.strong}>Total revenue </Text>
-                    <Text style={styles.detailsItem}> 160050</Text>
+                    <Text style={styles.detailsItem}> {dailyIncome * validityPeriod} Points</Text>
                   </View>
                 </View>
               </View>
@@ -55,10 +87,12 @@ const ViewProduct = ({route}) => {
                 <Text style={styles.walletTitle}>Choose a wallet</Text>
               </View>
               <View style={styles.tit}>
-                <Text style={styles.walletText} data-id="1">
-                  Recharge
-                </Text>
-                <Text style={styles.walletText} data-id="2">
+                <TouchableOpacity style={{ backgroundColor: "#7a9f86" }}>
+                  <Text style={{ ...styles.walletText, backgroundColor: `${paymentMode === "Recharge" ? '#7a9f86' : '#fff'}` }} onPress={() => { setPaymentMode("Recharge") }}>
+                    Recharge
+                  </Text>
+                </TouchableOpacity>
+                <Text style={{ ...styles.walletText, backgroundColor: `${paymentMode === "Balance" ? '#7a9f86' : '#fff'}` }} onPress={() => { setPaymentMode("Balance") }}>
                   Balance
                 </Text>
               </View>
@@ -67,7 +101,9 @@ const ViewProduct = ({route}) => {
               <View style={styles.titleContainer}>
                 <Text style={styles.detailsTitle}>Details</Text>
               </View>
-              <View style={styles.cobn} />
+              <View style={styles.cobn} >
+                <Text style={styles.detailsItem}>{desc}</Text>
+              </View>
             </View>
           </View>
         </View>
@@ -75,12 +111,12 @@ const ViewProduct = ({route}) => {
       <View style={styles.container}>
         <View style={styles.leftContent}>
           <View style={styles.titleColor} id="yueye">
-            <Text style={styles.strikethrough}>₹ {price}</Text>
+            <Text style={styles.strikethrough}>₹ {paymentMode === "Balance" ? price - 100 : price}</Text>
           </View>
         </View>
 
-        <TouchableOpacity onPress={() => {}}>
-          <Text style={styles.buyButton}>Buy</Text>
+        <TouchableOpacity onPress={() => { }}>
+          <Text style={styles.buyButton} onPress={() => handleBuyButton()}>Buy</Text>
         </TouchableOpacity>
       </View>
     </>
@@ -114,7 +150,7 @@ const styles = StyleSheet.create({
   },
   buyButton: {
     backgroundColor: '#60856c',
-    color: 'white',
+    color: '#fff',
     paddingVertical: 10,
     paddingHorizontal: 25,
     borderRadius: 5,

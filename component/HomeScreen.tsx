@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -12,14 +12,17 @@ import IconRow from './iconRow';
 import ImageSlider from './slider';
 import BottomNavigation from './buttomBar';
 import {
-  GoodItemProps,
-  ProductItemProps,
   NewsItemProps,
+  ProductType,
   SupportProps,
 } from '../interfaces';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { newsData, productsData } from './helper';
+import { backend_url } from './helper';
 import ProductItem from './commons/productItem';
+import { useRoute } from '@react-navigation/native';
+import axios from 'axios';
+import Loader from './commons/Loader';
+
 
 const NewsItem: React.FC<NewsItemProps> = ({ imageSource, category, date }) => (
   <View
@@ -42,13 +45,26 @@ const NewsItem: React.FC<NewsItemProps> = ({ imageSource, category, date }) => (
 );
 
 const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
+  const [productsData, setProductsData] = useState<null | ProductType[]>(null)
+  const [newsData, setNewsData] = useState<null | any>(null)
+
+
   useEffect(() => {
     AsyncStorage.getItem('user', (error, result) => {
-      console.log(error, result);
-      if (!result) {
-        // navigation.navigate('LoginScreen');
+      if (typeof result !== "string") {
+        navigation.navigate('LoginScreen');
+        return
       }
     });
+
+    axios.get(backend_url + "/api/v1/user/getAllProduct").then(({ data }) => {
+      setProductsData(data)
+    }).catch(console.log)
+
+    axios.get(backend_url + "/api/v1/user/getAllNewsData").then(({ data }) => {
+      setNewsData(data)
+    }).catch(console.log)
+
   }, []);
   return (
     <>
@@ -80,32 +96,36 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
             </View>
           </TouchableOpacity>
         </View>
-        {productsData.map(
-          (product, index) =>
-            index < 5 && (
-              <TouchableOpacity
-                key={index}
-                onPress={() => {
-                  navigation.navigate('ViewProduct', {
-                    dailyIncome: '112.8',
-                    imageSource: product.imageSource,
-                    isHot: true,
-                    price: product.price,
-                    purchaseLimit: '2 / person',
-                    title: product.title,
-                    validityPeriod: '48 / Days',
-                  });
-                }}>
-                <ProductItem
+        <View>
+
+          {productsData ? productsData.map(
+            (product: ProductType, index: number) =>
+              index < 5 && (
+                <TouchableOpacity
                   key={index}
-                  imageSource={product.imageSource}
-                  link={product.link}
-                  price={product.price}
-                  title={product.title}
-                />
-              </TouchableOpacity>
-            ),
-        )}
+                  onPress={() => {
+                    navigation.navigate('ViewProduct', {
+                      dailyIncome: product.dailyIncome,
+                      imageSource: product.imageSource,
+                      isHot: true,
+                      price: product.price,
+                      purchaseLimit: product.purchaseLimit,
+                      title: product.title,
+                      validityPeriod: product.validity,
+                      desc: product.desc
+                    });
+                  }}>
+                  <ProductItem
+                    key={index}
+                    imageSource={product.imageSource}
+                    link={product.link}
+                    price={product.price}
+                    title={product.title}
+                  />
+                </TouchableOpacity>
+              ),
+          ) : <Loader visible={true} />}
+        </View>
         <View
           style={{
             display: 'flex',
@@ -128,17 +148,21 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
             </View>
           </TouchableOpacity>
         </View>
-        {newsData.map(
-          (news, index) =>
-            index < 3 && (
-              <NewsItem
-                key={index}
-                category={news.category}
-                date={news.date}
-                imageSource={news.imageSource}
-              />
-            ),
-        )}
+        <View>
+
+          {newsData ? newsData.map(
+            (news: { category: string; date: string; imageSource: string; }, index: number) =>
+              index < 3 && (
+                <NewsItem
+                  key={index}
+                  category={news.category}
+                  date={news.date}
+                  imageSource={news.imageSource}
+                />
+              ),
+          ) : <Loader visible={true} />}
+        </View>
+
         <View
           style={{
             paddingBottom: 100,

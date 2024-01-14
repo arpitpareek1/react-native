@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -14,15 +14,17 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomButton from './commons/CustomButton';
 import Loader from './commons/Loader';
+import { CommonActions } from '@react-navigation/native';
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import axios from 'axios';
-import {backend_url} from './helper';
+import { backend_url } from './helper';
+import CommonHeader from './commonHeader';
 
-const RegisterScreen = ({navigation}) => {
+const RegisterScreen = ({ navigation }) => {
   const [isLoadingGlobal, setIsLoadingGlobal] = useState(false);
   const [error, setIsError] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -79,22 +81,27 @@ const RegisterScreen = ({navigation}) => {
 
   async function HandleSignUp() {
     try {
-      if (
-        !fullName ||
-        !emailId ||
-        !validateEmail(emailId) ||
-        !password ||
-        !validatePassword(password) ||
-        !phoneNumber ||
-        !validatePhone(phoneNumber) ||
-        !address
-      ) {
-        setIsError('Please Fill all the values right1');
-        return;
+      if (!fullName) {
+        setIsError('Please enter your full name.');
+      } else if (!emailId) {
+        setIsError('Please enter your email address.');
+      } else if (!validateEmail(emailId)) {
+        setIsError('Please enter a valid email address.');
+      } else if (!password) {
+        setIsError('Please enter a password.');
+      } else if (!validatePassword(password)) {
+        setIsError('Password must be at least 8 characters long and contain both letters and numbers.');
+      } else if (!phoneNumber) {
+        setIsError('Please enter your phone number.');
+      } else if (!validatePhone(phoneNumber)) {
+        setIsError('Please enter a valid phone number.');
+      } else if (!address) {
+        setIsError('Please enter your address.');
       } else {
+        setIsError("")
         setIsLoadingGlobal(true);
         axios
-          .post(backend_url + '/auth/register', {
+          .post(backend_url + '/api/v1/auth/register', {
             name: fullName,
             email: emailId,
             password,
@@ -102,14 +109,19 @@ const RegisterScreen = ({navigation}) => {
             address: address,
             userReferCode: refral_code,
           })
-          .then(({data}) => {
+          .then(({ data }) => {
             if (data.user) {
               AsyncStorage.setItem('user', JSON.stringify(data.user), () => {
                 Alert.alert('Confirm', 'Thank you for creating account', [
                   {
                     text: 'ok',
                     onPress: () => {
-                      navigation.navigate('Home');
+                      navigation.dispatch(
+                        CommonActions.reset({
+                          index: 0,
+                          routes: [{ name: "Home" },],
+                        })
+                      );
                     },
                   },
                 ]);
@@ -122,7 +134,7 @@ const RegisterScreen = ({navigation}) => {
           })
           .catch(err => {
             console.log(err);
-            Alert.alert('Alert', err.massage);
+            Alert.alert('Alert', err.message ?? "Something went wrong");
           });
       }
     } catch (error) {
@@ -133,12 +145,14 @@ const RegisterScreen = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
+      <CommonHeader title="Sign up" previousPage="" />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{paddingHorizontal: responsiveWidth(7)}}>
+        style={{ paddingHorizontal: responsiveWidth(7) }}>
         <Text
           style={{
+            paddingTop: 20,
             fontFamily: 'Roboto-Medium',
             fontSize: responsiveFontSize(3.8),
             fontWeight: '500',
@@ -147,7 +161,7 @@ const RegisterScreen = ({navigation}) => {
           }}>
           Register
         </Text>
-        <View style={{flex: 1, flexDirection: 'column'}}>
+        <View style={{ flex: 1, flexDirection: 'column' }}>
           <InputField
             label={'Full Name'}
             onChangeText={text => {
@@ -160,7 +174,7 @@ const RegisterScreen = ({navigation}) => {
                 name="person-outline"
                 size={responsiveWidth(6)}
                 color="#666"
-                style={{marginRight: responsiveWidth(1.5)}}
+                style={{ marginRight: responsiveWidth(1.5) }}
               />
             }
             inputType={undefined}
@@ -186,7 +200,7 @@ const RegisterScreen = ({navigation}) => {
                 name="alternate-email"
                 size={responsiveWidth(6)}
                 color="#666"
-                style={{marginRight: responsiveWidth(1.5)}}
+                style={{ marginRight: responsiveWidth(1.5) }}
               />
             }
             keyboardType="email-address"
@@ -209,7 +223,7 @@ const RegisterScreen = ({navigation}) => {
                 name="phone"
                 size={responsiveWidth(6)}
                 color="#666"
-                style={{marginRight: responsiveWidth(1.5)}}
+                style={{ marginRight: responsiveWidth(1.5) }}
               />
             }
             keyboardType="phone-pad"
@@ -235,7 +249,7 @@ const RegisterScreen = ({navigation}) => {
                 name="password"
                 size={responsiveWidth(6)}
                 color="#666"
-                style={{marginRight: responsiveWidth(1.5)}}
+                style={{ marginRight: responsiveWidth(1.5) }}
               />
             }
             keyboardType="default"
@@ -262,7 +276,7 @@ const RegisterScreen = ({navigation}) => {
                 name="phone"
                 size={responsiveWidth(6)}
                 color="#666"
-                style={{marginRight: responsiveWidth(1.5)}}
+                style={{ marginRight: responsiveWidth(1.5) }}
               />
             }
             keyboardType="default"
@@ -289,7 +303,7 @@ const RegisterScreen = ({navigation}) => {
                 name="phone"
                 size={responsiveWidth(6)}
                 color="#666"
-                style={{marginRight: responsiveWidth(1.5)}}
+                style={{ marginRight: responsiveWidth(1.5) }}
               />
             }
             keyboardType="default"
@@ -324,9 +338,9 @@ const RegisterScreen = ({navigation}) => {
             justifyContent: 'center',
             marginBottom: responsiveWidth(8),
           }}>
-          <Text style={{color: '#666'}}>Already registered?</Text>
+          <Text style={{ color: '#666' }}>Already registered?</Text>
           <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-            <Text style={{color: '#6a0028', fontWeight: '700'}}> Login</Text>
+            <Text style={{ color: '#7a9f86', fontWeight: '700' }}> Login</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

@@ -1,5 +1,5 @@
-import {TouchableOpacity, View, Image, Dimensions, Text} from 'react-native';
-import {ProductItemProps} from '../../interfaces';
+import { TouchableOpacity, View, Image, Dimensions, Text } from 'react-native';
+import { ProductItemProps } from '../../interfaces';
 
 const ProductItem: React.FC<ProductItemProps> = ({
   imageSource,
@@ -12,7 +12,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
         flexDirection: 'row',
         marginHorizontal: 15,
         marginVertical: 10,
-        borderWidth:1,
+        borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 10,
         overflow: 'hidden'
@@ -22,7 +22,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
           overflow: 'hidden',
           height: 130,
         }}>
-        <Image source={{uri: imageSource}} style={{width: 130, height: 130}} />
+        <Image source={{ uri: imageSource }} style={{ width: 130, height: 130 }} />
       </View>
       <View
         style={{
@@ -30,10 +30,10 @@ const ProductItem: React.FC<ProductItemProps> = ({
           width: Dimensions.get('window').width - 160,
           backgroundColor: '#e1eae4',
         }}>
-        <Text style={{fontSize: 18, fontWeight: '500', color: '#000'}}>
+        <Text style={{ fontSize: 18, fontWeight: '500', color: '#000' }}>
           {title}
         </Text>
-        <Text style={{paddingVertical: 8, fontSize: 14, color: '#000'}}>
+        <Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
           {price}
         </Text>
       </View>

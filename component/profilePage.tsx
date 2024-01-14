@@ -1,104 +1,202 @@
-import React, {useEffect} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Image,
   Text,
-  TouchableOpacity,
-  StyleSheet,
   ScrollView,
   Button,
   Dimensions,
+  Alert,
+  TouchableOpacity
 } from 'react-native';
 import {
-  GoodItemProps,
-  ProductItemProps,
-  NewsItemProps,
-  SupportProps,
+  SupportProps, UserObjType,
 } from '../interfaces';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {openURL} from 'react-native-url-launcher';
-import RNUpiPayment from 'react-native-upi-payment';
 import CommonHeader from './commonHeader';
 import BottomNavigation from './buttomBar';
 import DefaultImage1 from './assets/user.png';
+import CustomButton from './commons/CustomButton';
+import { useFocusEffect, CommonActions } from '@react-navigation/native';
+import { menuItems } from './helper';
 
-const Profile: React.FC<SupportProps> = ({navigation}) => {
-  useEffect(() => {
+const Profile: React.FC<SupportProps> = ({ navigation }) => {
+  const [user, setUser] = useState<null | UserObjType>(null)
+
+  useFocusEffect(() => {
+    setUserInfo()
+  });
+
+  function handleListClick(title: string) {
+    // console.log("jhdfsdfg");
+    if (title === "My activation Order") {
+      navigation.navigate("AllActiveTrasctions")
+    }
+  }
+
+  function setUserInfo() {
     AsyncStorage.getItem('user', (error, result) => {
-      console.log(error, result);
       if (!result) {
-        //comment this vipin to fix the view going to login
-        //navigation.navigate('LoginScreen');
+        navigation.navigate('LoginScreen');
+      } else {
+        setUser(JSON.parse(result))
       }
     });
-  }, []);
+  }
+
+  function logout() {
+    AsyncStorage.removeItem("user")
+    Alert.alert("Alert", "You are logout now")
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "LoginScreen" },],
+      })
+    );
+  }
+
 
   return (
-    <View style={{height: Dimensions.get('window').height}}>
+    <View style={{ height: Dimensions.get('window').height }}>
       <CommonHeader title="Account" previousPage="" />
       <BottomNavigation navigation={navigation.navigate} />
-      <ScrollView>
+      <ScrollView >
         <View style={styles.content}>
           <View style={styles.desc}>
             <View style={styles.listView}>
-              <View style={styles.listItem}>
+              <View style={{ ...styles.listItem, flexDirection: "row" }}>
                 <View style={styles.iconBox}>
                   <Image
-                    source={{uri: Image.resolveAssetSource(DefaultImage1).uri}}
-                    style={{width: 50, height: 50}}
+                    source={{ uri: Image.resolveAssetSource(DefaultImage1).uri }}
+                    style={{ width: 50, height: 50 }}
                   />
                 </View>
                 <View style={styles.text}>
                   <View>
-                    <View style={styles.leveltitle}>
-                      <Text style={styles.cInfo}>VIP-0</Text>
+                    <View style={{}}>
+                      <Text style={{
+                        fontSize: 12,
+                        color: '#000',
+                        fontWeight: '400',
+                        textAlign: 'center',
+                      }}>{user?.name}</Text>
                     </View>
-                    <Text style={styles.leveltitle}>9950929557</Text>
+                    <Text style={{ ...styles.leveltitle, }}>{user?.phone}</Text>
                   </View>
                 </View>
               </View>
-              <View style={styles.cardContent}>
-                <View style={styles.cardInfo}>
+              <View style={{
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <View style={{
+                  flexDirection: 'row',
+                  paddingVertical: 30,
+                }}>
                   <View style={styles.holderInfo}>
-                    <Text style={styles.cName}>0</Text>
-                    <Text style={styles.cInfo}>Total income</Text>
+                    <Text style={{
+                      fontSize: 18,
+                      color: '#000',
+                      fontWeight: '700',
+                      textAlign: 'center',
+                    }}>0</Text>
+                    <Text style={{
+                      fontSize: 12,
+                      color: '#000',
+                      fontWeight: '400',
+                      textAlign: 'center',
+                    }}>Total income</Text>
                   </View>
                   <View style={styles.holderInfo}>
-                    <Text style={styles.cName}>0</Text>
-                    <Text style={styles.cInfo}>Total income</Text>
+                    <Text style={{
+                      fontSize: 18,
+                      color: '#000',
+                      fontWeight: '700',
+                      textAlign: 'center',
+                    }}>0</Text>
+                    <Text style={{
+                      fontSize: 12,
+                      color: '#000',
+                      fontWeight: '400',
+                      textAlign: 'center',
+                    }}>Total income</Text>
                   </View>
                   <View style={styles.holderInfo}>
-                    <Text style={styles.cName}>0</Text>
-                    <Text style={styles.cInfo}>Total income</Text>
+                    <Text style={{
+                      fontSize: 18,
+                      color: '#000',
+                      fontWeight: '700',
+                      textAlign: 'center',
+                    }}>0</Text>
+                    <Text style={{
+                      fontSize: 12,
+                      color: '#000',
+                      fontWeight: '400',
+                      textAlign: 'center',
+                    }}>Total income</Text>
                   </View>
                 </View>
                 <Button
                   title="buy "
                   color={'#7a9f86'}
                   onPress={async () => {
-                    RNUpiPayment.initializePayment(
-                      {
-                        vpa: 'sahil-dholpuria@paytm',
-                        payeeName: 'Kalyan Satta',
-                        amount: 1,
-                        transactionRef: 'aasf-332-aoei-fn-ii',
-                        transactionNote: 'Kalyan Satta App',
-                      },
-                      console.log,
-                      console.log,
-                    );
+                    // RNUpiPayment.initializePayment(
+                    //   {
+                    //     vpa: 'sahil-dholpuria@paytm',
+                    //     payeeName: 'Kalyan Satta',
+                    //     amount: 1,
+                    //     transactionRef: 'aasf-332-aoei-fn-ii',
+                    //     transactionNote: 'Kalyan Satta App',
+                    //   },
+                    //   console.log,
+                    //   console.log,
+                    // );
+                    navigation.navigate("AddFundScreen")
                   }}></Button>
               </View>
             </View>
           </View>
-          <View style={styles.currentBalance}>
-            <View style={styles.currentBalanceBlock}>
-              <Text style={styles.cName}>0</Text>
-              <Text style={styles.cInfo}>Recharge</Text>
+          <View style={{
+            flexDirection: 'row',
+            paddingVertical: 30,
+            backgroundColor: 'white',
+            marginHorizontal: 30,
+            width: Dimensions.get('window').width - 60,
+            borderRadius: 20,
+            borderColor: '#ccc',
+            borderWidth: 1,
+            position: 'absolute',
+            top: 250,
+            zIndex: 1,
+          }}>
+            <View style={{ ...styles.currentBalanceBlock, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{
+                fontSize: 18,
+                color: '#000',
+                fontWeight: '700',
+                textAlign: 'center',
+              }}>{user?.money}</Text>
+              <Text style={{
+                fontSize: 12,
+                color: '#000',
+                fontWeight: '400',
+                textAlign: 'center',
+              }}>Wallet</Text>
             </View>
             <View style={styles.currentBalanceBlock}>
-              <Text style={styles.cName}>0</Text>
-              <Text style={styles.cInfo}>Recharge</Text>
+              <Text style={{
+                fontSize: 18,
+                color: '#000',
+                fontWeight: '700',
+                textAlign: 'center',
+              }}>0</Text>
+              <Text style={{
+                fontSize: 12,
+                color: '#000',
+                fontWeight: '400',
+                textAlign: 'center',
+              }}>Recharge</Text>
             </View>
           </View>
           <View
@@ -107,9 +205,52 @@ const Profile: React.FC<SupportProps> = ({navigation}) => {
               backgroundColor: 'white',
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,
-              height: 600,
+              height: 300,
               marginTop: 70,
-            }}></View>
+            }}>
+            <View style={{
+              paddingTop: 50,
+              flexDirection: "row",
+              justifyContent: "space-evenly"
+            }}>
+              <Button
+                title="Reacharge"
+                color={'#7a9f86'}
+                onPress={
+                  () => {
+
+                  }}></Button>
+              <Button
+                title="Withdrow"
+                color={'#7a9f86'}
+                onPress={
+                  () => {
+
+                  }}></Button>
+            </View>
+          </View>
+        </View>
+        <View style={styles.listMenu}>
+          {menuItems && menuItems.map((menuItem, index) => (
+            <>
+              <Button
+                key={index}
+                title={menuItem.title}
+                onPress={() => {
+                  // console.log("gbcvccmb,ncvbc");
+                  handleListClick(menuItem.title)
+                }}
+              />
+            </>
+          ))}
+        </View>
+        <View style={{ flexDirection: 'column', paddingBottom: 20 }}>
+          <CustomButton
+            label={'logout'}
+            onPress={() => {
+              logout()
+            }}
+          />
         </View>
       </ScrollView>
     </View>
@@ -128,7 +269,6 @@ const styles = {
   },
   listView: {},
   listItem: {
-    flexDirection: 'row',
     gap: 10,
   },
   iconBox: {
@@ -138,14 +278,12 @@ const styles = {
     paddingVertical: 5,
   },
   leveltitle: {
-    fontSize: 15,
-    fontWeight: '400',
-    color: '#000000', // Change text color to black
+    fontSize: 15
   },
   cardContent: {
-    // flexDirection: 'column',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cardInfo: {
     flexDirection: 'row',
@@ -216,7 +354,7 @@ const styles = {
     color: '#ffffff',
   },
   listMenu: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#fefefe',
   },
   menu: {
     flexDirection: 'row',
@@ -239,6 +377,19 @@ const styles = {
   },
   logoutText: {
     color: '#ffffff',
+  },
+  left: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  image: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
+  mtitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 };
 

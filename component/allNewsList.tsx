@@ -1,16 +1,26 @@
 import { ScrollView, Text, View } from 'react-native';
-import { newsData } from './helper';
 import NewsItem from './commons/newsItem';
 import CommonHeader from './commonHeader'
 import BottomNavigation from './buttomBar';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { backend_url } from './helper';
+import Loader from './commons/Loader';
 
-const AllNewsList: React.FC = ({ navigation }: any) =>{
+const AllNewsList: React.FC = ({ navigation }: any) => {
+  const [newsData, setNewsData] = useState<null | any>(null)
+  useEffect(() => {
+    axios.get(backend_url + "/api/v1/user/getAllNewsData").then(({ data }) => {
+      console.log(data);
+      setNewsData(data)
+    }).catch(console.log)
+  }, [])
   return (
     <>
       <CommonHeader title='News' previousPage='' />
       <ScrollView>
         <View style={{ paddingTop: 20 }}></View>
-        {newsData.map((news, index) => (
+        {newsData && newsData.map((news, index) => (
           <NewsItem
             key={index}
             category={news.category}
@@ -18,7 +28,9 @@ const AllNewsList: React.FC = ({ navigation }: any) =>{
             imageSource={news.imageSource}
           />
         ))}
+
       </ScrollView>
+      <Loader visible={!newsData} />
       <BottomNavigation navigation={navigation.navigate} />
     </>
   );

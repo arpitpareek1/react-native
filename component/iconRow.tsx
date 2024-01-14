@@ -14,24 +14,24 @@ const IconRow: React.FC<IconRow> = ({navigation}) => {
   return (
     <View style={styles.palaceContainer}>
       <TouchableOpacity style={styles.palaceGrid} onPress={() => {
-        navigation("profile")
+        navigation("CliamReward")
       }}>
         <View style={styles.palaceGridIcon}>
           <Image source={{uri: Image.resolveAssetSource(DefaultImage1).uri}} style={{width: 50, height: 50}} />
         </View>
         <View style={styles.palaceGridText}>
-          <Text style={styles.gridText}>About</Text>
+          <Text style={styles.gridText}>Clain Points</Text>
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.palaceGrid} onPress={() => {
-         navigation("LoginScreen")
+         navigation("AboutUs")
       }}>
         <View style={styles.palaceGridIcon}>
           <Image source={{uri: Image.resolveAssetSource(DefaultImage2).uri}} style={{width: 50, height: 50}} />
         </View>
         <View style={styles.palaceGridText}>
-          <Text style={styles.gridText}>Help</Text>
+          <Text style={styles.gridText}>About</Text>
         </View>
       </TouchableOpacity>
 
