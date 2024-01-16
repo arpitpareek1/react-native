@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -19,13 +19,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import SvgIcon from '@mui/material/SvgIcon';
 import { Icon } from '@rneui/themed';
 import { useFocusEffect, CommonActions } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 const LoginScreen = ({ navigation }) => {
   const [email, setemail] = useState('');
   const [password, setPassword] = useState('');
   const [otpValue, setOtpValue] = useState('');
   const [verification, setVerification] = useState(null);
   const [showOtp, setShowOtp] = useState(false);
-  const [isLoadingGlobal, setIsLoadingGlobal] = useState(false);
+  const [isLoadingGlobal, setIsLoadingGlobal] = useState("false");
   const [otpError, setOtpError] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false)
@@ -43,12 +44,11 @@ const LoginScreen = ({ navigation }) => {
             routes: [{ name: 'Home' },],
           })
         );
-        // navigation.navigate('Home');
       }
     }).finally(() => {
       setLoading(false)
     });
-  })
+  }, [])
 
   const validateEmail = email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,7 +57,7 @@ const LoginScreen = ({ navigation }) => {
 
   const handleUserLogin = async userData => {
     try {
-      setIsLoadingGlobal(true);
+      setIsLoadingGlobal("true");
       console.log(userData);
       if (!validateEmail(email) || !password) {
         Alert.alert('Alert', 'Please fill the values Right');
@@ -68,6 +68,8 @@ const LoginScreen = ({ navigation }) => {
         axios
           .post(backend_url + '/api/v1/auth/login', userData)
           .then(({ data }) => {
+            setIsLoadingGlobal("false"); // Stop global loader
+
             console.log(data);
 
             if (data.message) {
@@ -88,14 +90,16 @@ const LoginScreen = ({ navigation }) => {
           });
       }
     } catch (error) {
+      setIsLoadingGlobal("false"); // Stop global loader
       console.error('Error handling user login:', error);
-    } finally {
-      setIsLoadingGlobal(false); // Stop global loader
     }
   };
+  console.log("loading", loading);
+  console.log("isLoadingGlobal", isLoadingGlobal)
 
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      {/* <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}> */}
       <CommonHeader title="Login" previousPage="" />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -180,11 +184,12 @@ const LoginScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           </View> :
-          <Loader visible={loading} />
+          <Loader visible={true} />
         }
       </ScrollView>
-      <Loader visible={isLoadingGlobal} />
-    </SafeAreaView>
+      {/* </SafeAreaView> */}
+        <Loader visible={isLoadingGlobal !== "false"} />
+    </GestureHandlerRootView>
   );
 };
 

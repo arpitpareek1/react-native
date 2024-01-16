@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Dimensions,
   Image,
   ScrollView,
@@ -17,9 +18,8 @@ import {
   SupportProps,
 } from '../interfaces';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { backend_url } from './helper';
+import { backend_url, handle500Error } from './helper';
 import ProductItem from './commons/productItem';
-import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import Loader from './commons/Loader';
 import DefaultImage1 from './assets/spin.png';
@@ -60,17 +60,21 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
 
     axios.get(backend_url + "/api/v1/user/getAllProduct").then(({ data }) => {
       setProductsData(data)
-    }).catch(console.log)
+    }).catch((error) => {
+      handle500Error(error.message, Alert)
+  })
 
     axios.get(backend_url + "/api/v1/user/getAllNewsData").then(({ data }) => {
       setNewsData(data)
-    }).catch(console.log)
+    }).catch((error) => {
+      handle500Error(error.message, Alert)
+  })
 
   }, []);
   return (
     <>
       <ScrollView>
-        <Header title="Home" walletNumber={100} />
+        <Header title="Home" />
         <ImageSlider />
         <IconRow navigation={navigation.navigate} />
         <View
@@ -170,7 +174,7 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
           }}></View>
       </ScrollView>
 
-      <TouchableOpacity onPress={() => { navigation.navigate('AllNewsList') }}>
+      <TouchableOpacity onPress={() => { navigation.navigate('LuckySpinner') }}>
         <View style={{ position: 'absolute', right: 12, bottom: 75, backgroundColor: '#7a9f86', borderRadius: 10, padding: 8 }}>
           <Image source={{ uri: Image.resolveAssetSource(DefaultImage1).uri }} style={{ width: 40, height: 40 }} />
         </View>

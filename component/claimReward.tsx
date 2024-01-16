@@ -3,7 +3,7 @@ import { View, ScrollView, Image, Dimensions, Text, TouchableOpacity, Button, St
 import CommonHeader from "./commonHeader";
 import Loader from "./commons/Loader";
 import axios from "axios";
-import { backend_url } from "./helper";
+import { backend_url, handle500Error } from "./helper";
 import { UserObjType } from "../interfaces";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -35,7 +35,9 @@ const CliamReward: React.FC = () => {
                     }
                 }
             })
-            .catch(console.log)
+            .catch((error) => {
+                handle500Error(error.message, Alert)
+            })
             .finally(() => {
                 setLoading(false)
             })

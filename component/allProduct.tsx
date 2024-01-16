@@ -1,11 +1,11 @@
-import { ScrollView, Dimensions, Text, View } from 'react-native';
+import { ScrollView, Dimensions, Text, View, Alert } from 'react-native';
 import ListItem from './commons/ListItem';
 // import { productsData } from './helper';
 import BottomNavigation from './buttomBar';
 import CommonHeader from './commonHeader'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { backend_url } from './helper';
+import { backend_url, handle500Error } from './helper';
 import { ProductType } from '../interfaces';
 import Loader from './commons/Loader';
 
@@ -15,7 +15,9 @@ const AllProductList: React.FC = ({ navigation }: any) => {
     axios.get(backend_url + "/api/v1/user/getAllProduct").then(({ data }) => {
       console.log("kk1", data);
       setProductsData(data)
-    }).catch(console.log)
+    }).catch((error) => {
+      handle500Error(error.message, Alert)
+  })
   }, [])
   return (
     <>

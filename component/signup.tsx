@@ -93,7 +93,7 @@ const RegisterScreen = ({ navigation }) => {
         setIsError('Password must be at least 8 characters long and contain both letters and numbers.');
       } else if (!phoneNumber) {
         setIsError('Please enter your phone number.');
-      } else if (!validatePhone(phoneNumber)) {
+      } else if (!validatePhone(phoneNumber) && phoneNumber.length === 10) {
         setIsError('Please enter a valid phone number.');
       } else if (!address) {
         setIsError('Please enter your address.');
@@ -110,6 +110,7 @@ const RegisterScreen = ({ navigation }) => {
             userReferCode: refral_code,
           })
           .then(({ data }) => {
+            setIsLoadingGlobal(false);
             if (data.user) {
               AsyncStorage.setItem('user', JSON.stringify(data.user), () => {
                 Alert.alert('Confirm', 'Thank you for creating account', [
@@ -133,14 +134,13 @@ const RegisterScreen = ({ navigation }) => {
             }
           })
           .catch(err => {
+            setIsLoadingGlobal(false);
             console.log(err);
             Alert.alert('Alert', err.message ?? "Something went wrong");
           });
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoadingGlobal(false);
     }
   }
 

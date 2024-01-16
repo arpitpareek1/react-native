@@ -8,7 +8,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import CommonHeader from './commonHeader';
 import axios from 'axios';
-import { backend_url, updateUserInfo } from './helper';
+import { backend_url, handle500Error, updateUserInfo } from './helper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserObjType } from '../interfaces';
 
@@ -18,14 +18,14 @@ const AddFundScreen = ({ route }) => {
     const [user, setUser] = useState<null | UserObjType>(null)
 
 
-    useFocusEffect(() => {
+    useEffect(() => {
         if (route.params && route.params.pointsToAdd) {
             setPoints(route.params.pointsToAdd)
         }
         AsyncStorage.getItem("user").then((result) => {
             if (result) { setUser(JSON.parse(result)) }
         })
-    })
+    },[])
 
     const handleAddPoints = () => {
         axios.post(backend_url + "/api/v1/transactions/addMoneyToWallet", {
@@ -41,7 +41,9 @@ const AddFundScreen = ({ route }) => {
                 Alert.prompt("Added", "Points Added")
                 updateUserInfo()
             }
-        }).catch(console.log)
+        }).catch((error) => {
+            handle500Error(error.message, Alert)
+        })
     }
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
@@ -70,7 +72,6 @@ const AddFundScreen = ({ route }) => {
                                 paddingBottom: responsiveWidth(2.2),
                                 marginBottom: responsiveWidth(1.5),
                                 width: responsiveWidth(89),
-                                border: responsiveWidth(3),
                             }}>
                             <TextInput
                                 placeholder={'Enter Points'}
@@ -113,7 +114,7 @@ const AddFundScreen = ({ route }) => {
                                 fontSize: responsiveFontSize(2),
                                 color: '#7a9f86',
                                 marginBottom: responsiveWidth(3),
-                                fontWeight: 600,
+                                fontWeight: "600",
                                 paddingTop: 30,
                                 paddingBottom: 10
                             }}>Select Points Amount:</Text>

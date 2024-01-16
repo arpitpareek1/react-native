@@ -1,10 +1,10 @@
-import { ScrollView, Text, View } from 'react-native';
+import { Alert, ScrollView, Text, View } from 'react-native';
 import NewsItem from './commons/newsItem';
 import CommonHeader from './commonHeader'
 import BottomNavigation from './buttomBar';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { backend_url } from './helper';
+import { backend_url, handle500Error } from './helper';
 import Loader from './commons/Loader';
 
 const AllNewsList: React.FC = ({ navigation }: any) => {
@@ -13,7 +13,9 @@ const AllNewsList: React.FC = ({ navigation }: any) => {
     axios.get(backend_url + "/api/v1/user/getAllNewsData").then(({ data }) => {
       console.log(data);
       setNewsData(data)
-    }).catch(console.log)
+    }).catch((error) => {
+      handle500Error(error.message, Alert)
+  })
   }, [])
   return (
     <>

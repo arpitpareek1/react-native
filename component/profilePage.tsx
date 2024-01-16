@@ -7,7 +7,8 @@ import {
   Button,
   Dimensions,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  StyleSheet
 } from 'react-native';
 import {
   SupportProps, UserObjType,
@@ -31,6 +32,10 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
     // console.log("jhdfsdfg");
     if (title === "My activation Order") {
       navigation.navigate("AllActiveTrasctions")
+    } else if (title === "Withdrawal bank account") {
+      navigation.navigate("WithDrawPage")
+    } else if (title === "Redemption bonus") {
+      navigation.navigate("CliamReward")
     }
   }
 
@@ -82,6 +87,8 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                       }}>{user?.name}</Text>
                     </View>
                     <Text style={{ ...styles.leveltitle, }}>{user?.phone}</Text>
+                    <Text style={{ ...styles.leveltitle, }}>{user?.email}</Text>
+                    <Text style={{ ...styles.leveltitle, }}>Your Refer code - {user?.userReferCode}</Text>
                   </View>
                 </View>
               </View>
@@ -90,53 +97,6 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <View style={{
-                  flexDirection: 'row',
-                  paddingVertical: 30,
-                }}>
-                  <View style={styles.holderInfo}>
-                    <Text style={{
-                      fontSize: 18,
-                      color: '#fff',
-                      fontWeight: '700',
-                      textAlign: 'center',
-                    }}>0</Text>
-                    <Text style={{
-                      fontSize: 12,
-                      color: '#fff',
-                      fontWeight: '400',
-                      textAlign: 'center',
-                    }}>Total income</Text>
-                  </View>
-                  <View style={styles.holderInfo}>
-                    <Text style={{
-                      fontSize: 18,
-                      color: '#fff',
-                      fontWeight: '700',
-                      textAlign: 'center',
-                    }}>0</Text>
-                    <Text style={{
-                      fontSize: 12,
-                      color: '#fff',
-                      fontWeight: '400',
-                      textAlign: 'center',
-                    }}>Total income</Text>
-                  </View>
-                  <View style={styles.holderInfo}>
-                    <Text style={{
-                      fontSize: 18,
-                      color: '#fff',
-                      fontWeight: '700',
-                      textAlign: 'center',
-                    }}>0</Text>
-                    <Text style={{
-                      fontSize: 12,
-                      color: '#fff',
-                      fontWeight: '400',
-                      textAlign: 'center',
-                    }}>Total income</Text>
-                  </View>
-                </View>
                 {/* <Button
                   title="buy "
                   color={'#7a9f86'}
@@ -215,7 +175,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
               <TouchableOpacity onPress={() => { navigation.navigate("AddFundScreen") }}>
                 <Text style={{ backgroundColor: '#7a9f86', color: '#fff', padding: 15, paddingHorizontal: 30, borderRadius: 10 }}>Recharge</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => { }}>
+              <TouchableOpacity onPress={() => { navigation.navigate("WithDrawPage") }}>
                 <Text style={{ backgroundColor: '#7a9f86', color: '#fff', padding: 15, paddingHorizontal: 30, borderRadius: 10 }}>Withdrow</Text>
               </TouchableOpacity>
             </View>
@@ -223,14 +183,12 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
         </View>
         <View style={styles.listMenu}>
           {menuItems && menuItems.map((menuItem, index) => (
-            <>
-              <TouchableOpacity onPress={() => { handleListClick(menuItem.title) }}>
-                <View style={{ backgroundColor: '#fff', borderTopColor: '#ccc', borderTopWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <Text style={{color: '#000', paddingTop: 15}}>{menuItem.title}</Text>
-                  <Text style={{color: '#000', fontSize: 30}}>›</Text>
-                </View>
-              </TouchableOpacity>
-            </>
+            <TouchableOpacity key={index} onPress={() => { handleListClick(menuItem.title) }}>
+              <View style={{ backgroundColor: '#fff', borderTopColor: '#ccc', borderTopWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={{ color: '#000', paddingTop: 15 }}>{menuItem.title}</Text>
+                <Text style={{ color: '#000', fontSize: 30 }}>›</Text>
+              </View>
+            </TouchableOpacity>
           ))}
         </View>
         <View style={{ flexDirection: 'column', paddingBottom: 20 }}>
@@ -246,7 +204,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   content: {
     backgroundColor: '#7a9f86',
     borderTopColor: '#6b9478',
@@ -254,7 +212,7 @@ const styles = {
   },
   desc: {
     padding: 20,
-    paddingvertical: 50,
+    paddingVertical: 50,
   },
   listView: {},
   listItem: {
@@ -345,7 +303,7 @@ const styles = {
   listMenu: {
     paddingHorizontal: 30,
     gap: 10,
-    paddingTop: 10,
+    paddingTop: 80,
     paddingBottom: 20
   },
   menu: {
@@ -383,6 +341,6 @@ const styles = {
     fontSize: 16,
     fontWeight: 'bold',
   },
-};
+});
 
 export default Profile;

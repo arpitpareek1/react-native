@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions, ScrollView, Alert } from 'react-native';
 import CommonHeader from './commonHeader'
 import BottomNavigation from './buttomBar';
 import DefaultImage1 from './assets/py.png';
@@ -7,7 +7,7 @@ import DefaultImage2 from './assets/team.png';
 import { UserObjType, invidedDataTypeObj } from '../interfaces';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { backend_url } from './helper';
+import { backend_url, handle500Error } from './helper';
 
 const TeamPage: React.FC = ({ navigation }: any) => {
   const [user, setUser] = useState<null | UserObjType>(null)
@@ -20,9 +20,11 @@ const TeamPage: React.FC = ({ navigation }: any) => {
       axios.post(backend_url + "/api/v1/user/getRefferForUser", {
         email: user.email
       }).then(({ data }) => {
-        console.log("da", data.data);
+        console.log("da", data);
         setInvitedData(data.data)
-      }).catch(console.log)
+      }).catch((error) => {
+        handle500Error(error.message, Alert)
+      })
     })
   }, [])
 
@@ -107,7 +109,7 @@ const TeamPage: React.FC = ({ navigation }: any) => {
                   <View style={styles.dFlexAlignItemsCenterJustifyContentBetween} key={index}>
                     <View style={styles.dFlexAlignItemsCenter}>
                       <View style={styles.ml10}>
-                        <Text style={styles.coinName}>{person.name}</Text>
+                        <Text style={styles.coinName}>{(person.phone).substring(0, 4)}******</Text>
                       </View>
                     </View>
                     <View style={styles.dFlexAlignItemsCenter}>

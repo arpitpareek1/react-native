@@ -19,6 +19,7 @@ import { updateUserInfo } from './component/helper';
 import BuyProductPage from './component/buyProduct';
 import AboutUs from './component/aboutUs';
 import AllActiveTrasctions from './component/allActiveTrasctions';
+import WithDrawPage from './component/withdrawPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -132,6 +133,11 @@ const App = () => {
             <Stack.Screen
               name="AllActiveTrasctions"
               component={AllActiveTrasctions}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="WithDrawPage"
+              component={WithDrawPage}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

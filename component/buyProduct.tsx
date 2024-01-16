@@ -8,7 +8,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { UserObjType } from "../interfaces";
 import Loader from "./commons/Loader";
 import axios from "axios";
-import { backend_url, updateUserInfo } from "./helper";
+import { backend_url, handle500Error, updateUserInfo } from "./helper";
 
 const BuyProductPage = ({ route }) => {
     const { imageSource, title, price, dailyIncome, validityPeriod } = route.params;
@@ -21,6 +21,7 @@ const BuyProductPage = ({ route }) => {
             if (result) { setUser(JSON.parse(result)) }
         })
     })
+
     function generateRandomString() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let randomString = '';
@@ -30,7 +31,10 @@ const BuyProductPage = ({ route }) => {
         }
         return randomString;
     }
+
     const handleOrderClick = () => {
+        console.log("jsadhfkja,shd;fj,h");
+        
         setLoading(true)
         if (user?.email && price) {
             axios.post(backend_url + "/api/v1/transactions/sendTransactionReq",
@@ -51,7 +55,7 @@ const BuyProductPage = ({ route }) => {
                 }
             }).catch((e) => {
                 console.log("err", e);
-
+                handle500Error(e.message, Alert)
             }).finally(() => {
                 setLoading(false)
             })
@@ -97,6 +101,7 @@ const BuyProductPage = ({ route }) => {
 
                     <TouchableOpacity
                         onPress={() => { handleOrderClick() }}
+                        disabled={loading}
                         style={{
                             backgroundColor: '#7a9f86',
                             padding: responsiveWidth(4.1),

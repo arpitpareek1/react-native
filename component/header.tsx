@@ -5,20 +5,12 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 interface HeaderProps {
   title: string;
-  walletNumber: number;
 }
 
-const Header: React.FC<HeaderProps> = ({title, walletNumber}) => {
+const Header: React.FC<HeaderProps> = ({title}) => {
   return (
     <View style={styles.header}>
-      {/* <TouchableOpacity onPress={() => {}}>
-        <Text style={styles.backButton}>{'Back'}</Text>
-      </TouchableOpacity> */}
       <Text style={styles.title}>{title}</Text>
-      {/* <View style={styles.walletContainer}>
-        <Text style={styles.walletIcon}>💰</Text>
-        <Text style={styles.walletNumber}>{walletNumber}</Text>
-      </View> */}
     </View>
   );
 };
