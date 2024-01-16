@@ -35,11 +35,11 @@ const TeamPage: React.FC = ({ navigation }: any) => {
             <View style={styles.teamtop}>
               <View style={styles.info}>
                 <View style={styles.levelt}>
-                  <Text style={{ color: 'white', textAlign: 'center', fontWeight: '500', fontSize: 18 }}>{user?.name}</Text>
+                  <Text style={{ color: 'white', textAlign: 'center', fontWeight: '500', fontSize: 18 }}>AP</Text>
                 </View>
                 <View style={styles.uname}>
                   <View style={styles.label}>
-                    <Text style={{ color: 'black', fontWeight: '500', fontSize: 20 }}>Account</Text>
+                    <Text style={{ color: 'black', fontWeight: '500', fontSize: 20 }}>{user?.name}</Text>
                   </View>
                   <View style={styles.name}>
                     <Text style={{ color: 'black', fontWeight: '400' }}>{user?.phone}</Text>

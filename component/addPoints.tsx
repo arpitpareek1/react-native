@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Dimensions, ScrollView, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, ScrollView, Alert, Image } from 'react-native';
 import { GestureHandlerRootView, TextInput } from 'react-native-gesture-handler';
 import {
     responsiveFontSize,
@@ -47,9 +47,20 @@ const AddFundScreen = ({ route }) => {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <CommonHeader title="Add Points" previousPage="" />
             <ScrollView>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 20, paddingVertical: 50 }}>
+                    <Image
+                        source={{
+                            uri: 'https://img.freepik.com/free-vector/revenue-concept-illustration_114360-2803.jpg',
+                        }}
+                        style={{
+                            width: Dimensions.get('window').width / 1.5,
+                            height: Dimensions.get('window').width / 1.5,
+                        }}
+                    />
+
+                </View>
                 <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', margin: responsiveWidth(5), width: Dimensions.get('window').width, flexDirection: 'column' }}>
                     <View style={{ flexDirection: 'column', marginBottom: pointsError ? responsiveWidth(3) : responsiveWidth(1.5) }}>
-                        <Text style={{ fontSize: responsiveFontSize(2.5), color: '#7a9f86', marginBottom: responsiveWidth(3), fontWeight: 600 }}>Points</Text>
                         <View
                             style={{
                                 flexDirection: 'row',
@@ -68,27 +79,30 @@ const AddFundScreen = ({ route }) => {
                                 value={points}
                                 maxLength={5}
                                 placeholderTextColor="#7a9f86"
-                                style={{ flex: 1, paddingVertical: responsiveWidth(0.7), color: '#7a9f86', fontSize: responsiveFontSize(2.2), paddingHorizontal: responsiveWidth(4.1), paddingTop: responsiveWidth(3) }}
+                                style={{ flex: 1, paddingVertical: responsiveWidth(0.1), color: '#7a9f86', fontSize: responsiveFontSize(2), paddingHorizontal: responsiveWidth(4), paddingTop: responsiveWidth(2) }}
                             />
                         </View>
-                        <Text style={{ color: '#7a9f86', fontSize: responsiveFontSize(1.6), fontFamily: 'Roboto-Regular', marginLeft: responsiveWidth(3) }}>{pointsError}</Text>
+                        <Text style={{ color: '#7a9f86', fontSize: responsiveFontSize(1.6), fontFamily: 'Roboto-Regular', marginLeft: responsiveWidth(1) }}>{pointsError}</Text>
                     </View>
 
                     <TouchableOpacity
                         onPress={() => { handleAddPoints() }}
                         style={{
-                            backgroundColor: '#7a9f86',
-                            padding: responsiveWidth(4.1),
-                            borderRadius: 60,
                             marginBottom: responsiveWidth(2),
-                            width: responsiveWidth(90),
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            width: responsiveWidth(90)
                         }}>
                         <Text
                             style={{
+                                backgroundColor: '#7a9f86',
+                                padding: responsiveWidth(3),
+                                borderRadius: 60,
                                 textAlign: 'center',
                                 fontWeight: '700',
-                                fontSize: responsiveFontSize(2.2),
+                                fontSize: responsiveFontSize(2),
                                 color: '#fff',
+                                paddingHorizontal: 30
                             }}>
                             Add Points
                         </Text>
@@ -96,11 +110,13 @@ const AddFundScreen = ({ route }) => {
                     {route.params === undefined &&
                         <>
                             <Text style={{
-                                fontSize: responsiveFontSize(1.6),
+                                fontSize: responsiveFontSize(2),
                                 color: '#7a9f86',
                                 marginBottom: responsiveWidth(3),
-                                fontWeight: 600
-                            }}>Select Points Amount</Text>
+                                fontWeight: 600,
+                                paddingTop: 30,
+                                paddingBottom: 10
+                            }}>Select Points Amount:</Text>
                             <View style={{
                                 flexDirection: 'row',
                                 gap: responsiveWidth(3),
@@ -113,9 +129,8 @@ const AddFundScreen = ({ route }) => {
                                         onPress={() => { setPoints(price); }}
                                         style={{
                                             backgroundColor: '#7a9f86',
-                                            padding: responsiveWidth(4.1),
+                                            padding: responsiveWidth(3),
                                             borderRadius: 30,
-                                            paddingBottom: responsiveWidth(5),
                                             width: responsiveWidth(28),
                                         }}>
                                         <Text

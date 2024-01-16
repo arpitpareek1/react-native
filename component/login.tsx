@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -30,7 +30,7 @@ const LoginScreen = ({ navigation }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false)
 
-  useFocusEffect(() => {
+  useEffect(() => {
     setLoading(true)
     AsyncStorage.getItem('user', (error, result) => {
       console.log("res", result);

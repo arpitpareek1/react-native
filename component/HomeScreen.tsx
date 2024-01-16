@@ -22,6 +22,7 @@ import ProductItem from './commons/productItem';
 import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import Loader from './commons/Loader';
+import DefaultImage1 from './assets/spin.png';
 
 
 const NewsItem: React.FC<NewsItemProps> = ({ imageSource, category, date }) => (
@@ -168,6 +169,13 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
             paddingBottom: 100,
           }}></View>
       </ScrollView>
+
+      <TouchableOpacity onPress={() => { navigation.navigate('AllNewsList') }}>
+        <View style={{ position: 'absolute', right: 12, bottom: 75, backgroundColor: '#7a9f86', borderRadius: 10, padding: 8 }}>
+          <Image source={{ uri: Image.resolveAssetSource(DefaultImage1).uri }} style={{ width: 40, height: 40 }} />
+        </View>
+      </TouchableOpacity>
+
       <BottomNavigation navigation={navigation.navigate} />
     </>
   );

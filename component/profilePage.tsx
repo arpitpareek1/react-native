@@ -75,10 +75,10 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                   <View>
                     <View style={{}}>
                       <Text style={{
-                        fontSize: 12,
-                        color: '#000',
-                        fontWeight: '400',
-                        textAlign: 'center',
+                        fontSize: 16,
+                        color: '#fff',
+                        fontWeight: '500',
+                        textAlign: 'left',
                       }}>{user?.name}</Text>
                     </View>
                     <Text style={{ ...styles.leveltitle, }}>{user?.phone}</Text>
@@ -97,13 +97,13 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                   <View style={styles.holderInfo}>
                     <Text style={{
                       fontSize: 18,
-                      color: '#000',
+                      color: '#fff',
                       fontWeight: '700',
                       textAlign: 'center',
                     }}>0</Text>
                     <Text style={{
                       fontSize: 12,
-                      color: '#000',
+                      color: '#fff',
                       fontWeight: '400',
                       textAlign: 'center',
                     }}>Total income</Text>
@@ -111,13 +111,13 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                   <View style={styles.holderInfo}>
                     <Text style={{
                       fontSize: 18,
-                      color: '#000',
+                      color: '#fff',
                       fontWeight: '700',
                       textAlign: 'center',
                     }}>0</Text>
                     <Text style={{
                       fontSize: 12,
-                      color: '#000',
+                      color: '#fff',
                       fontWeight: '400',
                       textAlign: 'center',
                     }}>Total income</Text>
@@ -125,19 +125,19 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                   <View style={styles.holderInfo}>
                     <Text style={{
                       fontSize: 18,
-                      color: '#000',
+                      color: '#fff',
                       fontWeight: '700',
                       textAlign: 'center',
                     }}>0</Text>
                     <Text style={{
                       fontSize: 12,
-                      color: '#000',
+                      color: '#fff',
                       fontWeight: '400',
                       textAlign: 'center',
                     }}>Total income</Text>
                   </View>
                 </View>
-                <Button
+                {/* <Button
                   title="buy "
                   color={'#7a9f86'}
                   onPress={async () => {
@@ -153,7 +153,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                     //   console.log,
                     // );
                     navigation.navigate("AddFundScreen")
-                  }}></Button>
+                  }}></Button> */}
               </View>
             </View>
           </View>
@@ -167,7 +167,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
             borderColor: '#ccc',
             borderWidth: 1,
             position: 'absolute',
-            top: 250,
+            top: 200,
             zIndex: 1,
           }}>
             <View style={{ ...styles.currentBalanceBlock, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -205,42 +205,31 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
               backgroundColor: 'white',
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,
-              height: 300,
               marginTop: 70,
             }}>
             <View style={{
-              paddingTop: 50,
+              paddingTop: 60,
               flexDirection: "row",
               justifyContent: "space-evenly"
             }}>
-              <Button
-                title="Reacharge"
-                color={'#7a9f86'}
-                onPress={
-                  () => {
-
-                  }}></Button>
-              <Button
-                title="Withdrow"
-                color={'#7a9f86'}
-                onPress={
-                  () => {
-
-                  }}></Button>
+              <TouchableOpacity onPress={() => { navigation.navigate("AddFundScreen") }}>
+                <Text style={{ backgroundColor: '#7a9f86', color: '#fff', padding: 15, paddingHorizontal: 30, borderRadius: 10 }}>Recharge</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => { }}>
+                <Text style={{ backgroundColor: '#7a9f86', color: '#fff', padding: 15, paddingHorizontal: 30, borderRadius: 10 }}>Withdrow</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
         <View style={styles.listMenu}>
           {menuItems && menuItems.map((menuItem, index) => (
             <>
-              <Button
-                key={index}
-                title={menuItem.title}
-                onPress={() => {
-                  // console.log("gbcvccmb,ncvbc");
-                  handleListClick(menuItem.title)
-                }}
-              />
+              <TouchableOpacity onPress={() => { handleListClick(menuItem.title) }}>
+                <View style={{ backgroundColor: '#fff', borderTopColor: '#ccc', borderTopWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <Text style={{color: '#000', paddingTop: 15}}>{menuItem.title}</Text>
+                  <Text style={{color: '#000', fontSize: 30}}>›</Text>
+                </View>
+              </TouchableOpacity>
             </>
           ))}
         </View>
@@ -275,7 +264,7 @@ const styles = {
     marginRight: 8,
   },
   text: {
-    paddingVertical: 5,
+    paddingVertical: 3,
   },
   leveltitle: {
     fontSize: 15
@@ -354,7 +343,10 @@ const styles = {
     color: '#ffffff',
   },
   listMenu: {
-    backgroundColor: '#fefefe',
+    paddingHorizontal: 30,
+    gap: 10,
+    paddingTop: 10,
+    paddingBottom: 20
   },
   menu: {
     flexDirection: 'row',
