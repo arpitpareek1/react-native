@@ -20,6 +20,7 @@ import BuyProductPage from './component/buyProduct';
 import AboutUs from './component/aboutUs';
 import AllActiveTrasctions from './component/allActiveTrasctions';
 import WithDrawPage from './component/withdrawPage';
+import SplashScreen from 'react-native-splash-screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,7 +29,7 @@ const App = () => {
   useEffect(() => {
     updateUserInfo()
     if (Platform.OS === 'android') {
-      // SplashScreen.hide();
+      SplashScreen.hide();
     }
     StatusBar.setBackgroundColor("#7a9f86")
   }, []);
