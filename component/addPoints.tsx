@@ -5,6 +5,7 @@ import {
     responsiveFontSize,
     responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import RNUpiPayment from 'react-native-upi-payment';
 import { useFocusEffect } from '@react-navigation/native';
 import CommonHeader from './commonHeader';
 import axios from 'axios';
@@ -25,25 +26,44 @@ const AddFundScreen = ({ route }) => {
         AsyncStorage.getItem("user").then((result) => {
             if (result) { setUser(JSON.parse(result)) }
         })
-    },[])
+    }, [])
 
     const handleAddPoints = () => {
-        axios.post(backend_url + "/api/v1/transactions/addMoneyToWallet", {
-            email: user?.email, amount: points
-        }).then(async ({ data }) => {
-            console.log("data", data);
-            if (data.status) {
-                let msg = points + " Added to your wallet"
-                if (route.params && route.params.pointsToAdd) {
-                    msg += ", Now you can place the order."
-                }
-                Alert.alert("Alert!!", msg)
-                Alert.prompt("Added", "Points Added")
-                updateUserInfo()
-            }
-        }).catch((error) => {
-            handle500Error(error.message, Alert)
-        })
+        if (points && Number(points) !== 0) {
+            RNUpiPayment.initializePayment(
+                {
+                    vpa: 'sahil-dholpuria@paytm',
+                    payeeName: 'Kalyan Satta',
+                    amount: 1,
+                    transactionRef: 'aasf-332-aoei-fn-ii',
+                    transactionNote: 'Kalyan Satta App',
+                },
+                () => {
+                    axios.post(backend_url + "/api/v1/transactions/addMoneyToWallet", {
+                        email: user?.email, amount: points
+                    }).then(async ({ data }) => {
+                        console.log("data", data);
+                        if (data.status) {
+                            let msg = points + " Added to your wallet"
+                            if (route.params && route.params.pointsToAdd) {
+                                msg += ", Now you can place the order."
+                            }
+                            Alert.alert("Alert!!", msg)
+                            Alert.prompt("Added", "Points Added")
+                            updateUserInfo()
+                        }
+                    }).catch((error) => {
+                        handle500Error(error.message, Alert)
+                    })
+                },
+                (err) => {
+                    console.log("err", err);
+                    Alert.alert("Payment failed", "Looks Like payment has cancel from your side.")
+                },
+            );
+        }else {
+            Alert.alert("Alert", "Please insert a valid value.")
+        }
     }
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>

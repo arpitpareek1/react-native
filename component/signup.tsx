@@ -113,19 +113,12 @@ const RegisterScreen = ({ navigation }) => {
             setIsLoadingGlobal(false);
             if (data.user) {
               AsyncStorage.setItem('user', JSON.stringify(data.user), () => {
-                Alert.alert('Confirm', 'Thank you for creating account', [
-                  {
-                    text: 'ok',
-                    onPress: () => {
-                      navigation.dispatch(
-                        CommonActions.reset({
-                          index: 0,
-                          routes: [{ name: "Home" },],
-                        })
-                      );
-                    },
-                  },
-                ]);
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: "Home" },],
+                  })
+                );
               });
             } else {
               if (data.massage) {
@@ -273,7 +266,7 @@ const RegisterScreen = ({ navigation }) => {
             label={'address'}
             icon={
               <MaterialIcons
-                name="phone"
+                name="location-on"
                 size={responsiveWidth(6)}
                 color="#666"
                 style={{ marginRight: responsiveWidth(1.5) }}
@@ -300,7 +293,7 @@ const RegisterScreen = ({ navigation }) => {
             label={'Referal code'}
             icon={
               <MaterialIcons
-                name="phone"
+                name="code"
                 size={responsiveWidth(6)}
                 color="#666"
                 style={{ marginRight: responsiveWidth(1.5) }}

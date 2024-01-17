@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import {  View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -14,21 +14,12 @@ import axios from 'axios';
 import { backend_url } from './helper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CommonHeader from './commonHeader';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-// import EmailIcon from '@mui/icons-material/Email';
-import SvgIcon from '@mui/material/SvgIcon';
-import { Icon } from '@rneui/themed';
-import { useFocusEffect, CommonActions } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 const LoginScreen = ({ navigation }) => {
-  const [email, setemail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [otpValue, setOtpValue] = useState('');
-  const [verification, setVerification] = useState(null);
-  const [showOtp, setShowOtp] = useState(false);
   const [isLoadingGlobal, setIsLoadingGlobal] = useState("false");
-  const [otpError, setOtpError] = useState('');
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -50,31 +41,26 @@ const LoginScreen = ({ navigation }) => {
     });
   }, [])
 
-  const validateEmail = email => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const validatePhone = (phone:string) => {
+    const phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(phone) && phone.length === 10;
   };
 
   const handleUserLogin = async userData => {
     try {
-      setIsLoadingGlobal("true");
       console.log(userData);
-      if (!validateEmail(email) || !password) {
+      if (!validatePhone(phone) || !password) {
         Alert.alert('Alert', 'Please fill the values Right');
         return;
       } else {
-        console.log(backend_url + '/api/v1/auth/login');
-
+        setIsLoadingGlobal("true");
         axios
           .post(backend_url + '/api/v1/auth/login', userData)
           .then(({ data }) => {
-            setIsLoadingGlobal("false"); // Stop global loader
-
-            console.log(data);
-
+            setIsLoadingGlobal("false");
             if (data.message) {
-              Alert.alert('alert', data.message);
               if (!data.success) {
+                Alert.alert('Alert!!', data.message);
                 return;
               }
             }
@@ -83,7 +69,6 @@ const LoginScreen = ({ navigation }) => {
                 navigation.navigate('Home');
               });
             }
-            console.log('jj', data);
           })
           .catch((e) => {
             Alert.alert("Error", e.message)
@@ -99,7 +84,6 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      {/* <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}> */}
       <CommonHeader title="Login" previousPage="" />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -120,20 +104,20 @@ const LoginScreen = ({ navigation }) => {
             <View
               style={{ flexDirection: 'column', marginBottom: responsiveWidth(4.2) }}>
               <InputField
-                label={'Email'}
+                label={'Phone Number'}
                 icon={
                   <MaterialIcons
-                    name="alternate-email"
+                    name="phone"
                     size={responsiveWidth(6)}
                     color="#666"
                     style={{ marginRight: responsiveWidth(1.5) }}
                   />
                 }
-                keyboardType="email-address"
+                keyboardType="phone-pad"
                 onChangeText={text => {
-                  setemail(text);
+                  setPhone(text);
                 }}
-                value={email}
+                value={phone}
                 maxLength={40}
                 inputType={undefined}
                 fieldButtonLabel={undefined}
@@ -167,7 +151,7 @@ const LoginScreen = ({ navigation }) => {
               label={'Login'}
               onPress={() => {
                 handleUserLogin({
-                  email,
+                  phone,
                   password,
                 });
               }}
@@ -187,8 +171,7 @@ const LoginScreen = ({ navigation }) => {
           <Loader visible={true} />
         }
       </ScrollView>
-      {/* </SafeAreaView> */}
-        <Loader visible={isLoadingGlobal !== "false"} />
+      <Loader visible={isLoadingGlobal !== "false"} />
     </GestureHandlerRootView>
   );
 };

@@ -10,7 +10,7 @@ import { backend_url, handle500Error, updateUserInfo } from "./helper";
 import Loader from "./commons/Loader";
 
 
-const WithDrawPage = ({ route }) => {
+const WithDrawPage = ({ route, navigation }) => {
     const [loading, setLoading] = useState('');
     const [user, setUser] = useState<null | UserObjType>(null)
     const [userinfo, setUserInfo] = useState<{
@@ -36,14 +36,14 @@ const WithDrawPage = ({ route }) => {
             setLoading("")
             console.log("data", data);
             if (data.status) {
-                let msg = "Withdrow Request send for "+userinfo.amount + " amount"
+                let msg = "Withdrow Request send for " + userinfo.amount + " amount"
                 Alert.alert("Alert!!", msg)
                 Alert.prompt("Added", "Request send")
                 updateUserInfo()
+                navigation.naviagte("Home")
             }
         }).catch((error) => {
             console.log(error);
-            
             handle500Error(error.message, Alert)
             setLoading("")
         }).finally(() => {
@@ -67,18 +67,12 @@ const WithDrawPage = ({ route }) => {
                     />
 
                 </View>
-                {/* <View style={{  justifyContent: 'flex-start', alignItems: 'flex-start', margin: responsiveWidth(5), width: Dimensions.get('window').width, flexDirection: 'column' }}> */}
-                {/* <View style={{ flexDirection: 'column', marginBottom: responsiveWidth(1.5) }}> */}
                 <View
                     style={{
                         flexDirection: 'column',
                         borderRadius: responsiveWidth(50),
                         borderColor: '#ccc',
-                        // borderWidth: 1,
-                        // paddingBottom: responsiveWidth(2.2),
-                        marginBottom: responsiveWidth(1.5),
-                        // width: responsiveWidth(89),
-                        // border: responsiveWidth(3),
+                        marginBottom: responsiveWidth(1.5)
                     }}>
                     <TextInput
                         placeholder={'Enter Points'}
@@ -126,7 +120,6 @@ const WithDrawPage = ({ route }) => {
                         style={{ color: '#7a9f86', fontSize: responsiveFontSize(2), paddingHorizontal: responsiveWidth(4) }}
                     />
                 </View>
-                {/* </View> */}
 
                 <TouchableOpacity
                     onPress={() => { handleWithDrawClick() }}
@@ -150,7 +143,6 @@ const WithDrawPage = ({ route }) => {
                         Add Points
                     </Text>
                 </TouchableOpacity>
-                {/* </View> */}
             </ScrollView>
             <Loader visible={loading !== ""} />
         </GestureHandlerRootView>

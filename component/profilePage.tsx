@@ -51,7 +51,6 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
 
   function logout() {
     AsyncStorage.removeItem("user")
-    Alert.alert("Alert", "You are logout now")
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
@@ -59,8 +58,6 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
       })
     );
   }
-
-
   return (
     <View style={{ height: Dimensions.get('window').height }}>
       <CommonHeader title="Account" previousPage="" />

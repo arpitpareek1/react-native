@@ -105,6 +105,9 @@ const CliamReward: React.FC = () => {
                                 <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>
                                     3. claim is avalible in every 24 hours.
                                 </Text>
+                                <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>
+                                    4. You will only get points if you have buy any product.
+                                </Text>
                             </View>
                         </View>
                     </View>

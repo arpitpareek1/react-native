@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Image,
@@ -11,6 +11,7 @@ import {
 import CommonHeader from './commonHeader'
 import { useFocusEffect } from '@react-navigation/native';
 import { UserObjType } from '../interfaces';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ViewProduct = ({ route, navigation }) => {
   const { imageSource, title, price, dailyIncome, validityPeriod, desc } = route.params;
@@ -21,6 +22,11 @@ const ViewProduct = ({ route, navigation }) => {
   // useFocusEffect(() => {
 
   // })
+  useEffect(() => {
+    AsyncStorage.getItem("user").then((res) => {
+      if (res) setUserData(JSON.parse(res))
+    })
+  }, [])
 
   const handleBuyButton = () => {
     let text = ""
@@ -31,6 +37,8 @@ const ViewProduct = ({ route, navigation }) => {
         pointsToAdd: price
       })
     } else if (paymentMode === "Balance") {
+      console.log(price, userData);
+
       if (userData && price > userData?.money) {
         text = "You didn't have points to buy the product. please recharge!!"
       } else {
@@ -40,7 +48,7 @@ const ViewProduct = ({ route, navigation }) => {
       }
     }
     if (text !== "") {
-      Alert.alert("      !!!Alert!!!", text);
+      Alert.alert("Alert", text);
     }
 
   }

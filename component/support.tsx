@@ -7,14 +7,14 @@ import CommonHeader from './commonHeader'
 const Support = () => {
   function handlePress(path: string) {
     if (path === 'whatsApp') {
-      Linking.openURL('https://wa.me/919950929557');
+      Linking.openURL('https://wa.me/918905608099');
     } else {
       Linking.openURL(`https://t.me/Ansuya_rajput`);
     }
   }
   return (
     <View style={styles.appContent}>
-    <CommonHeader title='Support' previousPage='' />
+      <CommonHeader title='Support' previousPage='' />
       <View style={styles.row}>
         {/* WhatsApp item */}
         <TouchableOpacity
@@ -35,11 +35,10 @@ const Support = () => {
               </View>
             </View>
             <Text style={styles.description}>
-              The first contact, the account manager will provide you with
-              professional and fast service
+              Have a question or need support? Reach out to us on WhatsApp for quick and personalized assistance.
             </Text>
             <Text style={styles.description}>
-              First contact with account manager via WHATSAPP wins 5rs
+              Simply send a message to our dedicated support number
             </Text>
           </View>
         </TouchableOpacity>
@@ -65,11 +64,10 @@ const Support = () => {
               </View>
             </View>
             <Text style={styles.description}>
-              If you don’t have WHATSAPP, you can contact your account manager
-              via Telegram, which will do for you
+              Join our Telegram community for real-time updates, discussions, and support.
             </Text>
             <Text style={styles.description}>
-              First contact with account manager via WHATSAPP wins 5rs
+              Our team is ready to assist you. Join now.
             </Text>
           </View>
         </TouchableOpacity>
@@ -90,7 +88,7 @@ const styles = {
   },
   col: {
     borderWidth: 1,
-    borderRadius:10,
+    borderRadius: 10,
     borderColor: '#cccccc',
     marginVertical: 10,
     marginHorizontal: 20
@@ -114,7 +112,7 @@ const styles = {
     fontSize: 20
   },
   titleCell: {
-    flexDirection: 'row', alignItems: 'center', 
+    flexDirection: 'row', alignItems: 'center',
   },
   description: {
     color: "#000"

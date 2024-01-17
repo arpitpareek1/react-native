@@ -15,7 +15,7 @@ const Loader = ({ visible }) => {
 const styles = StyleSheet.create({
     loader: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: '#fefefe',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         justifyContent: 'center',
         alignItems: 'center',
     },
