@@ -5,6 +5,7 @@ import {
   Image,
   ScrollView,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -61,13 +62,13 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
     axios.get(backend_url + "/api/v1/user/getAllProduct").then(({ data }) => {
       setProductsData(data)
     }).catch((error) => {
-      handle500Error(error.message, Alert)
+      handle500Error(error.message)
   })
 
     axios.get(backend_url + "/api/v1/user/getAllNewsData").then(({ data }) => {
       setNewsData(data)
     }).catch((error) => {
-      handle500Error(error.message, Alert)
+      handle500Error(error.message)
   })
 
   }, []);

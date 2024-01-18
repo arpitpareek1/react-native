@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {  View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -11,7 +11,7 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import axios from 'axios';
-import { backend_url } from './helper';
+import { backend_url, handle500Error } from './helper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CommonHeader from './commonHeader';
 import { CommonActions } from '@react-navigation/native';
@@ -41,7 +41,7 @@ const LoginScreen = ({ navigation }) => {
     });
   }, [])
 
-  const validatePhone = (phone:string) => {
+  const validatePhone = (phone: string) => {
     const phoneRegex = /^[0-9]{10}$/;
     return phoneRegex.test(phone) && phone.length === 10;
   };
@@ -71,16 +71,14 @@ const LoginScreen = ({ navigation }) => {
             }
           })
           .catch((e) => {
-            Alert.alert("Error", e.message)
-          });
+            handle500Error(e.message)
+          }).finally(() => setIsLoadingGlobal("false"))
       }
     } catch (error) {
       setIsLoadingGlobal("false"); // Stop global loader
       console.error('Error handling user login:', error);
     }
   };
-  console.log("loading", loading);
-  console.log("isLoadingGlobal", isLoadingGlobal)
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

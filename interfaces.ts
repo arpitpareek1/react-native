@@ -5,6 +5,7 @@ export interface ProductItemProps {
   title: string;
   price: string;
   link: string;
+  transaction_id?:string
 }
 
 export interface NewsItemProps {

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Dimensions, ScrollView, Alert, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, ScrollView, Alert, Image, ToastAndroid } from 'react-native';
 import { GestureHandlerRootView, TextInput } from 'react-native-gesture-handler';
 import {
     responsiveFontSize,
     responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import RNUpiPayment from 'react-native-upi-payment';
-import { useFocusEffect } from '@react-navigation/native';
 import CommonHeader from './commonHeader';
 import axios from 'axios';
 import { backend_url, handle500Error, updateUserInfo } from './helper';
@@ -17,7 +16,6 @@ const AddFundScreen = ({ route }) => {
     const [points, setPoints] = useState('');
     const [pointsError] = useState('');
     const [user, setUser] = useState<null | UserObjType>(null)
-
 
     useEffect(() => {
         if (route.params && route.params.pointsToAdd) {
@@ -32,11 +30,11 @@ const AddFundScreen = ({ route }) => {
         if (points && Number(points) !== 0) {
             RNUpiPayment.initializePayment(
                 {
-                    vpa: 'sahil-dholpuria@paytm',
-                    payeeName: 'Kalyan Satta',
+                    vpa: 'shreeshyamenterprise.930835@hdfc',
+                    payeeName: 'Rio Tinto',
                     amount: 1,
-                    transactionRef: 'aasf-332-aoei-fn-ii',
-                    transactionNote: 'Kalyan Satta App',
+                    transactionRef: 'aasf-332-aoei-fn-iiO',
+                    transactionNote: 'Rio Tinto App',
                 },
                 () => {
                     axios.post(backend_url + "/api/v1/transactions/addMoneyToWallet", {
@@ -48,17 +46,24 @@ const AddFundScreen = ({ route }) => {
                             if (route.params && route.params.pointsToAdd) {
                                 msg += ", Now you can place the order."
                             }
-                            Alert.alert("Alert!!", msg)
-                            Alert.prompt("Added", "Points Added")
+                            ToastAndroid.showWithGravity(
+                                msg,
+                                ToastAndroid.SHORT,
+                                ToastAndroid.CENTER,
+                              );
                             updateUserInfo()
                         }
                     }).catch((error) => {
-                        handle500Error(error.message, Alert)
+                        handle500Error(error.message)
                     })
                 },
                 (err) => {
                     console.log("err", err);
-                    Alert.alert("Payment failed", "Looks Like payment has cancel from your side.")
+                    ToastAndroid.showWithGravity(
+                        "Looks Like payment has cancel from your side.",
+                        ToastAndroid.SHORT,
+                        ToastAndroid.CENTER,
+                      );
                 },
             );
         }else {

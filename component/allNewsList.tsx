@@ -14,7 +14,7 @@ const AllNewsList: React.FC = ({ navigation }: any) => {
       console.log(data);
       setNewsData(data)
     }).catch((error) => {
-      handle500Error(error.message, Alert)
+      handle500Error(error.message)
   })
   }, [])
   return (

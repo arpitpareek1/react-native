@@ -85,7 +85,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                     </View>
                     <Text style={{ ...styles.leveltitle, }}>{user?.phone}</Text>
                     <Text style={{ ...styles.leveltitle, }}>{user?.email}</Text>
-                    <Text style={{ ...styles.leveltitle, }}>Your Refer code - {user?.userReferCode}</Text>
+                    <Text style={{ ...styles.leveltitle, }}>Your Refer code - {user?.referralCode}</Text>
                   </View>
                 </View>
               </View>
@@ -94,23 +94,6 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                {/* <Button
-                  title="buy "
-                  color={'#7a9f86'}
-                  onPress={async () => {
-                    // RNUpiPayment.initializePayment(
-                    //   {
-                    //     vpa: 'sahil-dholpuria@paytm',
-                    //     payeeName: 'Kalyan Satta',
-                    //     amount: 1,
-                    //     transactionRef: 'aasf-332-aoei-fn-ii',
-                    //     transactionNote: 'Kalyan Satta App',
-                    //   },
-                    //   console.log,
-                    //   console.log,
-                    // );
-                    navigation.navigate("AddFundScreen")
-                  }}></Button> */}
               </View>
             </View>
           </View>

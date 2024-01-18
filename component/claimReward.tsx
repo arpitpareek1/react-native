@@ -36,7 +36,7 @@ const CliamReward: React.FC = () => {
                 }
             })
             .catch((error) => {
-                handle500Error(error.message, Alert)
+                handle500Error(error.message)
             })
             .finally(() => {
                 setLoading(false)

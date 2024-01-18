@@ -55,7 +55,7 @@ const BuyProductPage = ({ route }) => {
                 }
             }).catch((e) => {
                 console.log("err", e);
-                handle500Error(e.message, Alert)
+                handle500Error(e.message)
             }).finally(() => {
                 setLoading(false)
             })

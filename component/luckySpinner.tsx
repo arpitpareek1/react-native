@@ -68,7 +68,7 @@ const LuckySpinner = () => {
                   updateUserInfo()
                 }
               }).catch((error) => {
-                handle500Error(error.message, Alert)
+                handle500Error(error.message)
               })
               Alert.alert("Congratulations", `You Win ${r.text} point`)
             } else {

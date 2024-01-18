@@ -23,7 +23,7 @@ const TeamPage: React.FC = ({ navigation }: any) => {
         console.log("da", data);
         setInvitedData(data.data)
       }).catch((error) => {
-        handle500Error(error.message, Alert)
+        handle500Error(error.message)
       })
     })
   }, [])

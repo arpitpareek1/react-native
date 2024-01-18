@@ -21,6 +21,7 @@ import AboutUs from './component/aboutUs';
 import AllActiveTrasctions from './component/allActiveTrasctions';
 import WithDrawPage from './component/withdrawPage';
 import SplashScreen from 'react-native-splash-screen';
+import Bank from './component/bank';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +32,7 @@ const App = () => {
     if (Platform.OS === 'android') {
       setTimeout(() => {
         SplashScreen.hide();
-      }, 2000)
+      }, 1000)
     }
     StatusBar.setBackgroundColor("#7a9f86")
   }, []);
@@ -141,6 +142,11 @@ const App = () => {
           <Stack.Screen
             name="WithDrawPage"
             component={WithDrawPage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Bank"
+            component={Bank}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

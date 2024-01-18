@@ -44,7 +44,7 @@ const IconRow: React.FC<IconRow> = ({ navigation }) => {
           <Image source={{ uri: Image.resolveAssetSource(DefaultImage3).uri }} style={{ width: 50, height: 50 }} />
         </View>
         <View style={styles.palaceGridText}>
-          <Text style={styles.gridText}>Friends</Text>
+          <Text style={styles.gridText}>Refer someone</Text>
         </View>
       </TouchableOpacity>
 

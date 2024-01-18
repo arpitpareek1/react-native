@@ -16,7 +16,7 @@ const AllProductList: React.FC = ({ navigation }: any) => {
       console.log("kk1", data);
       setProductsData(data)
     }).catch((error) => {
-      handle500Error(error.message, Alert)
+      handle500Error(error.message)
   })
   }, [])
   return (

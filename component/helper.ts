@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import axios from "axios";
+import { ToastAndroid } from "react-native";
 
 export const backend_url = "https://ybt689k9fa.execute-api.ap-south-1.amazonaws.com/development"
 // export const backend_url = "https://swon085vel.execute-api.us-east-1.amazonaws.com/development"
@@ -41,10 +42,15 @@ export const menuItems = [
 ];
 
 
-export const handle500Error = (error:string, Alert:any) => {
+export const handle500Error = (error:string) => {
 
 if(error.includes("500")){
-  Alert.alert("Network Error", "Looks Like you are on slow internet. Please try again.")
+  ToastAndroid.showWithGravity(
+    "Network Error:Looks Like you are on slow internet. Please try again.",
+    ToastAndroid.SHORT,
+    ToastAndroid.CENTER,
+  );
+  // Alert.alert("Network Error", "Looks Like you are on slow internet. Please try again.")
 }  
 
 }
