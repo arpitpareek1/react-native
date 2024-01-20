@@ -11,59 +11,7 @@ import { backend_url, handle500Error } from './helper';
 
 const TeamPage: React.FC = ({ navigation }: any) => {
   const [user, setUser] = useState<null | UserObjType>(null)
-  const [invidedData, setInvitedData] = useState<null | invidedDataTypeObj[]>(
-    [{
-      "__v": 1,
-      "_id": "5f5a19283562a819048ea915",
-      "approved": true,
-      "createdAt": "2024-01-16T12:30:00.000Z",
-      "email": "example@email.com",
-      "isRefered": false,
-      "money": 1000,
-      "name": "John Doe",
-      "password": "hashedpassword123",
-      "phone": "+1234567890",
-      "referralCode": "ABCD1234",
-      "referredBy": "5f5a19283562a819048ea914",
-      "role": 1,
-      "updatedAt": "2024-01-16T14:45:00.000Z",
-      "userReferCode": "WXYZ5678"
-    }
-      , {
-      "__v": 1,
-      "_id": "5f5a19283562a819048ea915",
-      "approved": true,
-      "createdAt": "2024-01-16T12:30:00.000Z",
-      "email": "example@email.com",
-      "isRefered": false,
-      "money": 1000,
-      "name": "John Doe",
-      "password": "hashedpassword123",
-      "phone": "+1234567890",
-      "referralCode": "ABCD1234",
-      "referredBy": "5f5a19283562a819048ea914",
-      "role": 1,
-      "updatedAt": "2024-01-16T14:45:00.000Z",
-      "userReferCode": "WXYZ5678"
-    }
-      , {
-      "__v": 1,
-      "_id": "5f5a19283562a819048ea915",
-      "approved": true,
-      "createdAt": "2024-01-16T12:30:00.000Z",
-      "email": "example@email.com",
-      "isRefered": false,
-      "money": 1000,
-      "name": "John Doe",
-      "password": "hashedpassword123",
-      "phone": "+1234567890",
-      "referralCode": "ABCD1234",
-      "referredBy": "5f5a19283562a819048ea914",
-      "role": 1,
-      "updatedAt": "2024-01-16T14:45:00.000Z",
-      "userReferCode": "WXYZ5678"
-    }
-    ])
+  const [invidedData, setInvitedData] = useState<null | invidedDataTypeObj[]>(null)
 
   useEffect(() => {
     AsyncStorage.getItem("user").then((result) => {
@@ -73,7 +21,7 @@ const TeamPage: React.FC = ({ navigation }: any) => {
         email: user.email
       }).then(({ data }) => {
         console.log("da", data);
-        // setInvitedData(data.data)
+        setInvitedData(data.data)
       }).catch((error) => {
         handle500Error(error.message)
       })
@@ -146,7 +94,7 @@ const TeamPage: React.FC = ({ navigation }: any) => {
               </View>
             </View>
             <View style={styles.wrap}>
-              <Text style={{ color: 'black', textAlign: 'center',marginVertical: 10 }}>My Referrals</Text>
+              <Text style={{ color: invidedData?.length ? 'black' : "#888", textAlign: 'center', marginVertical: 10 }}>{invidedData?.length ? "My Referrals" : "No Referrals Yet. Invite Your Friend."} </Text>
               <View style={styles.tablebt}>
                 {invidedData && invidedData.map((person, index) => (
                   <View style={styles.teamtop} key={index}>
