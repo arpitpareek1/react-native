@@ -24,9 +24,9 @@ const AllActiveTrasctions = () => {
     }, [])
 
 
-    function getImageUrlFromName(name:string){
-        if(productsData){
-          return (productsData.filter((product)=>product.title===name))[0].imageSource
+    function getImageUrlFromName(name: string) {
+        if (productsData) {
+            return (productsData.filter((product) => product.title === name))[0].imageSource
         }
     }
 
@@ -63,25 +63,16 @@ const AllActiveTrasctions = () => {
             <CommonHeader title="My Transuctions" previousPage="" />
             <View>
                 {
-                    transcutionInfo && transcutionInfo.map((data, index) => (
+                    productsData && transcutionInfo && transcutionInfo.map((data, index) => (
                         <View key={index}>
                             <ProductItem
                                 key={index}
-                                imageSource={getImageUrlFromName(data.product_name)??""}
+                                imageSource={getImageUrlFromName(data.product_name) ?? ""}
                                 link={""}
                                 price={(data.amount).toString()}
                                 title={data.product_name}
                                 transaction_id={data.transaction_id}
                             />
-                            {/* <Text>
-                                {data.amount}
-                            </Text>
-                            <Text>
-                                {data.product_name}
-                            </Text>
-                            <Text>
-                                {data.transaction_id}
-                            </Text> */}
                         </View>
                     ))
                 }

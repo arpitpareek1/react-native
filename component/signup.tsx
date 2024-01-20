@@ -7,6 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import InputField from './commons/InputField';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,12 +17,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomButton from './commons/CustomButton';
 import Loader from './commons/Loader';
 import { CommonActions } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import { backend_url } from './helper';
 import CommonHeader from './commonHeader';
 
@@ -32,38 +35,12 @@ const RegisterScreen = ({ navigation }) => {
   const [emailId, setEmailId] = useState('');
   const [address, setAddress] = useState('');
   const [showOtp, setShowOtp] = useState(false);
-  const [verification, setVerification] = useState(null);
+  const [verification, setVerification] = useState(false);
   const [otpValue, setOtpValue] = useState('');
-  const [otpError, setOtpError] = useState('');
   const [password, setPassword] = useState('');
   const [refral_code, setReferCode] = useState('');
-
-  const BASE_URL = 'https://verify-3067-ilr6fk.twil.io';
-
-  const sendSmsVerification = async phoneNumber => {
-    try {
-      const data = {
-        to: '+91' + phoneNumber,
-        channel: 'sms',
-      };
-
-      const json = await axios.post(`${BASE_URL}/start-verify`, {
-        data,
-      });
-      // const response = await fetch(`${BASE_URL}/start-verify`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: data,
-      // });
-      // const json = response.json();
-      return json;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  };
+  const [btnLoading, setBtnLoading] = useState(false)
+  const [showButton, setShowButton] = useState(false);
 
   const validateEmail = email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -93,10 +70,12 @@ const RegisterScreen = ({ navigation }) => {
         setIsError('Password must be at least 8 characters long and contain both letters and numbers.');
       } else if (!phoneNumber) {
         setIsError('Please enter your phone number.');
-      } else if (!validatePhone(phoneNumber) && phoneNumber.length === 10) {
+      } else if (!validatePhone(phoneNumber) && phoneNumber.length !== 10) {
         setIsError('Please enter a valid phone number.');
       } else if (!address) {
         setIsError('Please enter your address.');
+      } else if (!verification) {
+        setIsError('Please verify your number.');
       } else {
         setIsError("")
         setIsLoadingGlobal(true);
@@ -134,6 +113,75 @@ const RegisterScreen = ({ navigation }) => {
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async function handleSendOtp() {
+    if (!phoneNumber || !validatePhone(phoneNumber) && phoneNumber.length !== 10) {
+      setIsError('Please enter your phone number.');
+    } else {
+      setBtnLoading(true)
+      axios.post(backend_url + "/api/v1/auth/sent-otp", {
+        phoneNumber
+      }).then(({ data }) => {
+        console.log("data", data);
+        if (data && data.status) {
+          setShowOtp(true)
+        } else {
+          ToastAndroid.showWithGravity(
+            "Failed to send OTP.",
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+        }
+      }).catch(() => {
+        ToastAndroid.showWithGravity(
+          "Failed to send OTP.",
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      }).finally(() => {
+        setBtnLoading(false)
+        setShowButton(false)
+        setTimeout(() => {
+          setShowButton(true);
+        }, 60000);
+      })
+    }
+  }
+  async function handleVerifyOtp() {
+    if (!phoneNumber || !validatePhone(phoneNumber) && phoneNumber.length !== 10) {
+      setIsError('Please enter your phone number.');
+    } else if (!otpValue && otpValue.length !== 6) {
+      setIsError('Please enter valid OTP.');
+    } else {
+      setBtnLoading(true)
+      axios.post(backend_url + "/api/v1/auth/verifyOtp", {
+        phoneNumber,
+        code: otpValue
+      }).then(({ data }) => {
+        console.log(data);
+        if (data && data.verification && data.verification.valid) {
+          setVerification(true)
+          ToastAndroid.showWithGravity(
+            "OTP is verified, Please continue sign up",
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+        } else {
+          ToastAndroid.showWithGravity(
+            "Failed to send OTP.",
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+        }
+      }).catch(() => {
+        ToastAndroid.showWithGravity(
+          "Failed to send OTP.",
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      }).finally(() => setBtnLoading(false))
     }
   }
 
@@ -230,6 +278,52 @@ const RegisterScreen = ({ navigation }) => {
             fieldButtonFunction={undefined}
           />
         </View>
+        {!verification && <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+          }}>
+          <InputField
+            label={'OTP'}
+            icon={
+              <MaterialIcons
+                name="phone"
+                size={responsiveWidth(6)}
+                color="#666"
+                style={{ marginRight: responsiveWidth(1.5) }}
+              />
+            }
+            keyboardType="phone-pad"
+            onChangeText={text => {
+              setOtpValue(text);
+            }}
+            value={otpValue}
+            maxLength={6}
+            inputType={undefined}
+            fieldButtonLabel={undefined}
+            fieldButtonFunction={undefined}
+            style={{ width: 500 }}
+          />
+          {!btnLoading ?
+            <CustomButton
+              label={!showOtp ? 'Send OTP' : "Verify OTP"}
+              onPress={() => {
+                if (!showOtp) {
+                  handleSendOtp();
+                } else {
+                  handleVerifyOtp()
+                }
+              }}
+            /> : <ActivityIndicator size="small" color="#7a9f86m" />}
+          {showButton && <CustomButton
+            label={"Resend"}
+            onPress={() => {
+              handleSendOtp();
+            }}
+          />
+          }
+
+        </View>}
         <View
           style={{
             flexDirection: 'column',

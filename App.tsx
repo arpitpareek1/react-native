@@ -22,6 +22,12 @@ import AllActiveTrasctions from './component/allActiveTrasctions';
 import WithDrawPage from './component/withdrawPage';
 import SplashScreen from 'react-native-splash-screen';
 import Bank from './component/bank';
+import NewsDetailScreen from './component/newsDetailScreen';
+import Googlepay from './component/googlePay';
+import Phonepe from './component/phonepe';
+import Paytm from './component/paytm';
+import Upi from './component/upi';
+import OtpInput from './component/otpVerify';
 
 const Stack = createNativeStackNavigator();
 
@@ -62,11 +68,6 @@ const App = () => {
           <Stack.Screen
             name="Team"
             component={TeamPage}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Personal"
-            component={Profile}
             options={{ headerShown: false }}
           />
           <Stack.Screen
@@ -147,6 +148,36 @@ const App = () => {
           <Stack.Screen
             name="Bank"
             component={Bank}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="NewsDetailScreen"
+            component={NewsDetailScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Googlepay"
+            component={Googlepay}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Phonepe"
+            component={Phonepe}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Paytm"
+            component={Paytm}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Upi"
+            component={Upi}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="OtpInput"
+          component={OtpInput}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

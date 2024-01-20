@@ -11,7 +11,8 @@ export default function InputField({
   fieldButtonFunction,
   onChangeText,
   value,
-  maxLength
+  maxLength,
+  style={}
 }) {
   return (
     <View
@@ -31,7 +32,7 @@ export default function InputField({
           value={value}
           maxLength={maxLength}
           placeholderTextColor="#666"
-          style={{flex: 1, paddingVertical: responsiveWidth(0), color: '#666'}}
+          style={{flex: 1, paddingVertical: responsiveWidth(0), color: '#666', ...style}}
           secureTextEntry={true}
         />
       ) : (

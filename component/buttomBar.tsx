@@ -49,7 +49,7 @@ const BottomNavigation: React.FC<{
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => navigateTo('Personal')}
+          onPress={() => navigateTo('profile')}
           style={styles.navItem}>
           <View>
             <Image source={{ uri: Image.resolveAssetSource(DefaultImage4).uri }} style={{ width: 20, height: 20, tintColor: '#7a9f86' }} />

@@ -4,7 +4,7 @@ export interface ProductItemProps {
   imageSource: string;
   title: string;
   price: string;
-  link: string;
+  link?: string;
   transaction_id?:string
 }
 

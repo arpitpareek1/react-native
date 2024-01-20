@@ -2,8 +2,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import axios from "axios";
 import { ToastAndroid } from "react-native";
 
-export const backend_url = "https://ybt689k9fa.execute-api.ap-south-1.amazonaws.com/development"
-// export const backend_url = "https://swon085vel.execute-api.us-east-1.amazonaws.com/development"
+
+// export const backend_url = "https://ybt689k9fa.execute-api.ap-south-1.amazonaws.com/development"
+export const backend_url = "https://c0f4-2405-201-5c05-153-91f1-5289-668-713e.ngrok-free.app"
 
 export const updateUserInfo = (callback?: Function) => {
   AsyncStorage.getItem("user").then((result) => {
@@ -27,7 +28,7 @@ export const menuItems = [
   {
     link: '/index/product/myproduct.html',
     imageSrc: '/static/img/good.svg',
-    title: 'My activation Order',
+    title: 'My Orders',
   },
   {
     link: '/index/account/gift.html',
@@ -41,16 +42,24 @@ export const menuItems = [
   },
 ];
 
+export const updateBankInfo = async (obj: {
+  source: string;
+  value: any;
+}) => {
+  const existingData = await AsyncStorage.getItem('withdrawInfo');
+  let existingWithdrawInfo = existingData ? JSON.parse(existingData) : [];
+  existingWithdrawInfo.push(obj);
+  await AsyncStorage.setItem('withdrawInfo', JSON.stringify(existingWithdrawInfo));
+}
 
-export const handle500Error = (error:string) => {
+export const handle500Error = (error: string) => {
 
-if(error.includes("500")){
-  ToastAndroid.showWithGravity(
-    "Network Error:Looks Like you are on slow internet. Please try again.",
-    ToastAndroid.SHORT,
-    ToastAndroid.CENTER,
-  );
-  // Alert.alert("Network Error", "Looks Like you are on slow internet. Please try again.")
-}  
+  if (error.includes("500")) {
+    ToastAndroid.showWithGravity(
+      "Network Error:Looks Like you are on slow internet. Please try again.",
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER,
+    );
+  }
 
 }

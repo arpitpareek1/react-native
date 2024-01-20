@@ -38,8 +38,8 @@ const NewsItem: React.FC<NewsItemProps> = ({ imageSource, category, date }) => (
       <Image source={{ uri: imageSource }} style={{ width: 70, height: 70 }} />
     </View>
     <View style={{ padding: 2, width: Dimensions.get('window').width - 115 }}>
-      <Text style={{ fontSize: 16, color: '#000' }}>{category}</Text>
-      <Text style={{ paddingVertical: 5, fontSize: 12, color: '#000' }}>
+      <Text style={{ fontSize: 18, color: '#000', fontWeight:"500" }}>{category}</Text>
+      <Text style={{ paddingVertical: 2, fontSize: 13, color: '#000' }}>
         {date}
       </Text>
     </View>
@@ -63,13 +63,13 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
       setProductsData(data)
     }).catch((error) => {
       handle500Error(error.message)
-  })
+    })
 
     axios.get(backend_url + "/api/v1/user/getAllNewsData").then(({ data }) => {
       setNewsData(data)
     }).catch((error) => {
       handle500Error(error.message)
-  })
+    })
 
   }, []);
   return (
@@ -157,14 +157,18 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
         <View>
 
           {newsData ? newsData.map(
-            (news: { category: string; date: string; imageSource: string; }, index: number) =>
+            (news: { category: string; date: string; imageSource: string; description: string }, index: number) =>
               index < 3 && (
-                <NewsItem
-                  key={index}
-                  category={news.category}
-                  date={news.date}
-                  imageSource={news.imageSource}
-                />
+                <TouchableOpacity key={index} onPress={() => {
+                  navigation.navigate("NewsDetailScreen", news)
+                }}>
+                  <NewsItem
+                    key={index}
+                    category={news.category}
+                    date={news.description.substr(0, 58) + "..."}
+                    imageSource={news.imageSource}
+                  />
+                </TouchableOpacity>
               ),
           ) : <Loader visible={true} />}
         </View>

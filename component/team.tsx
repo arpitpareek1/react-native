@@ -11,7 +11,59 @@ import { backend_url, handle500Error } from './helper';
 
 const TeamPage: React.FC = ({ navigation }: any) => {
   const [user, setUser] = useState<null | UserObjType>(null)
-  const [invidedData, setInvitedData] = useState<null | invidedDataTypeObj[]>(null)
+  const [invidedData, setInvitedData] = useState<null | invidedDataTypeObj[]>(
+    [{
+      "__v": 1,
+      "_id": "5f5a19283562a819048ea915",
+      "approved": true,
+      "createdAt": "2024-01-16T12:30:00.000Z",
+      "email": "example@email.com",
+      "isRefered": false,
+      "money": 1000,
+      "name": "John Doe",
+      "password": "hashedpassword123",
+      "phone": "+1234567890",
+      "referralCode": "ABCD1234",
+      "referredBy": "5f5a19283562a819048ea914",
+      "role": 1,
+      "updatedAt": "2024-01-16T14:45:00.000Z",
+      "userReferCode": "WXYZ5678"
+    }
+      , {
+      "__v": 1,
+      "_id": "5f5a19283562a819048ea915",
+      "approved": true,
+      "createdAt": "2024-01-16T12:30:00.000Z",
+      "email": "example@email.com",
+      "isRefered": false,
+      "money": 1000,
+      "name": "John Doe",
+      "password": "hashedpassword123",
+      "phone": "+1234567890",
+      "referralCode": "ABCD1234",
+      "referredBy": "5f5a19283562a819048ea914",
+      "role": 1,
+      "updatedAt": "2024-01-16T14:45:00.000Z",
+      "userReferCode": "WXYZ5678"
+    }
+      , {
+      "__v": 1,
+      "_id": "5f5a19283562a819048ea915",
+      "approved": true,
+      "createdAt": "2024-01-16T12:30:00.000Z",
+      "email": "example@email.com",
+      "isRefered": false,
+      "money": 1000,
+      "name": "John Doe",
+      "password": "hashedpassword123",
+      "phone": "+1234567890",
+      "referralCode": "ABCD1234",
+      "referredBy": "5f5a19283562a819048ea914",
+      "role": 1,
+      "updatedAt": "2024-01-16T14:45:00.000Z",
+      "userReferCode": "WXYZ5678"
+    }
+    ])
 
   useEffect(() => {
     AsyncStorage.getItem("user").then((result) => {
@@ -21,12 +73,19 @@ const TeamPage: React.FC = ({ navigation }: any) => {
         email: user.email
       }).then(({ data }) => {
         console.log("da", data);
-        setInvitedData(data.data)
+        // setInvitedData(data.data)
       }).catch((error) => {
         handle500Error(error.message)
       })
     })
   }, [])
+
+  const getFirstLastCrecter = (name: string) => {
+    const words = name.split(' ');
+    const initials = words.map(word => word.charAt(0)).join('');
+    const uppercaseInitials = initials.toUpperCase();
+    return uppercaseInitials;
+  }
 
   return (
     <>
@@ -37,7 +96,7 @@ const TeamPage: React.FC = ({ navigation }: any) => {
             <View style={styles.teamtop}>
               <View style={styles.info}>
                 <View style={styles.levelt}>
-                  <Text style={{ color: 'white', textAlign: 'center', fontWeight: '500', fontSize: 18 }}>AP</Text>
+                  <Text style={{ color: 'white', textAlign: 'center', fontWeight: '500', fontSize: 18 }}>{user && user.name && getFirstLastCrecter(user?.name!)}</Text>
                 </View>
                 <View style={styles.uname}>
                   <View style={styles.label}>
@@ -87,39 +146,21 @@ const TeamPage: React.FC = ({ navigation }: any) => {
               </View>
             </View>
             <View style={styles.wrap}>
+              <Text style={{ color: 'black', textAlign: 'center',marginVertical: 10 }}>My Referrals</Text>
               <View style={styles.tablebt}>
-                <View style={styles.dFlexAlignItemsCenterJustifyContentBetween}>
-                  <View style={styles.dFlexAlignItemsCenter}>
-                    <View style={styles.ml10}>
-                      <Text style={styles.coinName}>Account</Text>
-                    </View>
-                  </View>
-                  <View style={styles.dFlexAlignItemsCenter}>
-                    <View style={styles.ml10}>
-                      <Text style={styles.coinName}>Referrer</Text>
-                    </View>
-                  </View>
-                  <View style={styles.dFlexAlignItemsCenter}>
-                    <View style={styles.ml10}>
-                      <Text style={styles.coinName}>Email</Text>
-                    </View>
-                  </View>
-                </View>
                 {invidedData && invidedData.map((person, index) => (
-                  <View style={styles.dFlexAlignItemsCenterJustifyContentBetween} key={index}>
-                    <View style={styles.dFlexAlignItemsCenter}>
-                      <View style={styles.ml10}>
-                        <Text style={styles.coinName}>{(person.phone).substring(0, 4)}******</Text>
+                  <View style={styles.teamtop} key={index}>
+                    <View style={styles.info}>
+                      <View style={styles.levelt}>
+                        <Text style={{ color: 'white', textAlign: 'center', fontWeight: '500', fontSize: 18 }}>{person && person.name && getFirstLastCrecter(person?.name!)}</Text>
                       </View>
-                    </View>
-                    <View style={styles.dFlexAlignItemsCenter}>
-                      <View style={styles.ml10}>
-                        <Text style={styles.coinName}>{"By You"}</Text>
-                      </View>
-                    </View>
-                    <View style={styles.dFlexAlignItemsCenter}>
-                      <View style={styles.ml10}>
-                        <Text style={styles.coinName}>{person.email}</Text>
+                      <View style={styles.uname}>
+                        <View style={styles.label}>
+                          <Text style={{ color: 'black', fontWeight: '500', fontSize: 20 }}>{person?.name}</Text>
+                        </View>
+                        <View style={styles.name}>
+                          <Text style={{ color: 'black', fontWeight: '400' }}>{person?.email}</Text>
+                        </View>
                       </View>
                     </View>
                   </View>
@@ -231,6 +272,7 @@ const styles = StyleSheet.create({
   },
   tablebt: {
     // Style for tablebt
+    gap: 10
   },
   dFlexAlignItemsCenterJustifyContentBetween: {
     flexDirection: 'row',
@@ -238,7 +280,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   dFlexAlignItemsCenter: {
-    // Style for dFlexAlignItemsCenter
+    width: Dimensions.get('window').width / 3
   },
   ml10: {
     marginLeft: 10,

@@ -22,7 +22,7 @@
     "react-native-element-dropdown": "^2.10.1",
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "^2.14.0",
-    "react-native-lucky-wheel": "^0.2.2",
+    "react-native-gogo-spin": "^0.0.5",
     "react-native-qrcode": "^0.2.7",
     "react-native-reanimated": "^2.9.1",
     "react-native-responsive-dimensions": "^3.1.1",
@@ -32,7 +32,7 @@
     "react-native-svg": "^14.1.0",
     "react-native-svg-uri": "^0.0.1",
     "react-native-swiper": "^1.6.0",
-    "react-native-upi-payment": "github:nitish24p/react-native-upi#fix-issue-transaction-limit-merchant",
+    "react-native-upi-payment": "^1.0.5",
     "react-native-vector-icons": "^10.0.3",
     "rn-qr-generator": "^1.4.0"
   },

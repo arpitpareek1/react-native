@@ -30,7 +30,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
 
   function handleListClick(title: string) {
     // console.log("jhdfsdfg");
-    if (title === "My activation Order") {
+    if (title === "My Orders") {
       navigation.navigate("AllActiveTrasctions")
     } else if (title === "Withdrawal bank account") {
       navigation.navigate("WithDrawPage")
@@ -110,7 +110,11 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
             top: 200,
             zIndex: 1,
           }}>
-            <View style={{ ...styles.currentBalanceBlock, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
               <Text style={{
                 fontSize: 18,
                 color: '#000',
@@ -122,21 +126,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                 color: '#000',
                 fontWeight: '400',
                 textAlign: 'center',
-              }}>Wallet</Text>
-            </View>
-            <View style={styles.currentBalanceBlock}>
-              <Text style={{
-                fontSize: 18,
-                color: '#000',
-                fontWeight: '700',
-                textAlign: 'center',
-              }}>0</Text>
-              <Text style={{
-                fontSize: 12,
-                color: '#000',
-                fontWeight: '400',
-                textAlign: 'center',
-              }}>Recharge</Text>
+              }}>Wallet Balance</Text>
             </View>
           </View>
           <View

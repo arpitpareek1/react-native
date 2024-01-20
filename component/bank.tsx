@@ -1,10 +1,12 @@
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
-import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
 import { Dialog } from 'react-native-elements';
+import CommonHeader from './commonHeader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { updateBankInfo } from './helper';
 
-const Bank = ({ route }) => {
+const Bank = ({ navigation }) => {
     const [accNumber, setAccNumber] = useState('');
     const [accNumberError, setAccNumberError] = useState('');
     const [accName, setAccName] = useState('');
@@ -18,8 +20,6 @@ const Bank = ({ route }) => {
     const [Branch, setBranch] = useState('');
     const [BranchError, setBranchError] = useState('');
     const [success, setSuccess] = useState(false);
-
-    const { responsiveWidth } = route.params
 
     useEffect(() => {
         if (accName.length > 3) {
@@ -46,9 +46,6 @@ const Bank = ({ route }) => {
         if (!value.trim()) {
             return 'This is required';
         }
-
-        // Add more custom validation rules if needed
-
         return '';
     };
 
@@ -71,7 +68,7 @@ const Bank = ({ route }) => {
     };
 
     const validateIfscField = () => {
-        const error = validateRiquired(ifscCode) || ifscCode.length !== 11 ? 'Invalid IFSC code' : '';
+        const error = validateRiquired(ifscCode) || ifscCode.length !== 11 ? 'Invalid IFSC code, IFSC should be 11 digits' : '';
         setIfscCodeError(error);
         return !error;
     };
@@ -88,20 +85,27 @@ const Bank = ({ route }) => {
         return !error;
     };
 
-    const handleProceed = () => {
-        // Validate fields before proceeding
+    const handleProceed = async () => {
         if (!validateAccNameField() || !validateAccNumberField() || !validateAccConfNumberField() || !validateIfscField() || !validateBankNameField() || !validateBranchField()) {
-            console.log('save');
-            // If any validation fails, return without proceeding
+            console.log('Error');
             return;
+
         } else {
             setSuccess(true);
-            console.log('running');
+            const data = { accName, cardInfo: accConfNumber, accNumber, ifsc: ifscCode, Branch, bank_name: bankName }
+            await AsyncStorage.setItem("userBank", JSON.stringify(data))
+            await updateBankInfo({
+                source: "bank",
+                value: accNumber
+            })
+
+            navigation.navigate("profile")
         }
     };
 
     return (
         <ScrollView>
+            <CommonHeader title='Update Bank info' previousPage='' />
             <View style={{ flexDirection: 'column', margin: responsiveWidth(8), gap: responsiveWidth(5), }}>
                 <View style={{ flexDirection: 'column', gap: responsiveWidth(0.5) }}>
                     <View style={{ flexDirection: 'column', gap: responsiveWidth(1.5), flexWrap: 'wrap', width: responsiveWidth(82) }}>
@@ -282,7 +286,7 @@ const Bank = ({ route }) => {
                         <TouchableOpacity
                             onPress={() => { handleProceed(); }}
                             style={{
-                                backgroundColor: '#6a0028',
+                                backgroundColor: '#7a9f86',
                                 padding: responsiveWidth(4.1),
                                 borderRadius: 50,
                                 marginBottom: responsiveWidth(8),
@@ -313,13 +317,7 @@ const Bank = ({ route }) => {
                     <Dialog.Button
                         title="OK"
                         onPress={() => {
-                            setSuccess(false);
-                            setAccName('');
-                            setAccNumber('');
-                            setAccConfNumber('');
-                            setBankName('');
-                            setBranch('');
-                            setIfscCode('');
+                            navigation.navigate("profile")
                         }}
                         titleStyle={{ color: 'green' }}
                     />
