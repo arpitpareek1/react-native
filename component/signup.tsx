@@ -281,7 +281,7 @@ const RegisterScreen = ({ navigation }) => {
         {!verification && <View
           style={{
             flex: 1,
-            flexDirection: 'row',
+            flexDirection: 'column',
           }}>
           <InputField
             label={'OTP'}
