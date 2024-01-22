@@ -38,7 +38,7 @@ const NewsItem: React.FC<NewsItemProps> = ({ imageSource, category, date }) => (
       <Image source={{ uri: imageSource }} style={{ width: 70, height: 70 }} />
     </View>
     <View style={{ padding: 2, width: Dimensions.get('window').width - 115 }}>
-      <Text style={{ fontSize: 18, color: '#000', fontWeight:"500" }}>{category}</Text>
+      <Text style={{ fontSize: 18, color: '#000', fontWeight: "500" }}>{category}</Text>
       <Text style={{ paddingVertical: 2, fontSize: 13, color: '#000' }}>
         {date}
       </Text>

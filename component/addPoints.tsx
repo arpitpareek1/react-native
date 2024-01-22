@@ -11,13 +11,45 @@ import axios from 'axios';
 import { backend_url, handle500Error, updateUserInfo } from './helper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserObjType } from '../interfaces';
+import Loader from './commons/Loader';
 
 const AddFundScreen = ({ route }) => {
     const [points, setPoints] = useState('');
     const [pointsError] = useState('');
     const [user, setUser] = useState<null | UserObjType>(null)
+    const [upi, setUpi] = useState<null | string>(null)
 
     useEffect(() => {
+        axios.get(backend_url + "/api/v1/settings/getAll").then(({ data }) => {
+            console.log(data);
+            if (data && data.length) {
+                const upi = data.filter((setting) => setting.key === "upi_id")
+                if (upi) {
+                    console.log(upi);
+                    
+                    setUpi(upi[0].value)
+                } else {
+                    ToastAndroid.showWithGravity(
+                        "Failed to get UPI settings, Please Try to relaunch the app",
+                        ToastAndroid.SHORT,
+                        ToastAndroid.CENTER,
+                    );
+                }
+            } else {
+                ToastAndroid.showWithGravity(
+                    "Failed to get UPI settings, Please Try to relaunch the app",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER,
+                );
+            }
+        }).catch((err) => {
+            console.log(err);
+            ToastAndroid.showWithGravity(
+                "Failed to get UPI settings, Please Try to relaunch the app",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER,
+            );
+        })
         if (route.params && route.params.pointsToAdd) {
             setPoints(route.params.pointsToAdd)
         }
@@ -25,20 +57,23 @@ const AddFundScreen = ({ route }) => {
             if (result) { setUser(JSON.parse(result)) }
         })
     }, [])
-
+    // 'shreeshyamenterprise.39830835@hdfcbank'
+    // {"ApprovalRefNo": "402139460031", "Status": "SUCCESS", "responseCode": "0", "status": undefined, "txnId": "PTM0b20c5fdec2645db9385889d023d1559"}
     const handleAddPoints = () => {
         if (points && Number(points) !== 0) {
             RNUpiPayment.initializePayment(
                 {
-                    vpa: 'shreeshyamenterprise.930835@hdfc',
-                    payeeName: 'Rio Tinto',
-                    amount: 1,
-                    transactionRef: 'aasf-332-aoei-fn-iiO',
-                    transactionNote: 'Rio Tinto App',
+                    vpa: upi,
+                    payeeName: 'Riotinto',
+                    amount: Number(points),
+                    transactionRef: 'aaasf-332-aoei-fn',
+                    transactionNote: 'Riotinto App',
                 },
-                () => {
+                (r) => {
                     axios.post(backend_url + "/api/v1/transactions/addMoneyToWallet", {
-                        email: user?.email, amount: points
+                        email: user?.email,
+                        amount: points,
+
                     }).then(async ({ data }) => {
                         console.log("data", data);
                         if (data.status) {
@@ -50,7 +85,7 @@ const AddFundScreen = ({ route }) => {
                                 msg,
                                 ToastAndroid.SHORT,
                                 ToastAndroid.CENTER,
-                              );
+                            );
                             updateUserInfo()
                         }
                     }).catch((error) => {
@@ -63,10 +98,10 @@ const AddFundScreen = ({ route }) => {
                         "Looks Like payment has cancel from your side.",
                         ToastAndroid.SHORT,
                         ToastAndroid.CENTER,
-                      );
+                    );
                 },
             );
-        }else {
+        } else {
             Alert.alert("Alert", "Please insert a valid value.")
         }
     }
@@ -175,6 +210,7 @@ const AddFundScreen = ({ route }) => {
                     }
                 </View>
             </ScrollView>
+            <Loader visible={upi === null} />
         </GestureHandlerRootView>
     );
 };

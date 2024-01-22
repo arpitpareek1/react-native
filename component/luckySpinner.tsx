@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
-import LuckyWheel from 'react-native-lucky-wheel';
 import CommonHeader from './commonHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from 'react-native-elements';
@@ -14,17 +13,15 @@ const SIZE = 300;
 const LuckySpinner = () => {
   const [user, setUser] = useState<null | UserObjType>(null);
   const spinRef = useRef<React.ElementRef<typeof GoGoSpin>>(null);
-  const [prizeIdx, setprizeIdx] = useState(-1);
+  const [prizeIdx, setprizeIdx] = useState<number | null>(null);
   const prize = [
-    { name: 'x999', image: require('./assets/king.png') },
-    { name: 'x10', image: require('./assets/prize.png') },
-    { name: 'x20', image: require('./assets/prize.png') },
-    { name: 'x25', image: require('./assets/prize.png') },
-    { name: 'x15', image: require('./assets/prize.png') },
-    { name: 'x20', image: require('./assets/prize.png') },
-    { name: 'x80', image: require('./assets/prize.png') },
-    { name: 'x100', image: require('./assets/prize.png') },
-    { name: 'x200', image: require('./assets/prize.png') },
+    { name: '1000', image: require('./assets/king.png') },
+    { name: '500', image: require('./assets/prize.png') },
+    { name: '20', image: require('./assets/prize.png') },
+    { name: 'Lost', image: require('./assets/prize.png') },
+    { name: '40', image: require('./assets/prize.png') },
+    { name: '100', image: require('./assets/prize.png') },
+    { name: '200', image: require('./assets/prize.png') },
   ];
 
 
@@ -35,9 +32,13 @@ const LuckySpinner = () => {
   }, []);
 
   const onSpinPress = async () => {
+    setprizeIdx(null)
     const lastSpinnerTime = await AsyncStorage.getItem("lastSpinner");
     if (!lastSpinnerTime || (new Date().getTime() - Number(lastSpinnerTime) >= 24 * 60 * 60 * 1000)) {
       const win = doSpin()
+      setTimeout(() => {
+        setprizeIdx(win)
+      }, 5000)
       axios.post(backend_url + "/api/v1/transactions/addMoneyToWallet", {
         email: user?.email, amount: Number(win)
       }).then(async ({ data }) => {
@@ -46,6 +47,8 @@ const LuckySpinner = () => {
           updateUserInfo()
         }
       }).catch((error) => {
+        console.log(error);
+
         handle500Error(error.message)
       })
       await AsyncStorage.setItem("lastSpinner", new Date().getTime().toString());
@@ -55,15 +58,40 @@ const LuckySpinner = () => {
   };
 
   const doSpin = () => {
-    const arr = [1, 2, 3, 4, 5]
-    const winnerId = Math.floor(Math.random() * arr.length)
-    setprizeIdx(arr[winnerId]);
-    spinRef?.current?.doSpinAnimate(arr[winnerId]);
-    return arr[winnerId]
+    // Generate a random number between 1 and 100 to represent the percentage
+    const randomPercentage = Math.random() * 100;
+
+    // 5% chance for 20 points
+    if (randomPercentage < 5) {
+      // setprizeIdx(2); // Index of the 20 points prize
+      spinRef?.current?.doSpinAnimate(2);
+      return 20;
+    }
+    // 5% chance for 40 points
+    else if (randomPercentage < 10) {
+      // setprizeIdx(4); // Index of the 40 points prize
+      spinRef?.current?.doSpinAnimate(4);
+      return 40;
+    }
+    // 1% chance for 100 points
+    else if (randomPercentage < 11) {
+      // setprizeIdx(5); // Index of the 100 points prize
+      spinRef?.current?.doSpinAnimate(5);
+      return 100;
+    }
+    // The remaining 89% get a loss
+    else {
+      // setprizeIdx(3); // Index of the "Lost" prize
+      spinRef?.current?.doSpinAnimate(3);
+      return 0; // Loss
+    }
   };
+
+
+
   const onEndSpin = (endSuccess: boolean) => {
     console.log('endSuccess', endSuccess);
-    Alert.alert("Congratulations", `You Win ${prizeIdx} point`)
+    // Alert.alert("Congratulations", `You Win ${prizeIdx} point`)
   };
 
 
@@ -71,10 +99,17 @@ const LuckySpinner = () => {
     <>
       <CommonHeader title="Lucky Spin" previousPage="" />
       <View style={styles.container}>
+
         <View style={styles.rowContainer}>
-          <Text style={styles.prizeText}>Price:{prizeIdx !== -1 ? prize[prizeIdx]?.name : ''}</Text>
-          <Image source={prize[prizeIdx]?.image} style={styles.itemWrap} />
+          <Text>
+
+            <Text style={styles.prizeText}>{prizeIdx && prizeIdx !== 0 ? ("Price: " + prizeIdx) : ""}</Text>
+            {prizeIdx && prizeIdx !== 0 && (<Image source={require('./assets/prize.png')} style={styles.itemWrap} />)}
+          </Text>
+
         </View>
+
+
         <View style={styles.centerWheel}>
           <GoGoSpin
             onEndSpinCallBack={onEndSpin}
@@ -93,7 +128,7 @@ const LuckySpinner = () => {
             source={require('./assets/wheel.png')}
             renderItem={(data, i) => {
               return (
-                <View key={i} style={styles.itemWrapper}>
+                <View key={i + Math.random()} style={styles.itemWrapper}>
                   <Text style={styles.prizeText}>{data.name}</Text>
                   <Image source={data.image} style={styles.itemWrap} />
                 </View>
@@ -102,8 +137,8 @@ const LuckySpinner = () => {
           />
           <TouchableOpacity style={styles.spinWarp} onPress={onSpinPress}>
             <Image source={require('./assets/btn.png')} style={styles.spinBtn} />
-
           </TouchableOpacity>
+          {/* <Button title={"reset"} onPress={() => AsyncStorage.removeItem("lastSpinner")}></Button> */}
         </View>
       </View>
     </>
