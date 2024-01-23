@@ -31,6 +31,7 @@ const AllNewsList: React.FC = ({ navigation }: any) => {
               category={news.category}
               date={news.description.substr(0, 58) + "..."}
               imageSource={news.imageSource}
+              title={news.title}
             />
           </TouchableOpacity>
         ))}

@@ -26,7 +26,7 @@ import Loader from './commons/Loader';
 import DefaultImage1 from './assets/spin.png';
 
 
-const NewsItem: React.FC<NewsItemProps> = ({ imageSource, category, date }) => (
+const NewsItem: React.FC<NewsItemProps> = ({ imageSource, category, date, title }) => (
   <View
     style={{
       flexDirection: 'row',
@@ -38,7 +38,8 @@ const NewsItem: React.FC<NewsItemProps> = ({ imageSource, category, date }) => (
       <Image source={{ uri: imageSource }} style={{ width: 70, height: 70 }} />
     </View>
     <View style={{ padding: 2, width: Dimensions.get('window').width - 115 }}>
-      <Text style={{ fontSize: 18, color: '#000', fontWeight: "500" }}>{category}</Text>
+      <Text style={{ fontSize: 18, color: '#000', fontWeight: "500" }}>{title}</Text>
+      <Text style={{ fontSize: 16, color: '#000', fontWeight: "500" }}>{category}</Text>
       <Text style={{ paddingVertical: 2, fontSize: 13, color: '#000' }}>
         {date}
       </Text>
@@ -66,6 +67,8 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
     })
 
     axios.get(backend_url + "/api/v1/user/getAllNewsData").then(({ data }) => {
+      console.log(data);
+
       setNewsData(data)
     }).catch((error) => {
       handle500Error(error.message)
@@ -127,6 +130,7 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
                     link={product.link}
                     price={product.price}
                     title={product.title}
+                    desc={product.desc.substr(0, 58) + "..."}
                   />
                 </TouchableOpacity>
               ),
@@ -157,7 +161,7 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
         <View>
 
           {newsData ? newsData.map(
-            (news: { category: string; date: string; imageSource: string; description: string }, index: number) =>
+            (news: { category: string; date: string; imageSource: string; description: string, title: string }, index: number) =>
               index < 3 && (
                 <TouchableOpacity key={index} onPress={() => {
                   navigation.navigate("NewsDetailScreen", news)
@@ -167,6 +171,7 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
                     category={news.category}
                     date={news.description.substr(0, 58) + "..."}
                     imageSource={news.imageSource}
+                    title={news.title}
                   />
                 </TouchableOpacity>
               ),

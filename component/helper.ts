@@ -3,8 +3,8 @@ import axios from "axios";
 import { ToastAndroid } from "react-native";
 
 
-// export const backend_url = "https://ybt689k9fa.execute-api.ap-south-1.amazonaws.com/development"
-export const backend_url = "https://1fdf-49-36-238-182.ngrok-free.app"
+export const backend_url = "https://ybt689k9fa.execute-api.ap-south-1.amazonaws.com/development"
+// export const backend_url = "https://1fdf-49-36-238-182.ngrok-free.app"
 
 export const updateUserInfo = (callback?: Function) => {
   AsyncStorage.getItem("user").then((result) => {
@@ -38,8 +38,16 @@ export const menuItems = [
   {
     link: '/index/wallet/mybank.html',
     imageSrc: '/static/img/bank.svg',
-    title: 'Withdrawal bank account',
-  },
+    title: 'Add Bank Info',
+  }, {
+    title: "Add Paytm Info"
+
+  }, {
+    title: "Add PhonePe Info"
+
+  }, {
+    title: "Add Google pay Info"
+  }
 ];
 
 export const updateBankInfo = async (obj: {

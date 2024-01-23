@@ -18,6 +18,7 @@ const AddFundScreen = ({ route }) => {
     const [pointsError] = useState('');
     const [user, setUser] = useState<null | UserObjType>(null)
     const [upi, setUpi] = useState<null | string>(null)
+    
 
     useEffect(() => {
         axios.get(backend_url + "/api/v1/settings/getAll").then(({ data }) => {
@@ -26,7 +27,7 @@ const AddFundScreen = ({ route }) => {
                 const upi = data.filter((setting) => setting.key === "upi_id")
                 if (upi) {
                     console.log(upi);
-                    
+
                     setUpi(upi[0].value)
                 } else {
                     ToastAndroid.showWithGravity(
@@ -51,7 +52,7 @@ const AddFundScreen = ({ route }) => {
             );
         })
         if (route.params && route.params.pointsToAdd) {
-            setPoints(route.params.pointsToAdd)
+            setPoints(String(route.params.pointsToAdd))
         }
         AsyncStorage.getItem("user").then((result) => {
             if (result) { setUser(JSON.parse(result)) }
@@ -139,6 +140,7 @@ const AddFundScreen = ({ route }) => {
                                 onChangeText={(text) => { setPoints(text); }}
                                 value={points}
                                 maxLength={5}
+                                editable={!(route.params && route.params.pointsToAdd)}
                                 placeholderTextColor="#7a9f86"
                                 style={{ flex: 1, paddingVertical: responsiveWidth(0.1), color: '#7a9f86', fontSize: responsiveFontSize(2), paddingHorizontal: responsiveWidth(4), paddingTop: responsiveWidth(2) }}
                             />

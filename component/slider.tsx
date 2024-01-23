@@ -6,7 +6,7 @@ import DefaultImage2 from './assets/RiotintoBanner2.jpg';
 import DefaultImage3 from './assets/RiotintoBanner3.jpg';
 import DefaultImage4 from './assets/RiotintoBanner4.jpg';
 import DefaultImage5 from './assets/RiotintoBanner5.jpg';
-import DefaultImage6 from './assets/RiotintoBanner6.jpg';
+import DefaultImage6 from './assets/RiotintoBanner6.png';
 import DefaultImage7 from './assets/RiotintoBanner7.jpg';
 import DefaultImage8 from './assets/RiotintoBanner8.jpg';
 
@@ -93,12 +93,13 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: '100%',
     height: '100%',
-    borderRadius: 10,
+    borderRadius: 30,
     overflow: 'hidden',
   },
   image: {
     width: '100%',
     height: '100%',
+    overflow:"visible"
   },
 });
 // position: relative;

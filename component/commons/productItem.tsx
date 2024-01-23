@@ -5,7 +5,8 @@ const ProductItem: React.FC<ProductItemProps> = ({
   imageSource,
   title,
   price,
-  transaction_id
+  transaction_id,
+  desc
 }) => (
   <>
     <View
@@ -37,8 +38,11 @@ const ProductItem: React.FC<ProductItemProps> = ({
         <Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
           {price}
         </Text>
+        {desc && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
+          {desc}
+        </Text>)}
         {transaction_id && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
-        Transaction Id :{transaction_id}
+          Transaction Id :{transaction_id}
         </Text>)}
       </View>
     </View>

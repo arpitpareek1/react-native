@@ -29,13 +29,18 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
   });
 
   function handleListClick(title: string) {
-    // console.log("jhdfsdfg");
     if (title === "My Orders") {
       navigation.navigate("AllActiveTrasctions")
-    } else if (title === "Withdrawal bank account") {
-      navigation.navigate("WithDrawPage")
+    } else if (title === "Add Bank Info") {
+      navigation.navigate("Bank")
     } else if (title === "Redemption bonus") {
       navigation.navigate("CliamReward")
+    } else if (title === "Add Paytm Info") {
+      navigation.navigate("Paytm")
+    } else if (title === "Add PhonePe Info") {
+      navigation.navigate("Phonepe")
+    } else if (title === "Add Google pay Info") {
+      navigation.navigate("Googlepay")
     }
   }
 

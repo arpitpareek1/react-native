@@ -4,14 +4,16 @@ export interface ProductItemProps {
   imageSource: string;
   title: string;
   price: string;
+  desc?:string
   link?: string;
-  transaction_id?:string
+  transaction_id?: string
 }
 
 export interface NewsItemProps {
   imageSource: string;
   category: string;
   date: string;
+  title: string
 }
 export interface GoodItemProps {
   imageSource: string;
@@ -34,8 +36,9 @@ export interface ProductType {
   title: string;
   dailyIncome: number;
   validity: number;
-  purchaseLimit:number
-  desc:string
+  purchaseLimit: number
+  desc: string
+  isHot:boolean
 }
 
 export interface UserObjType {

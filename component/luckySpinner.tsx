@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, Button, ImageBackground } from 'react-native';
 import CommonHeader from './commonHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button } from 'react-native-elements';
-import { log } from 'react-native-reanimated';
 import axios from 'axios';
 import { backend_url, updateUserInfo, handle500Error } from './helper';
 import { UserObjType } from '../interfaces';
@@ -48,7 +46,6 @@ const LuckySpinner = () => {
         }
       }).catch((error) => {
         console.log(error);
-
         handle500Error(error.message)
       })
       await AsyncStorage.setItem("lastSpinner", new Date().getTime().toString());
@@ -91,63 +88,73 @@ const LuckySpinner = () => {
 
   const onEndSpin = (endSuccess: boolean) => {
     console.log('endSuccess', endSuccess);
-    // Alert.alert("Congratulations", `You Win ${prizeIdx} point`)
+    Alert.alert("", `You Win ${prizeIdx ?? 0} points`)
   };
 
 
   return (
     <>
-      <CommonHeader title="Lucky Spin" previousPage="" />
-      <View style={styles.container}>
+      <CommonHeader title="Lucky Spin" previousPage="transparent" />
+      <ImageBackground
+        source={require('./assets/spinning-wheel.png')} // Replace with the path to your background image
+        style={styles.backgroundImage}
+      >
+        <View style={styles.container}>
 
-        <View style={styles.rowContainer}>
-          <Text>
+          <View style={styles.rowContainer}>
+            <Text>
 
-            <Text style={styles.prizeText}>{prizeIdx && prizeIdx !== 0 ? ("Price: " + prizeIdx) : ""}</Text>
-            {prizeIdx && prizeIdx !== 0 && (<Image source={require('./assets/prize.png')} style={styles.itemWrap} />)}
-          </Text>
+              <Text style={styles.prizeText}>{prizeIdx && prizeIdx !== 0 ? ("Price: " + prizeIdx) : prizeIdx === 0 ?? "Better Luck Next TIme"}</Text>
+              {prizeIdx && prizeIdx !== 0 ? (<Image source={require('./assets/prize.png')} style={styles.itemWrap} />) : ""}
+            </Text>
 
+          </View>
+
+
+          <View style={styles.centerWheel}>
+            <GoGoSpin
+              onEndSpinCallBack={onEndSpin}
+              notShowDividLine={false}
+              spinDuration={5000}
+              spinReverse={false}
+              spinTime={10}
+              ref={spinRef}
+              width={SIZE}
+              height={SIZE}
+              radius={SIZE / 2}
+              data={prize}
+              borderStyle={{ borderBlockColor: "#000", borderCurve: 'circular' }}
+              wheelStyle={{ columnGap: 30 }}
+              offsetEnable={false}
+              source={require('./assets/wheel.png')}
+              renderItem={(data, i) => {
+                return (
+                  <View key={i} style={styles.itemWrapper}>
+                    <Text style={styles.prizeText}>{data.name}</Text>
+                    <Image source={data.image} style={styles.itemWrap} />
+                  </View>
+                );
+              }}
+            />
+            <TouchableOpacity style={styles.spinWarp} onPress={onSpinPress}>
+              <Image source={require('./assets/btn.png')} style={styles.spinBtn} />
+            </TouchableOpacity>
+            {/* <Button title={"reset"} onPress={() => AsyncStorage.removeItem("lastSpinner")}></Button> */}
+          </View>
         </View>
-
-
-        <View style={styles.centerWheel}>
-          <GoGoSpin
-            onEndSpinCallBack={onEndSpin}
-            notShowDividLine={false}
-            spinDuration={5000}
-            spinReverse={false}
-            spinTime={10}
-            ref={spinRef}
-            width={SIZE}
-            height={SIZE}
-            radius={SIZE / 2}
-            data={prize}
-            borderStyle={{ borderBlockColor: "#000", borderCurve: 'circular' }}
-            wheelStyle={{ columnGap: 30 }}
-            offsetEnable={false}
-            source={require('./assets/wheel.png')}
-            renderItem={(data, i) => {
-              return (
-                <View key={i + Math.random()} style={styles.itemWrapper}>
-                  <Text style={styles.prizeText}>{data.name}</Text>
-                  <Image source={data.image} style={styles.itemWrap} />
-                </View>
-              );
-            }}
-          />
-          <TouchableOpacity style={styles.spinWarp} onPress={onSpinPress}>
-            <Image source={require('./assets/btn.png')} style={styles.spinBtn} />
-          </TouchableOpacity>
-          {/* <Button title={"reset"} onPress={() => AsyncStorage.removeItem("lastSpinner")}></Button> */}
-        </View>
-      </View>
+      </ImageBackground>
     </>
   );
 };
 const styles = StyleSheet.create({
-  container: {
+  backgroundImage: {
     flex: 1,
-    backgroundColor: '#fefefe',
+    resizeMode: 'repeat',
+    justifyContent: 'center',
+    overflow: "hidden"
+  },
+  container: {
+    // backgroundColor: '#fefefe',
   },
   startText: {
     fontSize: 14,
@@ -164,13 +171,17 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 20,
     fontWeight: 'bold',
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center"
   },
   centerWheel: {
     width: SIZE,
     height: SIZE,
-    alignSelf: 'center',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
   },
   itemWrapper: {
     justifyContent: 'center',

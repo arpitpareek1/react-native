@@ -7,7 +7,7 @@ import CommonHeader from './commonHeader'
 const Support = () => {
   function handlePress(path: string) {
     if (path === 'whatsApp') {
-      Linking.openURL('https://wa.me/918905608099');
+      Linking.openURL('https://wa.me/919358271263');
     } else {
       Linking.openURL(`https://t.me/+VK2c7kU4TvhkODU1`);
     }
