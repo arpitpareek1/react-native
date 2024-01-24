@@ -32,7 +32,7 @@ const AllProductList: React.FC = ({ navigation }: any) => {
         <CommonHeader title='Products' previousPage='' />
         <Card containerStyle={{ padding: 20, margin: 10, borderRadius: 20 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
-            <Text style={{ color: "#000" }}>{isEnabled ? 'Show All' : 'Show only hot Products'}</Text>
+            <Text style={{ color: "#000",  fontWeight: 'bold',}}>{isEnabled ? 'Show All' : 'Show only Hot Products'}</Text>
             <Switch
               trackColor={{ false: '#767577', true: '#767577' }}
               thumbColor={isEnabled ? '#7a9f86' : '#f4f3f4'}

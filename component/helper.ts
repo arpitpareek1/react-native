@@ -29,22 +29,22 @@ export const menuItems = [
     title: 'My Orders',
   },
   {
-    title: 'Redemption bonus',
+    title: 'Redeem Daily Earning',
   },
   {
     title: 'Add Bank Info',
   },
 
   {
-    title: "Add Paytm Info"
+    title: "Support"
 
   },
   {
-    title: "Add PhonePe Info"
+    title: "Privacy Policy"
 
   },
   {
-    title: "Add Google pay Info"
+    title: "About Us"
   }
 ];
 

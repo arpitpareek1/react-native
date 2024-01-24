@@ -33,7 +33,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
       navigation.navigate("AllActiveTrasctions")
     } else if (title === "Add Bank Info") {
       navigation.navigate("Bank")
-    } else if (title === "Redemption bonus") {
+    } else if (title === "Redeem Daily Earning") {
       navigation.navigate("CliamReward")
     } else if (title === "Add Paytm Info") {
       navigation.navigate("Paytm")
@@ -41,6 +41,12 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
       navigation.navigate("Phonepe")
     } else if (title === "Add Google pay Info") {
       navigation.navigate("Googlepay")
+    } else if (title === "About Us") {
+      navigation.navigate("AboutUs")
+    } else if (title === "Support") {
+      navigation.navigate("Support")
+    } else if (title === "Privacy Policy") {
+      navigation.navigate("Policy")
     }
   }
 
@@ -52,6 +58,12 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
         setUser(JSON.parse(result))
       }
     });
+  }
+  const getFirstLastCrecter = (name: string) => {
+    const words = name.split(' ');
+    const initials = words.map(word => word.charAt(0)).join('');
+    const uppercaseInitials = initials.toUpperCase();
+    return uppercaseInitials;
   }
 
   function logout() {
@@ -75,10 +87,9 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
             <View style={styles.listView}>
               <View style={{ ...styles.listItem, flexDirection: "row" }}>
                 <View style={styles.iconBox}>
-                  <Image
-                    source={{ uri: Image.resolveAssetSource(DefaultImage1).uri }}
-                    style={{ width: 50, height: 50 }}
-                  />
+                  <View style={styles.levelt}>
+                    <Text style={{ color: 'white', textAlign: 'center', fontWeight: '500', fontSize: 18 }}>{user && user.name && getFirstLastCrecter(user?.name!)}</Text>
+                  </View>
                 </View>
                 <View style={styles.text}>
                   <View>
@@ -127,7 +138,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                 color: '#000',
                 fontWeight: '700',
                 textAlign: 'center',
-              }}>{user?.money}</Text>
+              }}>{"₹" + user?.money}</Text>
               <Text style={{
                 fontSize: 12,
                 color: '#000',
@@ -182,6 +193,15 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  levelt: {
+    backgroundColor: '#424242',
+    padding: 10,
+    borderRadius: 10,
+    width: 70,
+    height: 70,
+    justifyContent: 'center',
+    borderCurve: "circular"
+  },
   content: {
     backgroundColor: '#7a9f86',
     borderTopColor: '#6b9478',

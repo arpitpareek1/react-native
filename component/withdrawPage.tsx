@@ -161,8 +161,8 @@ const WithDrawPage = ({ navigation }) => {
                 <View style={{ backgroundColor: '#7a9f86', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: responsiveWidth(4.1) }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ fontSize: responsiveFontSize(2.8), color: 'white', fontWeight: '600', marginRight: responsiveWidth(15), alignSelf: 'center', width: responsiveWidth(40) }}>Withdraw Fund</Text>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ fontSize: responsiveFontSize(2), color: 'white' }}>Points {user?.money ?? 0}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' , flex:2 }}>
+                            <Text style={{ fontSize: responsiveFontSize(2), color: 'white' }}>₹ {user?.money ?? 0}</Text>
                         </View>
                     </View>
                 </View>

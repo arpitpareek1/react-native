@@ -75,7 +75,7 @@ const ListItem = ({
         </Text>
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Text style={{ width: 100, color: '#888' }}>Daily income</Text>
+        <Text style={{ width: 100, color: '#888' }}>Daily Income</Text>
         <Text
           style={{
             width: 100,
@@ -87,7 +87,7 @@ const ListItem = ({
         </Text>
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Text style={{ width: 100, color: '#888' }}>Validity period</Text>
+        <Text style={{ width: 100, color: '#888' }}>Validity Period</Text>
         <Text
           style={{
             width: 100,
@@ -99,7 +99,7 @@ const ListItem = ({
         </Text>
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Text style={{ width: 100, color: '#888' }}>Purchase limit</Text>
+        <Text style={{ width: 100, color: '#888' }}>Purchase Limit</Text>
         <Text
           style={{
             width: 100,

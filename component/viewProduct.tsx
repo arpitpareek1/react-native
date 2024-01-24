@@ -95,11 +95,9 @@ const ViewProduct = ({ route, navigation }) => {
                 <Text style={styles.walletTitle}>Choose a wallet</Text>
               </View>
               <View style={styles.tit}>
-                <TouchableOpacity style={{ backgroundColor: "#7a9f86" }}>
                   <Text style={{ ...styles.walletText, backgroundColor: `${paymentMode === "Recharge" ? '#7a9f86' : '#fff'}` }} onPress={() => { setPaymentMode("Recharge") }}>
                     Recharge
                   </Text>
-                </TouchableOpacity>
                 <Text style={{ ...styles.walletText, backgroundColor: `${paymentMode === "Balance" ? '#7a9f86' : '#fff'}` }} onPress={() => { setPaymentMode("Balance") }}>
                   Balance
                 </Text>

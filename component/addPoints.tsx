@@ -18,13 +18,24 @@ const AddFundScreen = ({ route }) => {
     const [pointsError] = useState('');
     const [user, setUser] = useState<null | UserObjType>(null)
     const [upi, setUpi] = useState<null | string>(null)
-    
+    const [limit, setLimit] = useState<null | string>(null)
+
 
     useEffect(() => {
         axios.get(backend_url + "/api/v1/settings/getAll").then(({ data }) => {
             console.log(data);
             if (data && data.length) {
                 const upi = data.filter((setting) => setting.key === "upi_id")
+                const recharge_limit = data.filter((setting) => setting.key === "recharge_limit")
+                if (recharge_limit) {
+                    setLimit(recharge_limit[0].value)
+                } else {
+                    ToastAndroid.showWithGravity(
+                        "Failed to get UPI settings, Please Try to relaunch the app",
+                        ToastAndroid.SHORT,
+                        ToastAndroid.CENTER,
+                    );
+                }
                 if (upi) {
                     console.log(upi);
 
@@ -61,7 +72,7 @@ const AddFundScreen = ({ route }) => {
     // 'shreeshyamenterprise.39830835@hdfcbank'
     // {"ApprovalRefNo": "402139460031", "Status": "SUCCESS", "responseCode": "0", "status": undefined, "txnId": "PTM0b20c5fdec2645db9385889d023d1559"}
     const handleAddPoints = () => {
-        if (points && Number(points) !== 0) {
+        if (points && Number(points) !== 0 && limit && Number(points) >= Number(limit)) {
             RNUpiPayment.initializePayment(
                 {
                     vpa: upi,
@@ -103,6 +114,9 @@ const AddFundScreen = ({ route }) => {
                 },
             );
         } else {
+            if (!(Number(points) >= Number(limit))) {
+                return Alert.alert("Alert", "Minimum Recharge limit is " + limit + ". Please insert higher value")
+            }
             Alert.alert("Alert", "Please insert a valid value.")
         }
     }

@@ -64,7 +64,7 @@ const CliamReward: React.FC = () => {
                         </View>
                         <View>
                             <Text style={{ color: 'black', padding: 20 }}>
-                                Claim your reward for today
+                                Claim your Reward for today
                             </Text>
                         </View>
                         <View style={styles.referCodebar}>
@@ -92,18 +92,18 @@ const CliamReward: React.FC = () => {
                                         fontWeight: '500',
                                         fontSize: 15,
                                     }}>
-                                    How rewards work
+                                    How Rewards Work
                                 </Text>
                             </View>
                             <View style={{ gap: 10, paddingVertical: 20 }}>
                                 <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>
-                                    1. The products you buy all have an daily bouns point
+                                    1. The products you buy all have an daily bonus point.
                                 </Text>
                                 <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>
-                                    2. Ensure you claim every day
+                                    2. Ensure you claim every day.
                                 </Text>
                                 <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>
-                                    3. claim is avalible in every 24 hours.
+                                    3. Claim is available in every 24 hours.
                                 </Text>
                                 <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>
                                     4. You will only get points if you have buy any product.

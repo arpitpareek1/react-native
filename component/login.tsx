@@ -66,7 +66,12 @@ const LoginScreen = ({ navigation }) => {
             }
             if (data.user) {
               AsyncStorage.setItem('user', JSON.stringify(data.user), () => {
-                navigation.navigate('Home');
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: 'Home' }],
+                  })
+                );
               });
             }
           })

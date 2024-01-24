@@ -28,6 +28,7 @@ import Phonepe from './component/phonepe';
 import Paytm from './component/paytm';
 import Upi from './component/upi';
 import OtpInput from './component/otpVerify';
+import Policy from './component/policy';
 
 const Stack = createNativeStackNavigator();
 
@@ -177,7 +178,12 @@ const App = () => {
           />
           <Stack.Screen
             name="OtpInput"
-          component={OtpInput}
+            component={OtpInput}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Policy"
+            component={Policy}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

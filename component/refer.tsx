@@ -27,10 +27,10 @@ const Refferer = () => {
       console.log(user.referralCode)
       setUser(user)
       RNQRGenerator.generate({
-        value: user.referralCode,
+        value: "https://www.riotinto.in/",
         height: 100,
         width: 100,
-        correctionLevel: 'L',
+        correctionLevel: 'H',
         base64: true,
       }).then(response => {
         const { base64 } = response;
@@ -44,7 +44,7 @@ const Refferer = () => {
     Clipboard.setString(
       user?.referralCode ?? "",
     );
-    Alert.alert('Alert', 'Reffer Code has been copied');
+    Alert.alert('Alert', 'Refer Code has been copied');
   };
 
   return (
@@ -151,18 +151,18 @@ const Refferer = () => {
                   fontWeight: '500',
                   fontSize: 15,
                 }}>
-                How referrals work
+                How Referrals Work
               </Text>
             </View>
             <View style={{ gap: 10, paddingVertical: 20 }}>
               <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>
-                1. Share you referral code
+                1. Share you referral code.
               </Text>
               <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>
-                2. Ensure they apply referral code at Sign Up page
+                2. Ensure they apply referral code at Sign Up page.
               </Text>
               <Text style={{ color: '#000', fontWeight: '400', fontSize: 14 }}>
-                3. How referrals work
+                3. After successfully sign up both will get 100 Points.
               </Text>
             </View>
           </View>
