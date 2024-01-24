@@ -123,6 +123,13 @@ const WithDrawPage = ({ navigation }) => {
                     Alert.prompt("Added", "Request send")
                     updateUserInfo()
                     navigation.navigate("Home")
+                } else {
+                    if (data.message)
+                        return ToastAndroid.showWithGravity(
+                            data.message,
+                            ToastAndroid.SHORT,
+                            ToastAndroid.CENTER,
+                        );
                 }
             }).catch((error) => {
                 console.log(error);

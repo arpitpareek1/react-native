@@ -23,7 +23,7 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 import { backend_url } from './helper';
 import CommonHeader from './commonHeader';
 
@@ -41,6 +41,7 @@ const RegisterScreen = ({ navigation }) => {
   const [refral_code, setReferCode] = useState('');
   const [btnLoading, setBtnLoading] = useState(false)
   const [showButton, setShowButton] = useState(false);
+  const [myOTP, SetOTP] = useState("");
 
   const validateEmail = email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -125,7 +126,8 @@ const RegisterScreen = ({ navigation }) => {
         phoneNumber
       }).then(({ data }) => {
         console.log("data", data);
-        if (data && data.status) {
+        if (data && data.status && data.otp) {
+          SetOTP(data.otp)
           setShowOtp(true)
         } else {
           ToastAndroid.showWithGravity(
@@ -155,33 +157,14 @@ const RegisterScreen = ({ navigation }) => {
     } else if (!otpValue && otpValue.length !== 6) {
       setIsError('Please enter valid OTP.');
     } else {
-      setBtnLoading(true)
-      axios.post(backend_url + "/api/v1/auth/verifyOtp", {
-        phoneNumber,
-        code: otpValue
-      }).then(({ data }) => {
-        console.log(data);
-        if (data && data.verification && data.verification.valid) {
-          setVerification(true)
-          ToastAndroid.showWithGravity(
-            "OTP is verified, Please continue sign up",
-            ToastAndroid.SHORT,
-            ToastAndroid.CENTER,
-          );
-        } else {
-          ToastAndroid.showWithGravity(
-            "Failed to send OTP.",
-            ToastAndroid.SHORT,
-            ToastAndroid.CENTER,
-          );
-        }
-      }).catch(() => {
+      if (myOTP && myOTP === otpValue) {
+        setVerification(true)
         ToastAndroid.showWithGravity(
-          "Failed to send OTP.",
+          "OTP is verified, Please continue sign up",
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );
-      }).finally(() => setBtnLoading(false))
+      }
     }
   }
 

@@ -3,7 +3,7 @@ import axios from "axios";
 import { backend_url, handle500Error } from "./helper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import { Alert, ToastAndroid, View, Button } from "react-native";
+import { Alert, ToastAndroid, View, Button, ScrollView } from "react-native";
 import Loader from "./commons/Loader";
 import { Text } from "react-native-elements";
 import CommonHeader from "./commonHeader";
@@ -94,62 +94,54 @@ const AllActiveTrasctions = () => {
         <>
             <CommonHeader title="My Transactions" previousPage="" />
             <View>
-                {transcutionInfo && transcutionInfo.length > 0 ? (
-                    transcutionInfo.map((data, index) => (
-                        <View key={index}>
-                            <ProductItem
-                                imageSource={getImageUrlFromName(data.product_name) ?? ""}
-                                link={""}
-                                price={(data.amount).toString()}
-                                title={data.product_name}
-                                transaction_id={data.transaction_id}
-                            />
-                        </View>
-                    ))
-                ) : (
-                    !loading && (
+                <ScrollView>
+
+                    {transcutionInfo && transcutionInfo.length > 0 ? (
+                        transcutionInfo.map((data, index) => (
+                            <View key={index}>
+                                <ProductItem
+                                    imageSource={getImageUrlFromName(data.product_name) ?? ""}
+                                    link={""}
+                                    price={(data.amount).toString()}
+                                    title={data.product_name}
+                                    transaction_id={data.transaction_id}
+                                />
+                            </View>
+                        ))
+                    ) : (
+                        !loading && (
+                            <View style={{
+                                flex: 1,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}>
+                                <Text>Looks like you have no transactions</Text>
+                            </View>
+                        )
+                    )}
+
+                    {transcutionInfo && transcutionInfo.length && (
                         <View style={{
-                            flex: 1,
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}>
-                            <Text>Looks like you have no transactions</Text>
                             <View style={{
                                 padding: 10,
                                 width: 200,
                                 alignItems: 'center',
                                 justifyContent: 'center',
+                                marginBottom:50
                             }}>
                                 <Button
-                                    title="Claim your daily bonus 🎁🎁"
+                                    title="Redeem Your Daily Earning"
                                     color="#7a9f86"
                                     onPress={handleReedemButton}
                                 />
                             </View>
                         </View>
-                    )
-                )}
-
-                { transcutionInfo && transcutionInfo.length && (
-                    <View style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
-                        <View style={{
-                            padding: 10,
-                            width: 200,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}>
-                            <Button
-                                title="🎁 Claim your daily bonus 🎁"
-                                color="#7a9f86"
-                                onPress={handleReedemButton}
-                            />
-                        </View>
-                    </View>
-                )}
-                <View style={{ paddingTop: 10 }}></View>
+                    )}
+                    <View style={{ paddingBottom: 10 }}></View>
+                </ScrollView>
             </View>
             <Loader visible={loading} />
         </>

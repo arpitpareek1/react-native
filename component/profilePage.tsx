@@ -55,13 +55,15 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
   }
 
   function logout() {
-    AsyncStorage.removeItem("user")
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: "LoginScreen" },],
-      })
-    );
+    AsyncStorage.removeItem("user").then(() => {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "LoginScreen" },],
+        })
+      );
+    })
+
   }
   return (
     <View style={{ height: Dimensions.get('window').height }}>

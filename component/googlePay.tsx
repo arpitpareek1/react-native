@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ToastAndroid } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
@@ -30,6 +30,11 @@ const Googlepay = ({ navigation }) => {
         if (!validatePhoneNumberField()) {
             console.log('save');
             // If any validation fails, return without proceeding
+            ToastAndroid.showWithGravity(
+                validatePhoneNumber(),
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER,
+              );
             return;
         } else {
             await updateBankInfo({

@@ -10,7 +10,7 @@ import Loader from "./commons/Loader";
 import axios from "axios";
 import { backend_url, handle500Error, updateUserInfo } from "./helper";
 
-const BuyProductPage = ({ route }) => {
+const BuyProductPage = ({ route, navigation }) => {
     const { imageSource, title, price, dailyIncome, validityPeriod } = route.params;
     const [points, setPoints] = useState('');
     const [user, setUser] = useState<null | UserObjType>(null)
@@ -33,8 +33,6 @@ const BuyProductPage = ({ route }) => {
     }
 
     const handleOrderClick = () => {
-        console.log("jsadhfkja,shd;fj,h");
-        
         setLoading(true)
         if (user?.email && price) {
             axios.post(backend_url + "/api/v1/transactions/sendTransactionReq",
@@ -50,6 +48,7 @@ const BuyProductPage = ({ route }) => {
                 if (data && data.status) {
                     Alert.alert("Success", "Your order is placed!!")
                     updateUserInfo()
+                    navigation.navigate("Home");
                 } else {
                     Alert.alert("Failed", data.message)
                 }

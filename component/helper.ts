@@ -26,26 +26,24 @@ export const updateUserInfo = (callback?: Function) => {
 
 export const menuItems = [
   {
-    link: '/index/product/myproduct.html',
-    imageSrc: '/static/img/good.svg',
     title: 'My Orders',
   },
   {
-    link: '/index/account/gift.html',
-    imageSrc: '/static/img/gift.svg',
     title: 'Redemption bonus',
   },
   {
-    link: '/index/wallet/mybank.html',
-    imageSrc: '/static/img/bank.svg',
     title: 'Add Bank Info',
-  }, {
+  },
+
+  {
     title: "Add Paytm Info"
 
-  }, {
+  },
+  {
     title: "Add PhonePe Info"
 
-  }, {
+  },
+  {
     title: "Add Google pay Info"
   }
 ];
@@ -58,6 +56,11 @@ export const updateBankInfo = async (obj: {
   let existingWithdrawInfo = existingData ? JSON.parse(existingData) : [];
   existingWithdrawInfo.push(obj);
   await AsyncStorage.setItem('withdrawInfo', JSON.stringify(existingWithdrawInfo));
+  ToastAndroid.showWithGravity(
+    "Info Saved.",
+    ToastAndroid.SHORT,
+    ToastAndroid.CENTER,
+  );
 }
 
 export const handle500Error = (error: string) => {

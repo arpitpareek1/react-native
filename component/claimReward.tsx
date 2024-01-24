@@ -70,7 +70,7 @@ const CliamReward: React.FC = () => {
                         <View style={styles.referCodebar}>
                             <View style={styles.openQR}>
                                 <Button
-                                    title="Claim 🎁🎁"
+                                    title="Redeem Your Daily Earning"
                                     color={'#7a9f86'}
                                     onPress={() => {
                                         handleReedemButton()

@@ -182,6 +182,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
+    paddingBottom:25,
+    paddingLeft:5
   },
   itemWrapper: {
     justifyContent: 'center',
