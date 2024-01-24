@@ -123,6 +123,7 @@ const TeamPage: React.FC = ({ navigation }: any) => {
             </View>
           </View>
         </View>
+        <View style={{marginBottom:50}}></View>
       </ScrollView>
       <BottomNavigation navigation={navigation.navigate} />
     </>

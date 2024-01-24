@@ -109,7 +109,7 @@ const AllActiveTrasctions = () => {
                             </View>
                         ))
                     ) : (
-                        !loading && (
+                        !loading ? (
                             <View style={{
                                 flex: 1,
                                 alignItems: 'center',
@@ -117,10 +117,10 @@ const AllActiveTrasctions = () => {
                             }}>
                                 <Text>Looks like you have no transactions</Text>
                             </View>
-                        )
+                        ) : <Text></Text>
                     )}
 
-                    {transcutionInfo && transcutionInfo.length && (
+                    {transcutionInfo && transcutionInfo.length ? (
                         <View style={{
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -130,7 +130,7 @@ const AllActiveTrasctions = () => {
                                 width: 200,
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                marginBottom:50
+                                marginBottom: 50
                             }}>
                                 <Button
                                     title="Redeem Your Daily Earning"
@@ -139,7 +139,7 @@ const AllActiveTrasctions = () => {
                                 />
                             </View>
                         </View>
-                    )}
+                    ) : <Text></Text>}
                     <View style={{ paddingBottom: 10 }}></View>
                 </ScrollView>
             </View>

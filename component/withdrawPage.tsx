@@ -137,7 +137,16 @@ const WithDrawPage = ({ navigation }) => {
             }).finally(() => {
                 setLoading(false)
             })
+
         } else {
+
+            if ((!userinfo.upi_id && !userinfo.cardInfo)) {
+                return ToastAndroid.showWithGravity(
+                    "Please Select a Payment Method",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER,
+                );
+            }
             ToastAndroid.showWithGravity(
                 "Please fill valid values.",
                 ToastAndroid.SHORT,
