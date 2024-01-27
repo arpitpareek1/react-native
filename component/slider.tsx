@@ -25,14 +25,6 @@ const ImageSlider = () => {
         <View style={styles.slide}>
           <Image
             source={{
-              uri: Image.resolveAssetSource(DefaultImage2).uri,
-            }}
-            style={styles.image}
-          />
-        </View>
-        <View style={styles.slide}>
-          <Image
-            source={{
               uri: Image.resolveAssetSource(DefaultImage3).uri,
             }}
             style={styles.image}
@@ -50,14 +42,6 @@ const ImageSlider = () => {
           <Image
             source={{
               uri: Image.resolveAssetSource(DefaultImage5).uri,
-            }}
-            style={styles.image}
-          />
-        </View>
-        <View style={styles.slide}>
-          <Image
-            source={{
-              uri: Image.resolveAssetSource(DefaultImage6).uri,
             }}
             style={styles.image}
           />

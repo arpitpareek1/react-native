@@ -92,60 +92,45 @@ const AllActiveTrasctions = () => {
 
     return (
         <>
-            <CommonHeader title="My Transactions" previousPage="" />
-            <View>
-                <ScrollView>
-
-                    {transcutionInfo && transcutionInfo.length > 0 ? (
-                        transcutionInfo.map((data, index) => (
-                            <View key={index}>
-                                <ProductItem
-                                    imageSource={getImageUrlFromName(data.product_name) ?? ""}
-                                    link={""}
-                                    price={(data.amount).toString()}
-                                    title={data.product_name}
-                                    transaction_id={data.transaction_id}
-                                />
-                            </View>
-                        ))
-                    ) : (
-                        !loading ? (
-                            <View style={{
-                                flex: 1,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}>
-                                <Text>Looks like you have no transactions</Text>
-                            </View>
-                        ) : <Text></Text>
-                    )}
-
-                    {transcutionInfo && transcutionInfo.length ? (
+        <CommonHeader title="My Transactions" previousPage="" />
+        <View style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1 }}>
+                {transcutionInfo && transcutionInfo.length > 0 ? (
+                    transcutionInfo.map((data, index) => (
+                        <View key={index}>
+                            <ProductItem
+                                imageSource={getImageUrlFromName(data.product_name) ?? ""}
+                                link={""}
+                                price={(data.amount).toString()}
+                                title={data.product_name}
+                                transaction_id={data.transaction_id}
+                            />
+                        </View>
+                    ))
+                ) : (
+                    !loading ? (
                         <View style={{
+                            flex: 1,
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}>
-                            <View style={{
-                                padding: 10,
-                                width: 200,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                marginBottom: 50
-                            }}>
-                                <Button
-                                    title="Redeem Your Daily Earning"
-                                    color="#7a9f86"
-                                    onPress={handleReedemButton}
-                                />
-                            </View>
+                            <Text>Looks like you have no transactions</Text>
                         </View>
-                    ) : <Text></Text>}
-                    <View style={{ paddingBottom: 10 }}></View>
-                </ScrollView>
+                    ) : <Text></Text>
+                )}
+            </ScrollView>
+            <View style={{ padding: 10, alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
+                {transcutionInfo && transcutionInfo.length ? (
+                    <Button
+                        title="Redeem Your Daily Earning"
+                        color="#7a9f86"
+                        onPress={handleReedemButton}
+                    />
+                ) : <Text></Text>}
             </View>
-            <Loader visible={loading} />
-        </>
-
+        </View>
+        <Loader visible={loading} />
+    </>
 
     )
 

@@ -37,7 +37,7 @@ const Bank = ({ navigation }) => {
         if (bankName.length > 3) {
             setBankNameError('');
         }
-        if (Branch.length > 3) {
+        if (Branch.length === 10) {
             setBranchError('');
         }
     }, [accName, accConfNumber, accNumber, ifscCode, Branch, bankName]);
@@ -254,7 +254,7 @@ const Bank = ({ navigation }) => {
                         <Text style={{ color: 'red', fontSize: responsiveFontSize(1.7), fontFamily: 'Roboto-Regular', marginLeft: responsiveWidth(3), flexWrap: 'wrap', width: responsiveWidth(45), }}>{bankNameError}</Text>
                     </View>
                     <View style={{ flexDirection: 'column', gap: responsiveWidth(1.5), flexWrap: 'wrap', width: responsiveWidth(82) }}>
-                        <Text style={{ fontFamily: 'Roboto-Bold', fontSize: responsiveFontSize(2.2), color: "#333", marginLeft: responsiveWidth(1.5) }}>Branch Address</Text>
+                        <Text style={{ fontFamily: 'Roboto-Bold', fontSize: responsiveFontSize(2.2), color: "#333", marginLeft: responsiveWidth(1.5) }}>Phone number</Text>
                         <View
                             style={{
                                 flexDirection: 'row',
@@ -270,11 +270,11 @@ const Bank = ({ navigation }) => {
                                 // border: 10,
                             }}>
                             <TextInput
-                                placeholder={'Enter Branch Address'}
-                                // keyboardType={'phone-pad'}
+                                placeholder={'Enter Phone number'}
+                                keyboardType={'phone-pad'}
                                 onChangeText={(text) => { setBranch(text); }}
                                 value={Branch}
-                                maxLength={25}
+                                maxLength={10}
                                 placeholderTextColor="#666"
                                 style={{ flex: 1, paddingVertical: responsiveWidth(0.5), color: '#666', fontSize: responsiveFontSize(2), paddingHorizontal: responsiveWidth(4.1), paddingTop: responsiveWidth(2.2), fontFamily: 'Roboto-Bold' }}
                             // editable={false}
@@ -303,8 +303,27 @@ const Bank = ({ navigation }) => {
                                 Submit Request
                             </Text>
                         </TouchableOpacity>
+                        
                     </View>
                 </View>
+                <Text style={{
+                            color: 'black',
+                            textAlign:"left"
+                        }}>
+                            * CardHolder Name (5-30 characters).
+                        </Text>
+                        <Text style={{
+                            color: 'black',
+                            textAlign:"left"
+                        }}>
+                            * IFSC is characters and the fifth digit is the number 0.
+                        </Text>
+                        <Text style={{
+                            color: 'black',
+                            textAlign:"left"
+                        }}>
+                            * Mobile number should be 10 digits.
+                        </Text>
             </View>
             <Dialog
                 isVisible={success}
@@ -323,7 +342,7 @@ const Bank = ({ navigation }) => {
                     />
                 </Dialog.Actions>
             </Dialog>
-        </ScrollView>
+        </ScrollView >
 
     )
 }

@@ -3,8 +3,8 @@ import axios from "axios";
 import { ToastAndroid } from "react-native";
 
 
-export const backend_url = "https://ybt689k9fa.execute-api.ap-south-1.amazonaws.com/development"
-// export const backend_url = "https://1fdf-49-36-238-182.ngrok-free.app"
+// export const backend_url = "https://ybt689k9fa.execute-api.ap-south-1.amazonaws.com/development"
+export const backend_url = "https://c62e-106-221-164-77.ngrok-free.app"
 
 export const updateUserInfo = (callback?: Function) => {
   AsyncStorage.getItem("user").then((result) => {
@@ -65,7 +65,7 @@ export const updateBankInfo = async (obj: {
 
 export const handle500Error = (error: string) => {
 
-  if (error.includes("500")) {
+  if (error.includes("500") || error.includes("network")) {
     ToastAndroid.showWithGravity(
       "Network Error:Looks Like you are on slow internet. Please try again.",
       ToastAndroid.SHORT,

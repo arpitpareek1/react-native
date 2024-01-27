@@ -5,15 +5,20 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 interface CommonHeaderProps {
     title: string;
     previousPage: string;
+    spinChances?: number
 }
 
-const CommonHeader: React.FC<CommonHeaderProps> = ({ title, previousPage }) => {
+const CommonHeader: React.FC<CommonHeaderProps> = ({ title, previousPage, spinChances }) => {
     return (
         <View style={styles.header}>
             <TouchableOpacity onPress={() => { }}>
             </TouchableOpacity>
             <Text style={styles.title}>{title}</Text>
             <View style={styles.walletContainer}>
+                {
+                    spinChances ?
+                    (<Text> Your Spin Extra Chances{" "} {spinChances}</Text>): null
+                }
             </View>
         </View>
     );

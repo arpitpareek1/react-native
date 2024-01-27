@@ -77,7 +77,7 @@ const ViewProduct = ({ route, navigation }) => {
                   </View>
                   <View style={styles.detailsText}>
                     <Text style={styles.strong}>Daily income </Text>
-                    <Text style={styles.detailsItem}> {dailyIncome}</Text>
+                    <Text style={styles.detailsItem}> {dailyIncome} Rs</Text>
                   </View>
                   <View style={styles.detailsText}>
                     <Text style={styles.strong}>Validity period </Text>
@@ -85,7 +85,7 @@ const ViewProduct = ({ route, navigation }) => {
                   </View>
                   <View style={styles.detailsText}>
                     <Text style={styles.strong}>Total revenue </Text>
-                    <Text style={styles.detailsItem}> {dailyIncome * validityPeriod} Points</Text>
+                    <Text style={styles.detailsItem}> {dailyIncome * validityPeriod} Rs</Text>
                   </View>
                 </View>
               </View>
@@ -117,7 +117,7 @@ const ViewProduct = ({ route, navigation }) => {
       <View style={styles.container}>
         <View style={styles.leftContent}>
           <View style={styles.titleColor} id="yueye">
-            <Text style={styles.strikethrough}>₹ {paymentMode === "Balance" ? price - 100 : price}</Text>
+            <Text style={styles.strikethrough}>₹ {price}</Text>
           </View>
         </View>
 

@@ -8,51 +8,79 @@ import {
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const Policy = () => {
-
+    const sendEmail = () => {
+        Linking.openURL('mailto:support@riotinto.in');
+    };
     return (
         <>
-            <CommonHeader title='About Us' previousPage='' />
+            <CommonHeader title='Privacy Policy' previousPage='' />
             <ScrollView>
                 <View style={styles.container}>
-                    {/* <Image source={{ uri: Image.resolveAssetSource(AboutUsImg).uri }} style={{ width: 130, height: 130 }} /> */}
-                    {/* <AboutUsImg /> */}
-                    <Text style={styles.heading}>About Riotinto</Text>
+                    <Text style={styles.heading}>Privacy Policy</Text>
 
                     <Text style={styles.paragraph}>
-                        Rio Tinto is a dual-listed company traded on both the London Stock Exchange, where it is a component of the FTSE 100 Index, and the Australian Securities Exchange, where it is a component of the S&P/ASX 200 index.American depositary shares of Rio Tinto's British branch are also traded on the New York Stock Exchange,giving it listings on three major stock exchanges. In the 2020 Forbes Global 2000, it was ranked the world's 114th-largest public company.
+                        Riotinto is a leading international mining group headquartered in the UK, combining Riotinto plc, a London and New York Stock Exchange listed company, and Riotinto Limited, which is listed on the Australian Securities Exchange. The two companies are joined in a dual listed companies structure as a single economic entity, called the Rio Tinto Group.
                     </Text>
 
-                    {/* <Text style={styles.subheading}>Our Mission</Text> */}
                     <Text style={styles.paragraph}>
-                        It was founded in 1873 by British capitalists to take over the exploitation of a series of sites in the Riotinto-Nerva mining basin that they had acquired from the Spanish State that same year.
+                        This Privacy Policy applies to the processing of personal data by all Riotinto staff and all the companies in the Riotinto Group (which may be described as "Riotinto", "Group businesses", "we" or "us" in this Privacy Policy also).
+                    </Text>
+
+                    <Text style={styles.subheading}>Structure</Text>
+
+                    <Text style={styles.paragraph}>
+                        This Privacy Policy is in two parts. It contains:
+                    </Text>
+
+                    <Text style={styles.paragraph}>
+                        Part 1: Riotinto's Data Privacy Standard which includes 12 Data Privacy Principles that apply whenever and wherever Rio Tinto collects and processes personal data (including but not limited to any personal data processing that occurs through this website). The Data Privacy Standard is Riotinto's organization-wide privacy policy.
+                    </Text>
+
+                    <Text style={styles.paragraph}>
+                        Part 2: Online privacy statement and cookies privacy statement, which sets out additional information about your privacy if you use this website.
+                    </Text>
+
+                    <Text style={styles.paragraph}>
+                        A Glossary has been included at the end of the Standard which defines key terms (in bold).
+                    </Text>
+
+                    <Text style={styles.subheading}>Questions and Contact Information</Text>
+
+                    <Text style={styles.paragraph}>
+                        If you have any questions or complaints about your privacy or wish to exercise your rights as a data subject, please refer to Data Privacy Principle 8 in the Data Privacy Standard (below) and:
+                    </Text>
+
+                    <Text style={styles.paragraph}>
+                        - If you are a Rio Tinto staff member, contact the Data Privacy Lead for your region or
+                    </Text>
+
+                    <Text style={styles.paragraph}>
+                        - Otherwise, contact your local Riotinto office or
+                    </Text>
+
+                    <Text style={styles.paragraph}>
+                        - Email us at {" "}
+                        <Text style={{ color: 'blue', textDecorationLine: 'underline' }} onPress={sendEmail}>
+                            support@riotinto.in
+                        </Text>
+                         Your correspondence will be forwarded to the Riotinto Data Privacy Lead for the relevant region to consider.
+                    </Text>
+
+                    <Text style={styles.paragraph}>
+                        This Privacy Policy may be updated from time to time. This Privacy Policy was last updated in June 2021.
                     </Text>
                 </View>
-                <View style={{ ...styles.paragraph, backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    {/* <FontAwesome name="instagram" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} /> */}
-                    <FontAwesome name="whatsapp" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} onPress={() => Linking.openURL('https://wa.me/918905608099')} />
-                    <FontAwesome name="telegram" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} onPress={() => Linking.openURL(`https://t.me/+VK2c7kU4TvhkODU1`)} />
-                </View>
-
-
             </ScrollView>
         </>
-
     )
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: responsiveWidth(5),
         alignItems: 'center',
         backgroundColor: '#fff',
-    },
-    thankYou: {
-
-    },
-    logo: {
-        width: responsiveWidth(20),
-        height: responsiveWidth(20),
-        marginBottom: responsiveWidth(5),
     },
     heading: {
         fontSize: 24,

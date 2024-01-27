@@ -34,29 +34,42 @@ const BuyProductPage = ({ route, navigation }) => {
 
     const handleOrderClick = () => {
         setLoading(true)
-        if (user?.email && price) {
-            axios.post(backend_url + "/api/v1/transactions/sendTransactionReq",
-                {
-                    email: user.email,
-                    amount: price,
-                    transaction_id: generateRandomString(),
-                    product_name: title
-                }
-            ).then(({ data }) => {
-                console.log(data);
-
-                if (data && data.status) {
-                    Alert.alert("Success", "Your order is placed!!")
-                    updateUserInfo()
-                    navigation.navigate("Home");
+        if (user?.email && price && title) {
+            axios.post(backend_url + "/api/v1/transactions/canUserBuyProduct", {
+                email: user.email,
+                title
+            }).then(({ data }) => {
+                if (data && data.success) {
+                    axios.post(backend_url + "/api/v1/transactions/sendTransactionReq",
+                        {
+                            email: user.email,
+                            amount: price,
+                            transaction_id: generateRandomString(),
+                            product_name: title
+                        }
+                    ).then(({ data }) => {
+                        console.log(data);
+                        if (data && data.status) {
+                            Alert.alert("Success", "Your order is placed!!")
+                            updateUserInfo()
+                            navigation.navigate("Home");
+                        } else {
+                            setLoading(false)
+                            Alert.alert("Failed", data.message)
+                        }
+                    }).catch((e) => {
+                        console.log("err", e);
+                        handle500Error(e.message)
+                    }).finally(() => {
+                        setLoading(false)
+                    })
                 } else {
-                    Alert.alert("Failed", data.message)
+                    setLoading(false)
+                    Alert.alert("Error", data.message)
+                    navigation.navigate("Home");
                 }
-            }).catch((e) => {
-                console.log("err", e);
-                handle500Error(e.message)
-            }).finally(() => {
-                setLoading(false)
+            }).catch((err) => {
+                handle500Error(err.message)
             })
         }
     }
@@ -119,41 +132,6 @@ const BuyProductPage = ({ route, navigation }) => {
                             Order
                         </Text>
                     </TouchableOpacity>
-                    {/* <Text style={{
-                        fontSize: responsiveFontSize(1.6),
-                        color: '#7a9f86',
-                        marginBottom: responsiveWidth(3),
-                        fontWeight: "600"
-                    }}>Select Points Amount</Text> */}
-                    {/* <View style={{
-                        flexDirection: 'row',
-                        gap: responsiveWidth(3),
-                        flexWrap: 'wrap',
-                        maxWidth: responsiveWidth(Dimensions.get('window').width)
-                    }}> */}
-                    {/* {["500", "1000", "1500", "2000", "2500"].map((price, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                onPress={() => { setPoints(price) }}
-                                style={{
-                                    backgroundColor: '#7a9f86',
-                                    padding: responsiveWidth(4.1),
-                                    borderRadius: 30,
-                                    paddingBottom: responsiveWidth(5),
-                                    width: responsiveWidth(28),
-                                }}>
-                                <Text
-                                    style={{
-                                        textAlign: 'center',
-                                        fontWeight: '700',
-                                        fontSize: responsiveFontSize(2.2),
-                                        color: '#fff',
-                                    }}>
-                                    {price}
-                                </Text>
-                            </TouchableOpacity>
-                        ))} */}
-                    {/* </View> */}
                 </View>
             </ScrollView>
             <Loader visible={loading} />

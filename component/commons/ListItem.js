@@ -71,7 +71,7 @@ const ListItem = ({
             fontWeight: '500',
             textAlign: 'right',
           }}>
-          {price}
+          {price} Rs
         </Text>
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -83,7 +83,7 @@ const ListItem = ({
             fontWeight: '500',
             textAlign: 'right',
           }}>
-          {dailyIncome}
+          {dailyIncome} Rs
         </Text>
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -95,7 +95,7 @@ const ListItem = ({
             fontWeight: '500',
             textAlign: 'right',
           }}>
-          {validityPeriod}
+          {validityPeriod} Days
         </Text>
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -108,6 +108,18 @@ const ListItem = ({
             textAlign: 'right',
           }}>
           {purchaseLimit}
+        </Text>
+      </View>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Text style={{ width: 100, color: '#888' }}>Total Income</Text>
+        <Text
+          style={{
+            width: 100,
+            color: '#000',
+            fontWeight: '500',
+            textAlign: 'right',
+          }}>
+          {dailyIncome * validityPeriod} Rs 
         </Text>
       </View>
     </View>

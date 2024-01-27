@@ -1,17 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, Button, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, Button, ImageBackground, ScrollView, ToastAndroid } from 'react-native';
 import CommonHeader from './commonHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { backend_url, updateUserInfo, handle500Error } from './helper';
 import { UserObjType } from '../interfaces';
 import GoGoSpin from 'react-native-gogo-spin';
+import RNUpiPayment from 'react-native-upi-payment';
+
 const SIZE = 300;
 
 const LuckySpinner = () => {
+  const [upi, setUpi] = useState<null | string>(null)
   const [user, setUser] = useState<null | UserObjType>(null);
   const spinRef = useRef<React.ElementRef<typeof GoGoSpin>>(null);
   const [prizeIdx, setprizeIdx] = useState<number | null>(null);
+  const [spinChances, setChances] = useState<number>(0);
   const prize = [
     { name: '1000', image: require('./assets/king.png') },
     { name: '500', image: require('./assets/prize.png') },
@@ -27,16 +31,47 @@ const LuckySpinner = () => {
     AsyncStorage.getItem("user").then((result) => {
       if (result) { setUser(JSON.parse(result)); }
     });
+    AsyncStorage.getItem("spinChances").then((result) => {
+      if (result) { setChances(+(result)); }
+    });
+    axios.get(backend_url + "/api/v1/settings/getAll").then(({ data }) => {
+      console.log(data);
+      if (data && data.length) {
+        const upi = data.filter((setting) => setting.key === "upi_id")
+        if (upi) {
+          console.log(upi);
+
+          setUpi(upi[0].value)
+        } else {
+          ToastAndroid.showWithGravity(
+            "Failed to get UPI settings, Please Try to relaunch the app",
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+        }
+      } else {
+        ToastAndroid.showWithGravity(
+          "Failed to get UPI settings, Please Try to relaunch the app",
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      }
+    }).catch((err) => {
+      console.log(err);
+      ToastAndroid.showWithGravity(
+        "Failed to get UPI settings, Please Try to relaunch the app",
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+    })
   }, []);
 
-  const onSpinPress = async () => {
-    setprizeIdx(null)
-    const lastSpinnerTime = await AsyncStorage.getItem("lastSpinner");
-    if (!lastSpinnerTime || (new Date().getTime() - Number(lastSpinnerTime) >= 24 * 60 * 60 * 1000)) {
-      const win = doSpin()
-      setTimeout(() => {
-        setprizeIdx(win)
-      }, 5000)
+  const runSpinner = () => {
+    const win = doSpin()
+    setTimeout(() => {
+      setprizeIdx(win)
+    }, 5000)
+    if (win) {
       axios.post(backend_url + "/api/v1/transactions/addMoneyToWallet", {
         email: user?.email, amount: Number(win)
       }).then(async ({ data }) => {
@@ -48,8 +83,21 @@ const LuckySpinner = () => {
         console.log(error);
         handle500Error(error.message)
       })
+    }
+  }
+  const onSpinPress = async () => {
+    setprizeIdx(null)
+    const lastSpinnerTime = await AsyncStorage.getItem("lastSpinner");
+    if (!lastSpinnerTime || (new Date().getTime() - Number(lastSpinnerTime) >= 24 * 60 * 60 * 1000)) {
+      runSpinner()
       await AsyncStorage.setItem("lastSpinner", new Date().getTime().toString());
-    } else {
+    }
+    else if (spinChances > 0) {
+      runSpinner();
+      await AsyncStorage.setItem("spinChances", spinChances - 1 + "")
+      setChances((pre) => pre - 1)
+    }
+    else {
       Alert.alert("Wait !!", "You need to wait to try your luck because you can only try once a day.");
     }
   };
@@ -84,41 +132,82 @@ const LuckySpinner = () => {
     }
   };
 
-
-
   const onEndSpin = (endSuccess: boolean) => {
     console.log('endSuccess', endSuccess);
     Alert.alert("", `You Win ${prizeIdx ?? 0} points`)
   };
 
+  const buyMoreChances = () => {
+    RNUpiPayment.initializePayment(
+      {
+        vpa: upi,
+        payeeName: 'Riotinto',
+        amount: Number(1),
+        transactionRef: 'aaasf-332-aoei-fn',
+        transactionNote: 'Riotinto App',
+      },
+      async (r) => {
+        console.log(r);
+        await AsyncStorage.setItem("spinChances", 3 + "")
+        setChances(3)
+        ToastAndroid.showWithGravity(
+          "Wow, You got 3 more lucky chances",
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      },
+      (err) => {
+        console.log("err", err);
+        ToastAndroid.showWithGravity(
+          "Looks Like payment has cancel from your side.",
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      },
+    );
+  }
+
+  const showConfirmationAlert = () => {
+    Alert.alert(
+      "🌟 Exciting Offer! 🌟",
+      "🎉 Special Deal: Buy 3 extra spin chances for only 100 Rs! 🎉\n\nDon't miss out on this amazing opportunity to increase your chances of winning big. Are you ready to spin and win more? 💰",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Confirm",
+          onPress: buyMoreChances,
+          isPreferred: true
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   return (
     <>
-      <CommonHeader title="Lucky Spin" previousPage="transparent" />
-      <ImageBackground
-        source={require('./assets/spinning-wheel.png')} // Replace with the path to your background image
-        style={styles.backgroundImage}
-      >
-        <View style={styles.container}>
-
+      <CommonHeader title="Lucky Spin" previousPage="transparent" spinChances={spinChances} />
+      <ScrollView contentContainerStyle={styles.container}>
+        <ImageBackground
+          source={require('./assets/spinning-wheel.png')}
+          style={styles.backgroundImage}
+        >
           <View style={styles.rowContainer}>
             <Text>
-
-              <Text style={styles.prizeText}>{prizeIdx && prizeIdx !== 0 ? ("Price: " + prizeIdx) : prizeIdx === 0 ?? "Better Luck Next TIme"}</Text>
+              <Text style={styles.prizeText}>{prizeIdx && prizeIdx !== 0 ? ("Price: " + prizeIdx) : prizeIdx === 0 ?? "Better Luck Next Time"}</Text>
               {prizeIdx && prizeIdx !== 0 ? (<Image source={require('./assets/prize.png')} style={styles.itemWrap} />) : ""}
             </Text>
-
           </View>
-
-
           <View style={styles.centerWheel}>
             <GoGoSpin
+              ref={spinRef}
               onEndSpinCallBack={onEndSpin}
               notShowDividLine={false}
               spinDuration={5000}
               spinReverse={false}
               spinTime={10}
-              ref={spinRef}
               width={SIZE}
               height={SIZE}
               radius={SIZE / 2}
@@ -139,13 +228,16 @@ const LuckySpinner = () => {
             <TouchableOpacity style={styles.spinWarp} onPress={onSpinPress}>
               <Image source={require('./assets/btn.png')} style={styles.spinBtn} />
             </TouchableOpacity>
-            {/* <Button title={"reset"} onPress={() => AsyncStorage.removeItem("lastSpinner")}></Button> */}
           </View>
-        </View>
-      </ImageBackground>
+          <TouchableOpacity onPress={showConfirmationAlert}>
+            <Text style={styles.footer}>Buy More chances</Text>
+          </TouchableOpacity>
+        </ImageBackground>
+      </ScrollView>
     </>
   );
 };
+
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
@@ -153,8 +245,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     overflow: "hidden"
   },
+  footer: {
+    color: "#fefefe",
+    borderColor: "#7a9f86",
+    textAlign: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "#7a9f86",
+    borderWidth: 1,
+    padding: 16,
+    fontWeight: 'bold',
+  },
   container: {
-    // backgroundColor: '#fefefe',
+    flex: 1,
+    flexDirection: 'column',
   },
   startText: {
     fontSize: 14,
@@ -182,14 +286,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    paddingBottom:25,
-    paddingLeft:5
+    paddingTop: 30,
+    paddingLeft: 5
   },
   itemWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  spinBtn: { width: 105, height: 124 },
+  spinBtn: {
+    width: 105, height: 145
+  },
   spinWarp: { position: 'absolute' },
   itemWrap: { width: 40, height: 40 },
 });
