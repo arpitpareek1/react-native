@@ -14,7 +14,7 @@ import { UserObjType } from '../interfaces';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ViewProduct = ({ route, navigation }) => {
-  const { imageSource, title, price, dailyIncome, validityPeriod, desc } = route.params;
+  const { imageSource, title, price, dailyIncome, validityPeriod, desc, isHot } = route.params;
   const [paymentMode, setPaymentMode] = useState("")
   const [userData, setUserData] = useState<null | UserObjType>(null)
   console.log("paymentMode", paymentMode);
@@ -75,10 +75,10 @@ const ViewProduct = ({ route, navigation }) => {
                     <Text style={styles.strong}>Price </Text>
                     <Text style={styles.detailsItem}> {price} Rs</Text>
                   </View>
-                  <View style={styles.detailsText}>
+                  {!isHot && (<View style={styles.detailsText}>
                     <Text style={styles.strong}>Daily income </Text>
                     <Text style={styles.detailsItem}> {dailyIncome} Rs</Text>
-                  </View>
+                  </View>)}
                   <View style={styles.detailsText}>
                     <Text style={styles.strong}>Validity period </Text>
                     <Text style={styles.detailsItem}> {validityPeriod + " " + "Days"}</Text>

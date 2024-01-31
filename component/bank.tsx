@@ -98,7 +98,6 @@ const Bank = ({ navigation }) => {
                 source: "bank",
                 value: accNumber
             })
-
             navigation.navigate("profile")
         }
     };
@@ -303,27 +302,27 @@ const Bank = ({ navigation }) => {
                                 Submit Request
                             </Text>
                         </TouchableOpacity>
-                        
+
                     </View>
                 </View>
                 <Text style={{
-                            color: 'black',
-                            textAlign:"left"
-                        }}>
-                            * CardHolder Name (5-30 characters).
-                        </Text>
-                        <Text style={{
-                            color: 'black',
-                            textAlign:"left"
-                        }}>
-                            * IFSC is characters and the fifth digit is the number 0.
-                        </Text>
-                        <Text style={{
-                            color: 'black',
-                            textAlign:"left"
-                        }}>
-                            * Mobile number should be 10 digits.
-                        </Text>
+                    color: 'black',
+                    textAlign: "left"
+                }}>
+                    * CardHolder Name (5-30 characters).
+                </Text>
+                <Text style={{
+                    color: 'black',
+                    textAlign: "left"
+                }}>
+                    * IFSC is characters and the fifth digit is the number 0.
+                </Text>
+                <Text style={{
+                    color: 'black',
+                    textAlign: "left"
+                }}>
+                    * Mobile number should be 10 digits.
+                </Text>
             </View>
             <Dialog
                 isVisible={success}

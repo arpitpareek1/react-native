@@ -95,16 +95,30 @@ const WithDrawPage = ({ navigation }) => {
                     label: data.source + "(" + data.value + ")",
                     value: data.value
                 }))
+                console.log("sss", newData);
+                const uniqueValuesSet = new Set();
 
-                setData(newData)
+                // Create an array to store unique objects
+                const uniqueObjectsArray: any[] = [];
+
+                // Iterate through the array and add unique objects to the Set
+                newData.forEach(item => {
+                    if (!uniqueValuesSet.has(item.value)) {
+                        uniqueValuesSet.add(item.value);
+                        uniqueObjectsArray.push(item);
+                    }
+                });
+
+                console.log("uniqueObjectsArray", uniqueObjectsArray);
+                setData(uniqueObjectsArray)
             }
         })
 
     }, [])
 
     const handleWithDrawClick = () => {
-        console.log({ ...userinfo, email: user?.email, withdrawLimit });
-        if (userinfo && userinfo.amount && (userinfo.upi_id || userinfo.cardInfo) && withdrawLimit) {
+        console.log(bankInfo, "kkk", { ...userinfo, email: user?.email, withdrawLimit });
+        if (userinfo && userinfo.amount && (userinfo.upi_id || userinfo.cardInfo) && withdrawLimit && bankInfo) {
             if (userinfo.amount < withdrawLimit) {
                 return ToastAndroid.showWithGravity(
                     "Can't withdraw lower then " + withdrawLimit,
@@ -114,10 +128,11 @@ const WithDrawPage = ({ navigation }) => {
             }
             setLoading(true)
             axios.post(backend_url + "/api/v1/transactions/sendWithdrawReq", {
-                ...userinfo, email: user?.email
+                ...userinfo, email: user?.email, ...bankInfo
             }).then(async ({ data }) => {
                 console.log("data", data);
                 if (data.status) {
+                    setSuccess(true)
                     let msg = "Withdraw Request send for " + userinfo.amount + " amount"
                     Alert.alert("Alert!!", msg)
                     Alert.prompt("Added", "Request send")
@@ -139,14 +154,22 @@ const WithDrawPage = ({ navigation }) => {
             })
 
         } else {
-
-            if ((!userinfo.upi_id && !userinfo.cardInfo)) {
+            if (!userinfo.upi_id) {
                 return ToastAndroid.showWithGravity(
-                    "Please Select a Payment Method",
+                    "Please Select a UPI Payment Method as well",
                     ToastAndroid.SHORT,
                     ToastAndroid.CENTER,
                 );
             }
+
+            if (!userinfo.cardInfo || !bankInfo) {
+                return ToastAndroid.showWithGravity(
+                    "Need to Fill the bank info, Please fill the back info by clicking on bank icon!!",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER,
+                );
+            }
+
             ToastAndroid.showWithGravity(
                 "Please fill valid values.",
                 ToastAndroid.SHORT,
@@ -161,7 +184,7 @@ const WithDrawPage = ({ navigation }) => {
                 <View style={{ backgroundColor: '#7a9f86', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: responsiveWidth(4.1) }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ fontSize: responsiveFontSize(2.8), color: 'white', fontWeight: '600', marginRight: responsiveWidth(15), alignSelf: 'center', width: responsiveWidth(40) }}>Withdraw Fund</Text>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' , flex:2 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 2 }}>
                             <Text style={{ fontSize: responsiveFontSize(2), color: 'white' }}>₹ {user?.money ?? 0}</Text>
                         </View>
                     </View>
@@ -280,7 +303,7 @@ const WithDrawPage = ({ navigation }) => {
                 </Dialog>
                 <Dialog
                     isVisible={success}
-                    onBackdropPress={() => { setSuccess(true); }}
+                    onBackdropPress={() => { setSuccess(false); }}
                     style={{ backgroundColor: '#333' }}
                 >
                     <Dialog.Title title="Request Sent!" titleStyle={{ color: '#333', }} />

@@ -15,6 +15,8 @@ import RNQRGenerator from 'rn-qr-generator';
 import CommonHeader from './commonHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserObjType } from '../interfaces';
+import Share from 'react-native-share';
+
 
 const Refferer = () => {
   const [qrData, setQrData] = useState('');
@@ -45,6 +47,23 @@ const Refferer = () => {
       user?.referralCode ?? "",
     );
     Alert.alert('Alert', 'Refer Code has been copied');
+  };
+
+  const shareText = async () => {
+    try {
+      const shareOptions = {
+        title: 'Share via',
+        message: 'Hello, check out this message!',
+        url: 'https://www.riotinto.in/', // Optional, you can include a URL
+      };
+
+      Share.open(shareOptions).then((hello) => {
+        console.log("suck ses", hello);
+
+      }).catch(console.log);
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
   };
 
   return (
@@ -135,7 +154,11 @@ const Refferer = () => {
           ) : (
             <View></View>
           )}
-
+          <View style={{
+            padding: 25
+          }}>
+            <Button color={'#7a9f86'} title='share the app' onPress={shareText} />
+          </View>
           <View
             style={{
               paddingTop: 50,

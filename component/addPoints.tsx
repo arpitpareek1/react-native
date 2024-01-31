@@ -85,7 +85,6 @@ const AddFundScreen = ({ route }) => {
                     axios.post(backend_url + "/api/v1/transactions/addMoneyToWallet", {
                         email: user?.email,
                         amount: points,
-
                     }).then(async ({ data }) => {
                         console.log("data", data);
                         if (data.status) {

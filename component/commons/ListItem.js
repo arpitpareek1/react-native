@@ -74,7 +74,7 @@ const ListItem = ({
           {price} Rs
         </Text>
       </View>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+     {!isHot && ( <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <Text style={{ width: 100, color: '#888' }}>Daily Income</Text>
         <Text
           style={{
@@ -85,7 +85,7 @@ const ListItem = ({
           }}>
           {dailyIncome} Rs
         </Text>
-      </View>
+      </View>)}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <Text style={{ width: 100, color: '#888' }}>Validity Period</Text>
         <Text
