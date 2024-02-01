@@ -6,7 +6,8 @@ const ProductItem: React.FC<ProductItemProps> = ({
   title,
   price,
   transaction_id,
-  desc
+  desc,
+  status,
 }) => (
   <>
     <View
@@ -32,7 +33,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
           width: Dimensions.get('window').width - 160,
           backgroundColor: '#e1eae4',
         }}>
-        <Text style={{ fontSize: 18, fontWeight: '500', color: '#000' }}>
+        <Text style={{ fontSize: 18, fontWeight: '500', color: title === "Points Added" ? "#00FF00" : title === "Withdraw Request" ? "#FF0000" : "#000" }}>
           {title}
         </Text>
         <Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
@@ -44,6 +45,10 @@ const ProductItem: React.FC<ProductItemProps> = ({
         {transaction_id && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
           Transaction Id :{transaction_id}
         </Text>)}
+        {status && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
+          Request Status : {status}
+        </Text>
+        )}
       </View>
     </View>
   </>

@@ -72,7 +72,7 @@ const AddFundScreen = ({ route }) => {
     // 'shreeshyamenterprise.39830835@hdfcbank'
     // {"ApprovalRefNo": "402139460031", "Status": "SUCCESS", "responseCode": "0", "status": undefined, "txnId": "PTM0b20c5fdec2645db9385889d023d1559"}
     const handleAddPoints = () => {
-        if (points && Number(points) !== 0 && limit && Number(points) >= Number(limit)) {
+        if (upi && points && Number(points) !== 0 && limit && Number(points) >= Number(limit)) {
             RNUpiPayment.initializePayment(
                 {
                     vpa: upi,
@@ -115,6 +115,9 @@ const AddFundScreen = ({ route }) => {
         } else {
             if (!(Number(points) >= Number(limit))) {
                 return Alert.alert("Alert", "Minimum Recharge limit is " + limit + ". Please insert higher value")
+            }
+            if(!upi){
+                return Alert.alert("Alert", "No internet found!!!")
             }
             Alert.alert("Alert", "Please insert a valid value.")
         }

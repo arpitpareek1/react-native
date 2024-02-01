@@ -29,6 +29,7 @@ import Paytm from './component/paytm';
 import Upi from './component/upi';
 import OtpInput from './component/otpVerify';
 import Policy from './component/policy';
+import MoneyToWalletList from './component/moneyAddedList';
 
 const Stack = createNativeStackNavigator();
 
@@ -186,6 +187,13 @@ const App = () => {
             component={Policy}
             options={{ headerShown: false }}
           />
+
+          <Stack.Screen
+            name="MyTransactions"
+            component={MoneyToWalletList}
+            options={{ headerShown: false }}
+          />
+
         </Stack.Navigator>
       </NavigationContainer>
     </>

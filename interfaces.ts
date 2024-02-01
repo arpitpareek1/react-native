@@ -7,6 +7,7 @@ export interface ProductItemProps {
   desc?:string
   link?: string;
   transaction_id?: string
+  status?:string
 }
 
 export interface NewsItemProps {

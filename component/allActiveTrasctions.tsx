@@ -92,14 +92,14 @@ const AllActiveTrasctions = () => {
 
     return (
         <>
-        <CommonHeader title="My Transactions" previousPage="" />
+        <CommonHeader title="My Orders" previousPage="" />
         <View style={{ flex: 1 }}>
             <ScrollView style={{ flex: 1 }}>
                 {transcutionInfo && transcutionInfo.length > 0 ? (
-                    transcutionInfo.map((data, index) => (
+                    transcutionInfo.filter((tra)=>tra.product_name !== "ADDED_TO_WALLET").map((data, index) => (
                         <View key={index}>
                             <ProductItem
-                                imageSource={getImageUrlFromName(data.product_name) ?? ""}
+                                imageSource={getImageUrlFromName(data.product_name) ?? "https://img.freepik.com/free-vector/mobile-banking-return-money-from-purchases-conduct-financial-transactions-remotely-with-mobile-device-vector-isolated-concept-metaphor-illustration_335657-2799.jpg?t=st=1706804653~exp=1706805253~hmac=5ae6c6b305bd9f34f25bcbfd19ad075ab336d487c959336c1f0bafcf04608589"}
                                 link={""}
                                 price={(data.amount).toString()}
                                 title={data.product_name}

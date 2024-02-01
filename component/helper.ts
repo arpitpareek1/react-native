@@ -3,8 +3,8 @@ import axios from "axios";
 import { ToastAndroid } from "react-native";
 
 
-export const backend_url = "https://ybt689k9fa.execute-api.ap-south-1.amazonaws.com/development"
-// export const backend_url = "https://c62e-106-221-164-77.ngrok-free.app"
+// export const backend_url = "https://ybt689k9fa.execute-api.ap-south-1.amazonaws.com/development"
+export const backend_url = "https://3a54-2405-201-5c05-153-8589-8449-e6e6-c561.ngrok-free.app"
 
 export const updateUserInfo = (callback?: Function) => {
   AsyncStorage.getItem("user").then((result) => {
@@ -27,6 +27,9 @@ export const updateUserInfo = (callback?: Function) => {
 export const menuItems = [
   {
     title: 'My Orders',
+  },
+  {
+    title:"My Transactions"
   },
   {
     title: 'Redeem Daily Earning',

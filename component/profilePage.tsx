@@ -16,7 +16,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CommonHeader from './commonHeader';
 import BottomNavigation from './buttomBar';
-import DefaultImage1 from './assets/user.png';
 import CustomButton from './commons/CustomButton';
 import { useFocusEffect, CommonActions } from '@react-navigation/native';
 import { menuItems } from './helper';
@@ -47,6 +46,8 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
       navigation.navigate("Support")
     } else if (title === "Privacy Policy") {
       navigation.navigate("Policy")
+    }else if(title === "My Transactions"){
+      navigation.navigate("MyTransactions")
     }
   }
 
