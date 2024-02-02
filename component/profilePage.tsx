@@ -46,7 +46,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
       navigation.navigate("Support")
     } else if (title === "Privacy Policy") {
       navigation.navigate("Policy")
-    }else if(title === "My Transactions"){
+    } else if (title === "My Transactions") {
       navigation.navigate("MyTransactions")
     }
   }
@@ -68,7 +68,9 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
   }
 
   function logout() {
-    AsyncStorage.removeItem("user").then(() => {
+    AsyncStorage.removeItem("user").then(async () => {
+      const p = await AsyncStorage.getAllKeys()
+      await AsyncStorage.multiRemove(p)
       navigation.dispatch(
         CommonActions.reset({
           index: 0,

@@ -85,34 +85,34 @@ const WithDrawPage = ({ navigation }) => {
             }
         })
 
-        AsyncStorage.getItem("withdrawInfo").then((result) => {
-            if (result) {
-                const parsedInfo = JSON.parse(result) as any[]
-                console.log(parsedInfo);
+        // AsyncStorage.getItem("withdrawInfo").then((result) => {
+        //     if (result) {
+        //         const parsedInfo = JSON.parse(result) as any[]
+        //         console.log(parsedInfo);
 
-                const newData = [] as any[]
-                parsedInfo.forEach((data) => newData.push({
-                    label: data.source + "(" + data.value + ")",
-                    value: data.value
-                }))
-                console.log("sss", newData);
-                const uniqueValuesSet = new Set();
+        //         const newData = [] as any[]
+        //         parsedInfo.forEach((data) => newData.push({
+        //             label: data.source + "(" + data.value + ")",
+        //             value: data.value
+        //         }))
+        //         console.log("sss", newData);
+        //         const uniqueValuesSet = new Set();
 
-                // Create an array to store unique objects
-                const uniqueObjectsArray: any[] = [];
+        //         // Create an array to store unique objects
+        //         const uniqueObjectsArray: any[] = [];
 
-                // Iterate through the array and add unique objects to the Set
-                newData.forEach(item => {
-                    if (!uniqueValuesSet.has(item.value)) {
-                        uniqueValuesSet.add(item.value);
-                        uniqueObjectsArray.push(item);
-                    }
-                });
+        //         // Iterate through the array and add unique objects to the Set
+        //         newData.forEach(item => {
+        //             if (!uniqueValuesSet.has(item.value)) {
+        //                 uniqueValuesSet.add(item.value);
+        //                 uniqueObjectsArray.push(item);
+        //             }
+        //         });
 
-                console.log("uniqueObjectsArray", uniqueObjectsArray);
-                setData(uniqueObjectsArray)
-            }
-        })
+        //         console.log("uniqueObjectsArray", uniqueObjectsArray);
+        //         setData(uniqueObjectsArray)
+        //     }
+        // })
 
     }, [])
 
@@ -181,11 +181,11 @@ const WithDrawPage = ({ navigation }) => {
     return (
         <>
             <SafeAreaView style={{ justifyContent: 'center' }}>
-                <View style={{ backgroundColor: '#7a9f86', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: responsiveWidth(4.1) }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ backgroundColor: '#7a9f86', flexDirection: 'row', alignItems: 'center', padding: responsiveWidth(4.1) }}>
+                    <View style={{ flexDirection: 'row' }}>
                         <Text style={{ fontSize: responsiveFontSize(2.8), color: 'white', fontWeight: '600', marginRight: responsiveWidth(15), alignSelf: 'center', width: responsiveWidth(40) }}>Withdraw Fund</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 2 }}>
-                            <Text style={{ fontSize: responsiveFontSize(2), color: 'white' }}>₹ {user?.money ?? 0}</Text>
+                            <Text style={{ fontSize: responsiveFontSize(2), color: 'white', justifyContent:"flex-end", marginLeft:60}}>₹ {user?.money ?? 0}</Text>
                         </View>
                     </View>
                 </View>

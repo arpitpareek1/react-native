@@ -34,14 +34,15 @@ const Googlepay = ({ navigation }) => {
                 validatePhoneNumber(),
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
-              );
+            );
             return;
         } else {
-            await updateBankInfo({
+            updateBankInfo({
                 source: "GooglePay",
                 value: phoneNumber
+            }).then(() => {
+                navigation.navigate("WithDrawPage")
             })
-            navigation.navigate("profile")
         }
     }
 

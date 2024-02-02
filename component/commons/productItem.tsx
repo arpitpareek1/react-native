@@ -8,13 +8,14 @@ const ProductItem: React.FC<ProductItemProps> = ({
   transaction_id,
   desc,
   status,
+  date
 }) => {
 
   function getColor(status: string) {
     const p = {
       "cancelled": "#FF0000",
       "completed": "#355E3B",
-      "pending": "#FFFF00"
+      "pending": "#CC7722"
     }
     return p[status]
   }
@@ -47,7 +48,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
           <Text style={{ fontSize: 18, fontWeight: '500', color: "#000" }}>
             {title}
           </Text>
-          <Text style={{ paddingVertical: 8, fontSize: 14, color: title === "Points Added" ? "#00FF00" : title === "Withdraw Request" ? "#FF0000" : '#000' }}>
+          <Text style={{ paddingVertical: 8, fontSize: 14, fontWeight: 600, color: title === "Points Added" ? "#355E3B" : title === "Withdraw Request" ? "#FF0000" : '#000' }}>
             {price}
           </Text>
           {desc && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
@@ -56,8 +57,15 @@ const ProductItem: React.FC<ProductItemProps> = ({
           {transaction_id && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
             Transaction Id :{transaction_id}
           </Text>)}
-          {status && (<Text style={{ paddingVertical: 8, fontSize: 14, color: title === "Withdraw Request" ? getColor(status) : '#000' }}>
-            Request Status : {status}
+          {status && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
+            Request Status :
+            <Text style={{ color: title === "Withdraw Request" ? getColor(status) : '#000' }}>
+              {status}
+            </Text>
+          </Text>
+          )}
+          {date && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
+            {date}
           </Text>
           )}
         </View>

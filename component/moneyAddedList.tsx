@@ -18,6 +18,7 @@ const MoneyToWalletList = () => {
             amount: number;
             product_name: string;
             transaction_id: string;
+            createdAt: string
         }[]
     >(null);
 
@@ -107,9 +108,9 @@ const MoneyToWalletList = () => {
                                     <ProductItem
                                         imageSource={"https://img.freepik.com/free-vector/mobile-banking-return-money-from-purchases-conduct-financial-transactions-remotely-with-mobile-device-vector-isolated-concept-metaphor-illustration_335657-2799.jpg?t=st=1706804653~exp=1706805253~hmac=5ae6c6b305bd9f34f25bcbfd19ad075ab336d487c959336c1f0bafcf04608589"}
                                         link={''}
-                                        price={" +"+data.amount.toString() + " RS"}
+                                        price={" +" + data.amount.toString() + " Cr"}
                                         title={"Points Added"}
-                                        transaction_id={data.transaction_id}
+                                        date={new Date(data.createdAt).toDateString()}
                                     />
                                 </View>
                             ))
@@ -132,9 +133,10 @@ const MoneyToWalletList = () => {
                                     <ProductItem
                                         imageSource={"https://img.freepik.com/free-vector/e-shopping-cartoon-web-icon-online-store-cashback-service-money-returning-financial-refund-idea-return-investment-internet-income-vector-isolated-concept-metaphor-illustration_335657-2734.jpg?w=740&t=st=1706808408~exp=1706809008~hmac=ac11edcffb5c5877eec09448afeeeeb086e56e65e576d445358fa577afc204ff"}
                                         link={''}
-                                        price={" -"+data.amount.toString() + " RS"}
+                                        price={" -" + data.amount.toString() + " Dr"}
                                         title={"Withdraw Request"}
                                         status={data.status}
+                                        date={new Date(data.createdAt).toDateString()}
                                     />
                                 </View>
                             ))) :

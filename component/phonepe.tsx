@@ -33,11 +33,12 @@ const Phonepe = ({ navigation }) => {
             // If any validation fails, return without proceeding
             return;
         } else {
-            await updateBankInfo({
+            updateBankInfo({
                 source: "phonePe",
                 value: phoneNumber
+            }).then(() => {
+                navigation.navigate("WithDrawPage")
             })
-            navigation.navigate("profile")
         }
     }
 

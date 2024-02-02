@@ -30,11 +30,12 @@ const Paytm = ({ navigation }) => {
         if (!validatePhoneNumberField()) {
             return;
         } else {
-            await updateBankInfo({
+            updateBankInfo({
                 source: "payTm",
                 value: phoneNumber
+            }).then(() => {
+                navigation.navigate("WithDrawPage")
             })
-            navigation.navigate("profile")
         }
     }
 

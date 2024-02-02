@@ -23,18 +23,18 @@ const Bank = ({ navigation }) => {
 
 
     useEffect(() => {
-      AsyncStorage.getItem("userBank").then((value) => {
-        if(value){
-            const data = JSON.parse(value);
-            setAccName(()=> data.accName ? data.accName : "");
-            setAccConfNumber(()=> data.cardInfo ? data.cardInfo : "");
-            setAccNumber(()=> data.accNumber ? data.accNumber : "");
-            setIfscCode(()=> data.ifsc ? data.ifsc : "");
-            setBranch(()=> data.Branch ? data.Branch : "");
-            setBankName(()=> data.bank_name ? data.bank_name : "");
-        }
-      });
-    },[]);
+        AsyncStorage.getItem("userBank").then((value) => {
+            if (value) {
+                const data = JSON.parse(value);
+                setAccName(() => data.accName ? data.accName : "");
+                setAccConfNumber(() => data.cardInfo ? data.cardInfo : "");
+                setAccNumber(() => data.accNumber ? data.accNumber : "");
+                setIfscCode(() => data.ifsc ? data.ifsc : "");
+                setBranch(() => data.Branch ? data.Branch : "");
+                setBankName(() => data.bank_name ? data.bank_name : "");
+            }
+        });
+    }, []);
 
     useEffect(() => {
         if (accName.length > 3) {
@@ -109,11 +109,12 @@ const Bank = ({ navigation }) => {
             setSuccess(true);
             const data = { accName, cardInfo: accConfNumber, accNumber, ifsc: ifscCode, Branch, bank_name: bankName }
             await AsyncStorage.setItem("userBank", JSON.stringify(data))
-            await updateBankInfo({
+            updateBankInfo({
                 source: "bank",
                 value: accNumber
+            }).then(() => {
+                navigation.navigate("WithDrawPage")
             })
-            navigation.navigate("profile")
         }
     };
 

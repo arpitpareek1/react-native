@@ -4,10 +4,11 @@ export interface ProductItemProps {
   imageSource: string;
   title: string;
   price: string;
-  desc?:string
+  desc?: string
   link?: string;
   transaction_id?: string
-  status?:string
+  status?: string
+  date?: string
 }
 
 export interface NewsItemProps {
@@ -39,7 +40,7 @@ export interface ProductType {
   validity: number;
   purchaseLimit: number
   desc: string
-  isHot:boolean
+  isHot: boolean
 }
 
 export interface UserObjType {

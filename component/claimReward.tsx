@@ -31,7 +31,7 @@ const CliamReward: React.FC = () => {
                     Alert.alert("Message", "Point has reedemed!!")
                 } else {
                     if (data && data.message) {
-                        Alert.alert("Error", data.message)
+                        Alert.alert("Alert", data.message)
                     }
                 }
             })
@@ -48,7 +48,7 @@ const CliamReward: React.FC = () => {
     return (
         <>
             <View>
-                <CommonHeader title="Claim your reword" previousPage="" />
+                <CommonHeader title="Claim your reward" previousPage="" />
                 <ScrollView>
                     <View style={styles.container}>
                         <View style={styles.referImage}>

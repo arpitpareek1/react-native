@@ -77,7 +77,7 @@ const AllActiveTrasctions = () => {
                     Alert.alert("Message", "Point has reedemed!!")
                 } else {
                     if (data && data.message) {
-                        Alert.alert("Error", data.message)
+                        Alert.alert("Alert", data.message)
                     }
                 }
             })
