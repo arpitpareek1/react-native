@@ -21,6 +21,21 @@ const Bank = ({ navigation }) => {
     const [BranchError, setBranchError] = useState('');
     const [success, setSuccess] = useState(false);
 
+
+    useEffect(() => {
+      AsyncStorage.getItem("userBank").then((value) => {
+        if(value){
+            const data = JSON.parse(value);
+            setAccName(()=> data.accName ? data.accName : "");
+            setAccConfNumber(()=> data.cardInfo ? data.cardInfo : "");
+            setAccNumber(()=> data.accNumber ? data.accNumber : "");
+            setIfscCode(()=> data.ifsc ? data.ifsc : "");
+            setBranch(()=> data.Branch ? data.Branch : "");
+            setBankName(()=> data.bank_name ? data.bank_name : "");
+        }
+      });
+    },[]);
+
     useEffect(() => {
         if (accName.length > 3) {
             setAccNameError('');
@@ -42,7 +57,7 @@ const Bank = ({ navigation }) => {
         }
     }, [accName, accConfNumber, accNumber, ifscCode, Branch, bankName]);
 
-    const validateRiquired = (value) => {
+    const validateRiquired = (value: string) => {
         if (!value.trim()) {
             return 'This is required';
         }
@@ -114,24 +129,19 @@ const Bank = ({ navigation }) => {
                                 flexDirection: 'row',
                                 borderRadius: 50,
                                 borderColor: '#ccc',
-                                // borderBottomWidth: 1,
                                 borderWidth: 1,
                                 paddingBottom: responsiveWidth(2.2),
-                                // marginBottom: 4,
                                 alignItems: 'center',
                                 width: responsiveWidth(82),
                                 backgroundColor: '#fff',
-                                // border: 10,
                             }}>
                             <TextInput
                                 placeholder={'Enter your name'}
-                                // keyboardType={'phone-pad'}
                                 onChangeText={(text) => { setAccName(text); }}
                                 value={accName}
                                 maxLength={25}
                                 placeholderTextColor="#666"
                                 style={{ flex: 1, paddingVertical: responsiveWidth(0.5), color: '#666', fontSize: responsiveFontSize(2), paddingHorizontal: responsiveWidth(4.1), paddingTop: responsiveWidth(2.2), fontFamily: 'Roboto-Bold' }}
-                            // editable={false}
                             />
                         </View>
                         <Text style={{ color: 'red', fontSize: responsiveFontSize(1.7), fontFamily: 'Roboto-Regular', marginLeft: responsiveWidth(3), flexWrap: 'wrap', width: responsiveWidth(45), }}>{accNameError}</Text>
@@ -143,14 +153,11 @@ const Bank = ({ navigation }) => {
                                 flexDirection: 'row',
                                 borderRadius: 50,
                                 borderColor: '#ccc',
-                                // borderBottomWidth: 1,
                                 borderWidth: 1,
                                 paddingBottom: responsiveWidth(2.2),
-                                // marginBottom: 4,
                                 alignItems: 'center',
                                 width: responsiveWidth(82),
                                 backgroundColor: '#fff',
-                                // border: 10,
                             }}>
                             <TextInput
                                 placeholder={'Enter Your Account Number'}
@@ -160,7 +167,6 @@ const Bank = ({ navigation }) => {
                                 maxLength={16}
                                 placeholderTextColor="#666"
                                 style={{ flex: 1, paddingVertical: responsiveWidth(0.5), color: '#666', fontSize: responsiveFontSize(2), paddingHorizontal: responsiveWidth(4.1), paddingTop: responsiveWidth(2.2), fontFamily: 'Roboto-Bold' }}
-                            // editable={false}
                             />
                         </View>
                         <Text style={{ color: 'red', fontSize: responsiveFontSize(1.7), fontFamily: 'Roboto-Regular', marginLeft: responsiveWidth(3), flexWrap: 'wrap', width: responsiveWidth(45), }}>{accNumberError}</Text>
@@ -172,14 +178,11 @@ const Bank = ({ navigation }) => {
                                 flexDirection: 'row',
                                 borderRadius: 50,
                                 borderColor: '#ccc',
-                                // borderBottomWidth: 1,
                                 borderWidth: 1,
                                 paddingBottom: responsiveWidth(2.2),
-                                // marginBottom: 4,
                                 alignItems: 'center',
                                 width: responsiveWidth(82),
                                 backgroundColor: '#fff',
-                                // border: 10,
                             }}>
                             <TextInput
                                 placeholder={'Confirm Your Account Number'}
@@ -189,7 +192,6 @@ const Bank = ({ navigation }) => {
                                 maxLength={16}
                                 placeholderTextColor="#666"
                                 style={{ flex: 1, paddingVertical: responsiveWidth(0.5), color: '#666', fontSize: responsiveFontSize(2), paddingHorizontal: responsiveWidth(4.1), paddingTop: responsiveWidth(2.2), fontFamily: 'Roboto-Bold' }}
-                            // editable={false}
                             />
                         </View>
                         <Text style={{ color: 'red', fontSize: responsiveFontSize(1.7), fontFamily: 'Roboto-Regular', marginLeft: responsiveWidth(3), flexWrap: 'wrap', width: responsiveWidth(45), }}>{accConfNumberError}</Text>
@@ -201,24 +203,19 @@ const Bank = ({ navigation }) => {
                                 flexDirection: 'row',
                                 borderRadius: 50,
                                 borderColor: '#ccc',
-                                // borderBottomWidth: 1,
                                 borderWidth: 1,
                                 paddingBottom: responsiveWidth(2.2),
-                                // marginBottom: 4,
                                 alignItems: 'center',
                                 width: responsiveWidth(82),
                                 backgroundColor: '#fff',
-                                // border: 10,
                             }}>
                             <TextInput
                                 placeholder={'Enter IFSC Code'}
-                                // keyboardType={'phone-pad'}
                                 onChangeText={(text) => { setIfscCode(text); }}
                                 value={ifscCode}
                                 maxLength={11}
                                 placeholderTextColor="#666"
                                 style={{ flex: 1, paddingVertical: responsiveWidth(0.5), color: '#666', fontSize: responsiveFontSize(2), paddingHorizontal: responsiveWidth(4.1), paddingTop: responsiveWidth(2.2), fontFamily: 'Roboto-Bold' }}
-                            // editable={false}
                             />
                         </View>
                         <Text style={{ color: 'red', fontSize: responsiveFontSize(1.7), fontFamily: 'Roboto-Regular', marginLeft: responsiveWidth(3), flexWrap: 'wrap', width: responsiveWidth(45), }}>{ifscCodeError}</Text>
@@ -230,24 +227,19 @@ const Bank = ({ navigation }) => {
                                 flexDirection: 'row',
                                 borderRadius: 50,
                                 borderColor: '#ccc',
-                                // borderBottomWidth: 1,
                                 borderWidth: 1,
                                 paddingBottom: responsiveWidth(2.2),
-                                // marginBottom: 4,
                                 alignItems: 'center',
                                 width: responsiveWidth(82),
                                 backgroundColor: '#fff',
-                                // border: 10,
                             }}>
                             <TextInput
                                 placeholder={'Enter Bank Name'}
-                                // keyboardType={'phone-pad'}
                                 onChangeText={(text) => { setBankName(text); }}
                                 value={bankName}
                                 maxLength={25}
                                 placeholderTextColor="#666"
                                 style={{ flex: 1, paddingVertical: responsiveWidth(0.5), color: '#666', fontSize: responsiveFontSize(2), paddingHorizontal: responsiveWidth(4.1), paddingTop: responsiveWidth(2.2), fontFamily: 'Roboto-Bold' }}
-                            // editable={false}
                             />
                         </View>
                         <Text style={{ color: 'red', fontSize: responsiveFontSize(1.7), fontFamily: 'Roboto-Regular', marginLeft: responsiveWidth(3), flexWrap: 'wrap', width: responsiveWidth(45), }}>{bankNameError}</Text>

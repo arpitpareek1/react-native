@@ -33,10 +33,10 @@ const ProductItem: React.FC<ProductItemProps> = ({
           width: Dimensions.get('window').width - 160,
           backgroundColor: '#e1eae4',
         }}>
-        <Text style={{ fontSize: 18, fontWeight: '500', color: title === "Points Added" ? "#00FF00" : title === "Withdraw Request" ? "#FF0000" : "#000" }}>
+        <Text style={{ fontSize: 18, fontWeight: '500', color: "#000" }}>
           {title}
         </Text>
-        <Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
+        <Text style={{ paddingVertical: 8, fontSize: 14, color: title === "Points Added" ? "#00FF00" : title === "Withdraw Request" ? "#FF0000" : '#000' }}>
           {price}
         </Text>
         {desc && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
