@@ -53,14 +53,17 @@ const Refferer = () => {
     try {
       const shareOptions = {
         title: 'Share via',
-        message: 'Hello, check out this message!',
+        message: 'Hello, check out this site, I earn a lot from it!',
         url: 'https://www.riotinto.in/', // Optional, you can include a URL
       };
 
       Share.open(shareOptions).then((hello) => {
         console.log("suck ses", hello);
 
-      }).catch(console.log);
+      }).catch((hello) => {
+        console.log("suck ses", hello);
+
+      });
     } catch (error) {
       console.error('Error sharing:', error);
     }

@@ -35,6 +35,7 @@ const AllNewsList: React.FC = ({ navigation }: any) => {
             />
           </TouchableOpacity>
         ))}
+        <View style={{marginBottom:60}}></View>
 
       </ScrollView>
       <Loader visible={!newsData} />

@@ -8,50 +8,62 @@ const ProductItem: React.FC<ProductItemProps> = ({
   transaction_id,
   desc,
   status,
-}) => (
-  <>
-    <View
-      style={{
-        flexDirection: 'row',
-        marginHorizontal: 15,
-        marginVertical: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 10,
-        overflow: 'hidden'
-      }}>
+}) => {
+
+  function getColor(status: string) {
+    const p = {
+      "cancelled": "#FF0000",
+      "completed": "#355E3B",
+      "pending": "#FFFF00"
+    }
+    return p[status]
+  }
+
+  return (
+    <>
       <View
         style={{
-          overflow: 'hidden',
-          height: 130,
+          flexDirection: 'row',
+          marginHorizontal: 15,
+          marginVertical: 10,
+          borderWidth: 1,
+          borderColor: '#ccc',
+          borderRadius: 10,
+          overflow: 'hidden'
         }}>
-        <Image source={{ uri: imageSource }} style={{ width: 130, height: 130 }} />
+        <View
+          style={{
+            overflow: 'hidden',
+            height: 130,
+          }}>
+          <Image source={{ uri: imageSource }} style={{ width: 130, height: 130 }} />
+        </View>
+        <View
+          style={{
+            padding: 10,
+            width: Dimensions.get('window').width - 160,
+            backgroundColor: '#e1eae4',
+          }}>
+          <Text style={{ fontSize: 18, fontWeight: '500', color: "#000" }}>
+            {title}
+          </Text>
+          <Text style={{ paddingVertical: 8, fontSize: 14, color: title === "Points Added" ? "#00FF00" : title === "Withdraw Request" ? "#FF0000" : '#000' }}>
+            {price}
+          </Text>
+          {desc && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
+            {desc}
+          </Text>)}
+          {transaction_id && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
+            Transaction Id :{transaction_id}
+          </Text>)}
+          {status && (<Text style={{ paddingVertical: 8, fontSize: 14, color: title === "Withdraw Request" ? getColor(status) : '#000' }}>
+            Request Status : {status}
+          </Text>
+          )}
+        </View>
       </View>
-      <View
-        style={{
-          padding: 10,
-          width: Dimensions.get('window').width - 160,
-          backgroundColor: '#e1eae4',
-        }}>
-        <Text style={{ fontSize: 18, fontWeight: '500', color: "#000" }}>
-          {title}
-        </Text>
-        <Text style={{ paddingVertical: 8, fontSize: 14, color: title === "Points Added" ? "#00FF00" : title === "Withdraw Request" ? "#FF0000" : '#000' }}>
-          {price}
-        </Text>
-        {desc && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
-          {desc}
-        </Text>)}
-        {transaction_id && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
-          Transaction Id :{transaction_id}
-        </Text>)}
-        {status && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
-          Request Status : {status}
-        </Text>
-        )}
-      </View>
-    </View>
-  </>
-);
+    </>
+  )
+};
 
 export default ProductItem;

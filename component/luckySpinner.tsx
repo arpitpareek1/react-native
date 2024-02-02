@@ -7,6 +7,7 @@ import { backend_url, updateUserInfo, handle500Error } from './helper';
 import { UserObjType } from '../interfaces';
 import GoGoSpin from 'react-native-gogo-spin';
 import RNUpiPayment from 'react-native-upi-payment';
+import Loader from './commons/Loader';
 
 const SIZE = 300;
 
@@ -15,6 +16,7 @@ const LuckySpinner = () => {
   const [user, setUser] = useState<null | UserObjType>(null);
   const spinRef = useRef<React.ElementRef<typeof GoGoSpin>>(null);
   const [prizeIdx, setprizeIdx] = useState<number | null>(null);
+  const [moreChancePrize, setMoreChancePrice] = useState<number | null>(null);
   const [spinChances, setChances] = useState<number>(0);
   const prize = [
     { name: '1000', image: require('./assets/king.png') },
@@ -38,9 +40,14 @@ const LuckySpinner = () => {
       console.log(data);
       if (data && data.length) {
         const upi = data.filter((setting) => setting.key === "upi_id")
-        if (upi) {
-          console.log(upi);
+        const prize = data.filter((setting) => setting.key === "get_spinner_chances_in")
 
+        if (prize.length) {
+          setMoreChancePrice(prize[0].value)
+        }
+
+        if (upi.length) {
+          console.log(upi);
           setUpi(upi[0].value)
         } else {
           ToastAndroid.showWithGravity(
@@ -49,6 +56,7 @@ const LuckySpinner = () => {
             ToastAndroid.CENTER,
           );
         }
+
       } else {
         ToastAndroid.showWithGravity(
           "Failed to get UPI settings, Please Try to relaunch the app",
@@ -142,7 +150,7 @@ const LuckySpinner = () => {
       {
         vpa: upi,
         payeeName: 'Riotinto',
-        amount: Number(1),
+        amount: Number(moreChancePrize),
         transactionRef: 'aaasf-332-aoei-fn',
         transactionNote: 'Riotinto App',
       },
@@ -234,6 +242,7 @@ const LuckySpinner = () => {
           </TouchableOpacity>
         </ImageBackground>
       </ScrollView>
+      <Loader visible={!upi} />
     </>
   );
 };

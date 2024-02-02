@@ -3,12 +3,12 @@ import axios from 'axios';
 import { backend_url, handle500Error } from './helper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
-import { Alert, ToastAndroid, View, Button, ScrollView, Dimensions } from 'react-native';
+import { Alert, View, ScrollView } from 'react-native';
 import Loader from './commons/Loader';
-import { Image, Text } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import CommonHeader from './commonHeader';
 import ProductItem from './commons/productItem';
-import { ProductType, UserObjType } from '../interfaces';
+import { UserObjType } from '../interfaces';
 
 const MoneyToWalletList = () => {
     const [loading, setLoading] = useState(false);
@@ -93,32 +93,6 @@ const MoneyToWalletList = () => {
             }
         });
     };
-    const handleReedemButton = () => {
-        if (!user || !user.email) {
-            Alert.alert('Message', 'Something went wrong');
-            return;
-        }
-        setLoading(true);
-        axios
-            .post(backend_url + '/api/v1/transactions/redeemBalance', {
-                email: user.email,
-            })
-            .then(({ data }) => {
-                if (data && data.status) {
-                    Alert.alert('Message', 'Point has reedemed!!');
-                } else {
-                    if (data && data.message) {
-                        Alert.alert('Error', data.message);
-                    }
-                }
-            })
-            .catch(error => {
-                handle500Error(error.message);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
 
     return (
         <>
@@ -167,23 +141,14 @@ const MoneyToWalletList = () => {
                         <View></View>
                     }
                 </ScrollView>
-                <View
+                {/* <View
                     style={{
                         padding: 10,
                         alignItems: 'center',
                         justifyContent: 'center',
                         marginBottom: 10,
                     }}>
-                    {transcutionInfo && transcutionInfo.length ? (
-                        <Button
-                            title="Redeem Your Daily Earning"
-                            color="#7a9f86"
-                            onPress={handleReedemButton}
-                        />
-                    ) : (
-                        <Text></Text>
-                    )}
-                </View>
+                </View> */}
             </View>
             <Loader visible={loading} />
         </>

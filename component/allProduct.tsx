@@ -1,6 +1,5 @@
 import { ScrollView, Dimensions, Text, View, Alert, Switch } from 'react-native';
 import ListItem from './commons/ListItem';
-// import { productsData } from './helper';
 import BottomNavigation from './buttomBar';
 import CommonHeader from './commonHeader'
 import { useEffect, useState } from 'react';
@@ -25,7 +24,8 @@ const AllProductList: React.FC = ({ navigation }: any) => {
     }).catch((error) => {
       handle500Error(error.message)
     })
-  }, [])
+  }, []);
+
   return (
     <>
       <ScrollView>
