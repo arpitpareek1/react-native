@@ -69,6 +69,30 @@ const AddFundScreen = ({ route }) => {
             if (result) { setUser(JSON.parse(result)) }
         })
     }, [])
+
+    async function onPaymentSuccess() {
+        axios.post(backend_url + "/api/v1/transactions/addMoneyToWallet", {
+            email: user?.email,
+            amount: points,
+        }).then(async ({ data }) => {
+            console.log("data", data);
+            if (data.status) {
+                let msg = points + " Added to your wallet"
+                if (route.params && route.params.pointsToAdd) {
+                    msg += ", Now you can place the order."
+                }
+                ToastAndroid.showWithGravity(
+                    msg,
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER,
+                );
+                updateUserInfo()
+            }
+        }).catch((error) => {
+            handle500Error(error.message)
+        })
+    }
+
     // 'shreeshyamenterprise.39830835@hdfcbank'
     // {"ApprovalRefNo": "402139460031", "Status": "SUCCESS", "responseCode": "0", "status": undefined, "txnId": "PTM0b20c5fdec2645db9385889d023d1559"}
     const handleAddPoints = () => {
@@ -81,42 +105,27 @@ const AddFundScreen = ({ route }) => {
                     transactionRef: 'aaasf-332-aoei-fn',
                     transactionNote: 'Riotinto App',
                 },
-                (r) => {
-                    axios.post(backend_url + "/api/v1/transactions/addMoneyToWallet", {
-                        email: user?.email,
-                        amount: points,
-                    }).then(async ({ data }) => {
-                        console.log("data", data);
-                        if (data.status) {
-                            let msg = points + " Added to your wallet"
-                            if (route.params && route.params.pointsToAdd) {
-                                msg += ", Now you can place the order."
-                            }
-                            ToastAndroid.showWithGravity(
-                                msg,
-                                ToastAndroid.SHORT,
-                                ToastAndroid.CENTER,
-                            );
-                            updateUserInfo()
-                        }
-                    }).catch((error) => {
-                        handle500Error(error.message)
-                    })
+                async (r) => {
+                    await onPaymentSuccess()
                 },
-                (err) => {
+                async (err) => {
                     console.log("err", err);
-                    ToastAndroid.showWithGravity(
-                        "Looks Like payment has cancel from your side.",
-                        ToastAndroid.SHORT,
-                        ToastAndroid.CENTER,
-                    );
+                    if (typeof err === "object" && err.hasOwnProperty("Status") && err.Status === "Success") {
+                        await onPaymentSuccess()
+                    } else {
+                        ToastAndroid.showWithGravity(
+                            "Looks Like payment has cancel from your side.",
+                            ToastAndroid.SHORT,
+                            ToastAndroid.CENTER,
+                        );
+                    }
                 },
             );
         } else {
             if (!(Number(points) >= Number(limit))) {
                 return Alert.alert("Alert", "Minimum Recharge limit is " + limit + ". Please insert higher value")
             }
-            if(!upi){
+            if (!upi) {
                 return Alert.alert("Alert", "No internet found!!!")
             }
             Alert.alert("Alert", "Please insert a valid value.")
