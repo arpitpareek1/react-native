@@ -114,7 +114,7 @@ const MoneyToWalletList = () => {
                                     />
                                 </View>
                             ))
-                    ) : !loading ? (
+                    ) : !loading && !withdrawData && !transcutionInfo ? (
                         <View
                             style={{
                                 flex: 1,

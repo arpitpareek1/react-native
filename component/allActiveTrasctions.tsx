@@ -114,7 +114,7 @@ const AllActiveTrasctions = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}>
-                            <Text>Looks like you have no transactions</Text>
+                            <Text>Looks like you have no Orders</Text>
                         </View>
                     ) : <Text></Text>
                 )}
