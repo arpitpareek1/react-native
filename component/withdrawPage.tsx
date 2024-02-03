@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Image, TextInput, Text, TouchableOpacity, Alert, SafeAreaView, ToastAndroid } from "react-native";
 import { responsiveWidth, responsiveFontSize, responsiveHeight } from "react-native-responsive-dimensions";
 import { UserObjType } from "../interfaces";
@@ -13,6 +13,7 @@ import paytm from './assets/paytm.png';
 import { Dropdown } from 'react-native-element-dropdown';
 import CustomButton from "./commons/CustomButton";
 import Loader from "./commons/Loader";
+import { useFocusEffect } from "@react-navigation/native";
 
 const WithDrawPage = ({ navigation }) => {
     const [loading, setLoading] = useState(false);
@@ -84,37 +85,33 @@ const WithDrawPage = ({ navigation }) => {
                 setBankInfo(parsedInfo)
             }
         })
-
-        // AsyncStorage.getItem("withdrawInfo").then((result) => {
-        //     if (result) {
-        //         const parsedInfo = JSON.parse(result) as any[]
-        //         console.log(parsedInfo);
-
-        //         const newData = [] as any[]
-        //         parsedInfo.forEach((data) => newData.push({
-        //             label: data.source + "(" + data.value + ")",
-        //             value: data.value
-        //         }))
-        //         console.log("sss", newData);
-        //         const uniqueValuesSet = new Set();
-
-        //         // Create an array to store unique objects
-        //         const uniqueObjectsArray: any[] = [];
-
-        //         // Iterate through the array and add unique objects to the Set
-        //         newData.forEach(item => {
-        //             if (!uniqueValuesSet.has(item.value)) {
-        //                 uniqueValuesSet.add(item.value);
-        //                 uniqueObjectsArray.push(item);
-        //             }
-        //         });
-
-        //         console.log("uniqueObjectsArray", uniqueObjectsArray);
-        //         setData(uniqueObjectsArray)
-        //     }
-        // })
-
+        fetchBankInfo()
     }, [])
+
+    useFocusEffect(() => {
+        getBankDataCallbackHook()
+    })
+
+    const getBankDataCallbackHook = useCallback(() => {
+        fetchBankInfo()
+    }, [])
+
+    async function fetchBankInfo() {
+        try {
+            const result = await AsyncStorage.getItem("withdrawInfo");
+            if (result) {
+                const parsedInfo = JSON.parse(result) as any[];
+                const uniqueObjectsArray: any[] = [];
+                parsedInfo.forEach((data) => {
+                    const label = (data.source as string).toUpperCase() + "(" + data.value + ")";
+                    uniqueObjectsArray.push({ label, value: data.value });
+                });
+                setData(uniqueObjectsArray);
+            }
+        } catch (error) {
+            setData([]);
+        }
+    }
 
     const handleWithDrawClick = () => {
         console.log(bankInfo, "kkk", { ...userinfo, email: user?.email, withdrawLimit });
@@ -185,7 +182,7 @@ const WithDrawPage = ({ navigation }) => {
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={{ fontSize: responsiveFontSize(2.8), color: 'white', fontWeight: '600', marginRight: responsiveWidth(15), alignSelf: 'center', width: responsiveWidth(40) }}>Withdraw Fund</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 2 }}>
-                            <Text style={{ fontSize: responsiveFontSize(2), color: 'white', justifyContent:"flex-end", marginLeft:60}}>₹ {user?.money ?? 0}</Text>
+                            <Text style={{ fontSize: responsiveFontSize(2), color: 'white', justifyContent: "flex-end", marginLeft: 60 }}>₹ {user?.money ?? 0}</Text>
                         </View>
                     </View>
                 </View>
@@ -297,6 +294,22 @@ const WithDrawPage = ({ navigation }) => {
                             />
                         </View>
                     </View>
+                    <TouchableOpacity onPress={() => {
+                        fetchBankInfo()
+                    }}>
+                        <Text style={{
+                            color: "#fefefe",
+                            borderColor: "#7a9f86",
+                            textAlign: "center",
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: "#7a9f86",
+                            borderWidth: 1,
+                            borderRadius: 14,
+                            padding: 16,
+                            fontWeight: 'bold',
+                        }}>Refresh Payment details</Text>
+                    </TouchableOpacity>
                 </View>
                 <Dialog isVisible={loading} onBackdropPress={() => setLoading(true)}>
                     <Dialog.Loading />

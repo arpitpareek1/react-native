@@ -51,20 +51,22 @@ export const menuItems = [
   }
 ];
 
-export const updateBankInfo = async (obj: {
-  source: string;
-  value: any;
-}) => {
-  const existingData = await AsyncStorage.getItem('withdrawInfo');
-  let existingWithdrawInfo = existingData ? JSON.parse(existingData) : [];
-  existingWithdrawInfo.push(obj);
-  await AsyncStorage.setItem('withdrawInfo', JSON.stringify(existingWithdrawInfo));
-  ToastAndroid.showWithGravity(
-    "Info Saved.",
-    ToastAndroid.SHORT,
-    ToastAndroid.CENTER,
-  );
-}
+export const updateBankInfo = async (obj: { source: string; value: any }) => {
+  try {
+    const existingData = await AsyncStorage.getItem('withdrawInfo');
+    let existingWithdrawInfo = existingData ? JSON.parse(existingData) : [];
+    const index = existingWithdrawInfo.findIndex((item: any) => item.source === obj.source);
+    if (index !== -1) {
+      existingWithdrawInfo[index].value = obj.value;
+    } else {
+      existingWithdrawInfo.push(obj);
+    }
+    await AsyncStorage.setItem('withdrawInfo', JSON.stringify(existingWithdrawInfo));
+    ToastAndroid.showWithGravity("Info Saved.", ToastAndroid.SHORT, ToastAndroid.CENTER);
+  } catch (error) {
+    console.error("Error updating bank info:", error);
+  }
+};
 
 export const handle500Error = (error: string) => {
 
