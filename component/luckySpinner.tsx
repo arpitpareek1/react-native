@@ -15,9 +15,11 @@ const LuckySpinner = () => {
   const [upi, setUpi] = useState<null | string>(null)
   const [user, setUser] = useState<null | UserObjType>(null);
   const spinRef = useRef<React.ElementRef<typeof GoGoSpin>>(null);
-  const [prizeIdx, setprizeIdx] = useState<number | null>(null);
   const [moreChancePrize, setMoreChancePrice] = useState<number | null>(null);
   const [spinChances, setChances] = useState<number>(0);
+  const winRef = useRef<number | null>(null)
+
+
   const prize = [
     { name: '1000', image: require('./assets/king.png') },
     { name: '500', image: require('./assets/prize.png') },
@@ -28,13 +30,18 @@ const LuckySpinner = () => {
     { name: '200', image: require('./assets/prize.png') },
   ];
 
-
   useEffect(() => {
     AsyncStorage.getItem("user").then((result) => {
       if (result) { setUser(JSON.parse(result)); }
     });
     AsyncStorage.getItem("spinChances").then((result) => {
-      if (result) { setChances(+(result)); }
+      if (result) {
+        console.log("res", result);
+
+        if (Number(result) > 0) {
+          setChances(+(result));
+        }
+      }
     });
     axios.get(backend_url + "/api/v1/settings/getAll").then(({ data }) => {
       console.log(data);
@@ -76,9 +83,9 @@ const LuckySpinner = () => {
 
   const runSpinner = () => {
     const win = doSpin()
-    setTimeout(() => {
-      setprizeIdx(win)
-    }, 5000)
+    console.log("win", win);
+    winRef.current = win
+    console.log("mmwin", win);
     if (win) {
       axios.post(backend_url + "/api/v1/transactions/addMoneyToWallet", {
         email: user?.email, amount: Number(win)
@@ -93,8 +100,9 @@ const LuckySpinner = () => {
       })
     }
   }
+
   const onSpinPress = async () => {
-    setprizeIdx(null)
+    winRef.current = null
     const lastSpinnerTime = await AsyncStorage.getItem("lastSpinner");
     if (!lastSpinnerTime || (new Date().getTime() - Number(lastSpinnerTime) >= 24 * 60 * 60 * 1000)) {
       runSpinner()
@@ -141,9 +149,19 @@ const LuckySpinner = () => {
   };
 
   const onEndSpin = (endSuccess: boolean) => {
-    console.log('endSuccess', endSuccess);
-    Alert.alert("", `You Win ${prizeIdx ?? 0} points`)
+    console.log('endSuccess', endSuccess, winRef.current);
+    Alert.alert("", `You Win ${(winRef.current ?? 0) + ""} points`)
   };
+
+  const onPaymentSuccess = async () => {
+    await AsyncStorage.setItem("spinChances", 3 + "")
+    setChances(3)
+    ToastAndroid.showWithGravity(
+      "Wow, You got 3 more lucky chances",
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER,
+    );
+  }
 
   const buyMoreChances = () => {
     RNUpiPayment.initializePayment(
@@ -155,22 +173,19 @@ const LuckySpinner = () => {
         transactionNote: 'Riotinto App',
       },
       async (r) => {
-        console.log(r);
-        await AsyncStorage.setItem("spinChances", 3 + "")
-        setChances(3)
-        ToastAndroid.showWithGravity(
-          "Wow, You got 3 more lucky chances",
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
-        );
+        await onPaymentSuccess();
       },
-      (err) => {
+      async (err) => {
         console.log("err", err);
-        ToastAndroid.showWithGravity(
-          "Looks Like payment has cancel from your side.",
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
-        );
+        if (typeof err === "object" && err.hasOwnProperty("Status") && err.Status === "Success") {
+          await onPaymentSuccess();
+        } else {
+          ToastAndroid.showWithGravity(
+            "Looks Like payment has cancel from your side.",
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+        }
       },
     );
   }
@@ -204,8 +219,8 @@ const LuckySpinner = () => {
         >
           <View style={styles.rowContainer}>
             <Text>
-              <Text style={styles.prizeText}>{prizeIdx && prizeIdx !== 0 ? ("Price: " + prizeIdx) : prizeIdx === 0 ?? "Better Luck Next Time"}</Text>
-              {prizeIdx && prizeIdx !== 0 ? (<Image source={require('./assets/prize.png')} style={styles.itemWrap} />) : ""}
+              <Text style={styles.prizeText}>{winRef.current && winRef.current !== 0 ? ("Price: " + winRef.current) : winRef.current === 0 ?? "Better Luck Next Time"}</Text>
+              {winRef.current && winRef.current !== 0 ? (<Image source={require('./assets/prize.png')} style={styles.itemWrap} />) : ""}
             </Text>
           </View>
           <View style={styles.centerWheel}>
@@ -213,7 +228,7 @@ const LuckySpinner = () => {
               ref={spinRef}
               onEndSpinCallBack={onEndSpin}
               notShowDividLine={false}
-              spinDuration={5000}
+              spinDuration={500}
               spinReverse={false}
               spinTime={10}
               width={SIZE}
