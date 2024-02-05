@@ -57,6 +57,8 @@ export interface UserObjType {
   userReferCode: string
   referredBy: string
   createdAt: string
+  rechargePoints:number
+  isReferAmountAdded:boolean
   updatedAt: string
   __v: number
 }
@@ -76,5 +78,7 @@ export interface invidedDataTypeObj {
   referredBy: string
   role: number
   updatedAt: string
+  rechargePoints:number
+  isReferAmountAdded:boolean
   userReferCode: string
 }

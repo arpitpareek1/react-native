@@ -41,10 +41,11 @@ const WithDrawPage = ({ navigation }) => {
     const [success, setSuccess] = useState(false);
     const [data, setData] = useState<[] | { label: string, value: string }[]>([])
     const [withdrawLimit, setWithDrawLimit] = useState<null | number>(null)
+    const [withdrawMsg, setWithdrawMsg] = useState('')
 
 
     useEffect(() => {
-
+        getBankDataCallbackHook()
         AsyncStorage.getItem("user").then((result) => {
             if (result) {
                 const userData = JSON.parse(result)
@@ -55,6 +56,10 @@ const WithDrawPage = ({ navigation }) => {
             console.log(data);
             if (data && data.length) {
                 const limit = data.filter((setting) => setting.key === "withdraw_limit")
+                const message = data.filter((setting) => setting.key === "Withdraw_info")
+                if(message){
+                    setWithdrawMsg(String(message[0].value))
+                }
                 if (limit) {
                     setWithDrawLimit(Number(limit[0].value))
                 } else {
@@ -64,6 +69,7 @@ const WithDrawPage = ({ navigation }) => {
                         ToastAndroid.CENTER,
                     );
                 }
+
             } else {
                 ToastAndroid.showWithGravity(
                     "Failed to get UPI settings, Please Try to relaunch the app",
@@ -88,9 +94,6 @@ const WithDrawPage = ({ navigation }) => {
         fetchBankInfo()
     }, [])
 
-    useFocusEffect(() => {
-        getBankDataCallbackHook()
-    })
 
     const getBankDataCallbackHook = useCallback(() => {
         fetchBankInfo()
@@ -294,6 +297,9 @@ const WithDrawPage = ({ navigation }) => {
                             />
                         </View>
                     </View>
+                   {withdrawMsg && <View>
+                        <Text style={{color: "#333", fontFamily: 'Roboto-Bold', fontSize: responsiveFontSize(2.2) }}>{withdrawMsg}</Text>
+                    </View>}
                     <TouchableOpacity onPress={() => {
                         fetchBankInfo()
                     }}>

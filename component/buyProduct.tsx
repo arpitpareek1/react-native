@@ -11,7 +11,7 @@ import axios from "axios";
 import { backend_url, handle500Error, updateUserInfo } from "./helper";
 
 const BuyProductPage = ({ route, navigation }) => {
-    const { imageSource, title, price, dailyIncome, validityPeriod } = route.params;
+    const { imageSource, title, price, dailyIncome, validityPeriod, isHot } = route.params;
     const [points, setPoints] = useState('');
     const [user, setUser] = useState<null | UserObjType>(null)
     const [loading, setLoading] = useState(false)
@@ -95,17 +95,17 @@ const BuyProductPage = ({ route, navigation }) => {
                                     <Text style={styles.strong}>Price </Text>
                                     <Text style={styles.detailsItem}> {price} Rs</Text>
                                 </View>
-                                <View style={styles.detailsText}>
+                               {!isHot && <View style={styles.detailsText}>
                                     <Text style={styles.strong}>Daily income </Text>
                                     <Text style={styles.detailsItem}> {dailyIncome}</Text>
-                                </View>
+                                </View>}
                                 <View style={styles.detailsText}>
                                     <Text style={styles.strong}>Validity period </Text>
                                     <Text style={styles.detailsItem}> {validityPeriod}</Text>
                                 </View>
                                 <View style={styles.detailsText}>
                                     <Text style={styles.strong}>Total revenue </Text>
-                                    <Text style={styles.detailsItem}> 160050</Text>
+                                    <Text style={styles.detailsItem}> {validityPeriod * dailyIncome}</Text>
                                 </View>
                             </View>
                         </View>

@@ -109,6 +109,10 @@ const TeamPage: React.FC = ({ navigation }: any) => {
                         <View style={styles.name}>
                           <Text style={{ color: 'black', fontWeight: '400' }}>{person?.email}</Text>
                         </View>
+                       {!person.isReferAmountAdded && <View style={styles.name}>
+                          <Text style={{ color: 'black', fontWeight: '400' }}>Ask your Friend to Recharge his </Text>
+                          <Text style={{ color: 'black', fontWeight: '400' }}>account to get free points... </Text>
+                        </View>}
                       </View>
                     </View>
                   </View>

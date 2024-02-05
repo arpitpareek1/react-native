@@ -141,6 +141,24 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                 color: '#000',
                 fontWeight: '700',
                 textAlign: 'center',
+              }}>{"₹" + user?.rechargePoints}</Text>
+              <Text style={{
+                fontSize: 12,
+                color: '#000',
+                fontWeight: '400',
+                textAlign: 'center',
+              }}>Recharge</Text>
+            </View>
+            <View style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <Text style={{
+                fontSize: 18,
+                color: '#000',
+                fontWeight: '700',
+                textAlign: 'center',
               }}>{"₹" + user?.money}</Text>
               <Text style={{
                 fontSize: 12,

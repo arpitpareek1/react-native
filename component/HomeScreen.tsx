@@ -116,7 +116,7 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
                     navigation.navigate('ViewProduct', {
                       dailyIncome: product.dailyIncome,
                       imageSource: product.imageSource,
-                      isHot: true,
+                      isHot: product.isHot,
                       price: product.price,
                       purchaseLimit: product.purchaseLimit,
                       title: product.title,

@@ -39,7 +39,7 @@ const ViewProduct = ({ route, navigation }) => {
     } else if (paymentMode === "Balance") {
       console.log(price, userData);
 
-      if (userData && price > userData?.money) {
+      if (userData && price > userData?.rechargePoints) {
         text = "You didn't have points to buy the product. please recharge!!"
       } else {
         navigation.navigate("BuyProductPage", {
@@ -67,7 +67,7 @@ const ViewProduct = ({ route, navigation }) => {
             />
           </View>
           <View style={styles.appContent}>
-            <View style={styles.goodinfo}>
+            <View style={styles.goodInfo}>
               <Text style={styles.title}>{title}</Text>
               <View style={styles.text}>
                 <View style={styles.details}>
@@ -116,7 +116,7 @@ const ViewProduct = ({ route, navigation }) => {
       </ScrollView>
       <View style={styles.container}>
         <View style={styles.leftContent}>
-          <View style={styles.titleColor} id="yueye">
+          <View style={styles.titleColor}>
             <Text style={styles.strikethrough}>₹ {price}</Text>
           </View>
         </View>
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   appContent: {
     paddingVertical: 20,
   },
-  goodinfo: {
+  goodInfo: {
     backgroundColor: '#F5F7F9',
     borderRadius: 10,
     color: 'black',
