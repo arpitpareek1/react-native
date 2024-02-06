@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, Button, ImageBackground, ScrollView, ToastAndroid } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, ImageBackground, ScrollView, ToastAndroid, Modal } from 'react-native';
 import CommonHeader from './commonHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -17,8 +17,9 @@ const LuckySpinner = () => {
   const spinRef = useRef<React.ElementRef<typeof GoGoSpin>>(null);
   const [moreChancePrize, setMoreChancePrice] = useState<number | null>(null);
   const [spinChances, setChances] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const winRef = useRef<number | null>(null)
-
+  const [modalVisible, setModalVisible] = useState(false);
 
   const prize = [
     { name: '1000', image: require('./assets/king.png') },
@@ -29,6 +30,27 @@ const LuckySpinner = () => {
     { name: '100', image: require('./assets/prize.png') },
     { name: '200', image: require('./assets/prize.png') },
   ];
+
+  const handleMethodSelection = (method: string) => {
+    setModalVisible(false);
+    setLoading(true)
+    if (user) {
+      axios.post(backend_url + "/api/v1/transactions/buyMoreChances", {
+        method,
+        email: user.email,
+      }).then(async (response) => {
+        console.log(response);
+        if (response.data.success) {
+          await onPaymentSuccess()
+          await updateUserInfo()
+        }
+      }).catch((error) => {
+        console.log(error);
+      }).finally(() => {
+        setLoading(false)
+      })
+    }
+  };
 
   useEffect(() => {
     AsyncStorage.getItem("user").then((result) => {
@@ -88,7 +110,7 @@ const LuckySpinner = () => {
     console.log("mmwin", win);
     if (win) {
       axios.post(backend_url + "/api/v1/transactions/addMoneyToWallet", {
-        email: user?.email, amount: Number(win)
+        email: user?.email, amount: Number(win), method: "LUCKY_SPIN_WIN"
       }).then(async ({ data }) => {
         console.log("data", data);
         if (data.status) {
@@ -154,8 +176,8 @@ const LuckySpinner = () => {
   };
 
   const onPaymentSuccess = async () => {
-    await AsyncStorage.setItem("spinChances", 3 + "")
-    setChances(3)
+    await AsyncStorage.setItem("spinChances", (3 + Number(await AsyncStorage.getItem("spinChances") ?? 0)) + "")
+    setChances((pre) => pre + 3)
     ToastAndroid.showWithGravity(
       "Wow, You got 3 more lucky chances",
       ToastAndroid.SHORT,
@@ -163,7 +185,7 @@ const LuckySpinner = () => {
     );
   }
 
-  const buyMoreChances = () => {
+  const doPaymentAndBuy = () => {
     RNUpiPayment.initializePayment(
       {
         vpa: upi,
@@ -173,12 +195,12 @@ const LuckySpinner = () => {
         transactionNote: 'Riotinto App',
       },
       async (r) => {
-        await onPaymentSuccess();
+        handleMethodSelection("UPI")
       },
       async (err) => {
         console.log("err", err);
         if (typeof err === "object" && err.hasOwnProperty("Status") && err.Status === "Success") {
-          await onPaymentSuccess();
+          handleMethodSelection("UPI");
         } else {
           ToastAndroid.showWithGravity(
             "Looks Like payment has cancel from your side.",
@@ -189,25 +211,6 @@ const LuckySpinner = () => {
       },
     );
   }
-
-  const showConfirmationAlert = () => {
-    Alert.alert(
-      "🌟 Exciting Offer! 🌟",
-      "🎉 Special Deal: Buy 3 extra spin chances for only 100 Rs! 🎉\n\nDon't miss out on this amazing opportunity to increase your chances of winning big. Are you ready to spin and win more? 💰",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Confirm",
-          onPress: buyMoreChances,
-          isPreferred: true
-        },
-      ],
-      { cancelable: false }
-    );
-  };
 
   return (
     <>
@@ -223,6 +226,46 @@ const LuckySpinner = () => {
               {winRef.current && winRef.current !== 0 ? (<Image source={require('./assets/prize.png')} style={styles.itemWrap} />) : ""}
             </Text>
           </View>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalHeading}>🌟 Exciting Offer! 🌟</Text>
+                <Text style={styles.subHeading}>🎉 Special Deal: Buy 3 extra spin chances for only {moreChancePrize} Rs! 🎉\n\nDon't miss out on this amazing opportunity to increase your chances of winning big. Are you ready to spin and win more? 💰</Text>
+                <TouchableOpacity
+                  style={styles.option}
+                  onPress={() => handleMethodSelection('Recharge')}
+                >
+                  <Text style={styles.optionText}>Recharge</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.option}
+                  onPress={() => handleMethodSelection('Balance')}
+                >
+                  <Text style={styles.optionText}>Balance</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.option}
+                  onPress={() => doPaymentAndBuy()}
+                >
+                  <Text style={styles.optionText}>UPI</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text style={styles.closeButtonText}>Close</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+          {/* </View> */}
           <View style={styles.centerWheel}>
             <GoGoSpin
               ref={spinRef}
@@ -252,17 +295,89 @@ const LuckySpinner = () => {
               <Image source={require('./assets/btn.png')} style={styles.spinBtn} />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={showConfirmationAlert}>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
             <Text style={styles.footer}>Buy More chances</Text>
           </TouchableOpacity>
         </ImageBackground>
       </ScrollView>
-      <Loader visible={!upi} />
+      <Loader visible={!upi || loading} />
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  heading: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  openButton: {
+    backgroundColor: '#F194FF',
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalHeading: {
+    fontSize: 20,
+    marginBottom: 20,
+    color: "black"
+  },
+  subHeading: {
+    fontSize: 15,
+    marginBottom: 20,
+    color: "black"
+  },
+  option: {
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    borderRadius: 5,
+  },
+  optionText: {
+    fontSize: 18,
+    color: "black"
+  },
+  selected: {
+    backgroundColor: 'lightblue',
+  },
+  closeButton: {
+    backgroundColor: '#7a9f86',
+    marginTop: 20,
+    padding: 10,
+    borderRadius: 10,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   backgroundImage: {
     flex: 1,
     resizeMode: 'repeat',

@@ -19,9 +19,6 @@ const ViewProduct = ({ route, navigation }) => {
   const [userData, setUserData] = useState<null | UserObjType>(null)
   console.log("paymentMode", paymentMode);
 
-  // useFocusEffect(() => {
-
-  // })
   useEffect(() => {
     AsyncStorage.getItem("user").then((res) => {
       if (res) setUserData(JSON.parse(res))
@@ -33,17 +30,21 @@ const ViewProduct = ({ route, navigation }) => {
     if (paymentMode === "") {
       text = "Please Choose an payment mode!!!"
     } else if (paymentMode === "Recharge") {
-      navigation.navigate("AddFundScreen", {
-        pointsToAdd: price
-      })
-    } else if (paymentMode === "Balance") {
-      console.log(price, userData);
-
       if (userData && price > userData?.rechargePoints) {
         text = "You didn't have points to buy the product. please recharge!!"
       } else {
         navigation.navigate("BuyProductPage", {
-          ...route.params
+          ...route.params, paymentMode
+        })
+      }
+    } else if (paymentMode === "Balance") {
+      console.log(price, userData);
+
+      if (userData && price > userData?.money) {
+        text = "You didn't have points to buy the product. please recharge!!"
+      } else {
+        navigation.navigate("BuyProductPage", {
+          ...route.params, paymentMode
         })
       }
     }
@@ -95,9 +96,9 @@ const ViewProduct = ({ route, navigation }) => {
                 <Text style={styles.walletTitle}>Choose a wallet</Text>
               </View>
               <View style={styles.tit}>
-                  <Text style={{ ...styles.walletText, backgroundColor: `${paymentMode === "Recharge" ? '#7a9f86' : '#fff'}` }} onPress={() => { setPaymentMode("Recharge") }}>
-                    Recharge
-                  </Text>
+                <Text style={{ ...styles.walletText, backgroundColor: `${paymentMode === "Recharge" ? '#7a9f86' : '#fff'}` }} onPress={() => { setPaymentMode("Recharge") }}>
+                  Recharge
+                </Text>
                 <Text style={{ ...styles.walletText, backgroundColor: `${paymentMode === "Balance" ? '#7a9f86' : '#fff'}` }} onPress={() => { setPaymentMode("Balance") }}>
                   Balance
                 </Text>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, View, Dimensions, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
@@ -11,16 +11,17 @@ import axios from "axios";
 import { backend_url, handle500Error, updateUserInfo } from "./helper";
 
 const BuyProductPage = ({ route, navigation }) => {
-    const { imageSource, title, price, dailyIncome, validityPeriod, isHot } = route.params;
+    const { imageSource, title, price, dailyIncome, validityPeriod, isHot, paymentMode } = route.params;
     const [points, setPoints] = useState('');
     const [user, setUser] = useState<null | UserObjType>(null)
     const [loading, setLoading] = useState(false)
+    console.log("paymentMode", paymentMode);
 
-    useFocusEffect(() => {
+    useEffect(() => {
         AsyncStorage.getItem("user").then((result) => {
             if (result) { setUser(JSON.parse(result)) }
         })
-    })
+    }, [])
 
     function generateRandomString() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -39,18 +40,19 @@ const BuyProductPage = ({ route, navigation }) => {
                 email: user.email,
                 title
             }).then(({ data }) => {
-                if (data && data.success) {
+                if (data && data.success, paymentMode) {
                     axios.post(backend_url + "/api/v1/transactions/sendTransactionReq",
                         {
                             email: user.email,
                             amount: price,
                             transaction_id: generateRandomString(),
-                            product_name: title
+                            product_name: title,
+                            payment_mode: paymentMode
                         }
                     ).then(({ data }) => {
                         console.log(data);
                         if (data && data.status) {
-                            Alert.alert("Success", "Your order is placed!!")
+                            Alert.alert("Success", "Your order is placed!!");
                             updateUserInfo()
                             navigation.navigate("Home");
                         } else {
@@ -95,7 +97,7 @@ const BuyProductPage = ({ route, navigation }) => {
                                     <Text style={styles.strong}>Price </Text>
                                     <Text style={styles.detailsItem}> {price} Rs</Text>
                                 </View>
-                               {!isHot && <View style={styles.detailsText}>
+                                {!isHot && <View style={styles.detailsText}>
                                     <Text style={styles.strong}>Daily income </Text>
                                     <Text style={styles.detailsItem}> {dailyIncome}</Text>
                                 </View>}

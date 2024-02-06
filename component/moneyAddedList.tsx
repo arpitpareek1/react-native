@@ -95,6 +95,16 @@ const MoneyToWalletList = () => {
         });
     };
 
+    const getName = (name: string) => {
+        const p = {
+            "ADDED_TO_WALLET": "Add to WALLET",
+            "GETTING_SPINNER_CHANCES": "Buy Spin chances",
+
+        }
+
+        return p[name] || name;
+    }
+
     return (
         <>
             <CommonHeader title="My Transactions" previousPage="" />
@@ -102,14 +112,13 @@ const MoneyToWalletList = () => {
                 <ScrollView style={{ flex: 1 }}>
                     {transcutionInfo && transcutionInfo.length > 0 ? (
                         transcutionInfo
-                            .filter(tra => tra.product_name === 'ADDED_TO_WALLET')
                             .map((data, index) => (
                                 <View key={index}>
                                     <ProductItem
                                         imageSource={"https://img.freepik.com/free-vector/mobile-banking-return-money-from-purchases-conduct-financial-transactions-remotely-with-mobile-device-vector-isolated-concept-metaphor-illustration_335657-2799.jpg?t=st=1706804653~exp=1706805253~hmac=5ae6c6b305bd9f34f25bcbfd19ad075ab336d487c959336c1f0bafcf04608589"}
                                         link={''}
                                         price={" +" + data.amount.toString() + " Cr"}
-                                        title={"Points Added"}
+                                        title={getName(data.product_name)}
                                         date={new Date(data.createdAt).toDateString()}
                                     />
                                 </View>
@@ -143,14 +152,6 @@ const MoneyToWalletList = () => {
                         <View></View>
                     }
                 </ScrollView>
-                {/* <View
-                    style={{
-                        padding: 10,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: 10,
-                    }}>
-                </View> */}
             </View>
             <Loader visible={loading} />
         </>

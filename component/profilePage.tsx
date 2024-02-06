@@ -141,7 +141,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                 color: '#000',
                 fontWeight: '700',
                 textAlign: 'center',
-              }}>{"₹" + user?.rechargePoints}</Text>
+              }}>{"₹" + user?.rechargePoints??0}</Text>
               <Text style={{
                 fontSize: 12,
                 color: '#000',
@@ -185,7 +185,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                 <Text style={{ backgroundColor: '#7a9f86', color: '#fff', padding: 15, paddingHorizontal: 30, borderRadius: 10 }}>Recharge</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => { navigation.navigate("WithDrawPage") }}>
-                <Text style={{ backgroundColor: '#7a9f86', color: '#fff', padding: 15, paddingHorizontal: 30, borderRadius: 10 }}>Withdrow</Text>
+                <Text style={{ backgroundColor: '#7a9f86', color: '#fff', padding: 15, paddingHorizontal: 30, borderRadius: 10 }}>Withdraw</Text>
               </TouchableOpacity>
             </View>
           </View>
