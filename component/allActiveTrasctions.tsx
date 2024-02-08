@@ -80,7 +80,7 @@ const AllActiveTrasctions = () => {
         })
             .then(({ data }) => {
                 if (data && data.status) {
-                    Alert.alert("Message", "Point has reedemed!!")
+                    Alert.alert("Message", "Point has redeemed!!")
                 } else {
                     if (data && data.message) {
                         Alert.alert("Alert", data.message)
