@@ -99,7 +99,7 @@ const MoneyToWalletList = () => {
         const p = {
             "ADDED_TO_WALLET": "Add to WALLET",
             "GETTING_SPINNER_CHANCES": "Buy Spin chances",
-
+            "LUCKY_SPIN_WIN" : "Lucky Spinners winings"
         }
 
         return p[name] || name;

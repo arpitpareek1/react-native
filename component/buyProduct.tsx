@@ -11,11 +11,10 @@ import axios from "axios";
 import { backend_url, handle500Error, updateUserInfo } from "./helper";
 
 const BuyProductPage = ({ route, navigation }) => {
-    const { imageSource, title, price, dailyIncome, validityPeriod, isHot, paymentMode } = route.params;
+    const { imageSource, title, price, dailyIncome, validityPeriod, isHot } = route.params;
     const [points, setPoints] = useState('');
     const [user, setUser] = useState<null | UserObjType>(null)
     const [loading, setLoading] = useState(false)
-    console.log("paymentMode", paymentMode);
 
     useEffect(() => {
         AsyncStorage.getItem("user").then((result) => {
@@ -40,14 +39,14 @@ const BuyProductPage = ({ route, navigation }) => {
                 email: user.email,
                 title
             }).then(({ data }) => {
-                if (data && data.success, paymentMode) {
+                if (data && data.success) {
                     axios.post(backend_url + "/api/v1/transactions/sendTransactionReq",
                         {
                             email: user.email,
                             amount: price,
                             transaction_id: generateRandomString(),
                             product_name: title,
-                            payment_mode: paymentMode
+                            payment_mode: "Recharge"
                         }
                     ).then(({ data }) => {
                         console.log(data);
@@ -72,7 +71,9 @@ const BuyProductPage = ({ route, navigation }) => {
                 }
             }).catch((err) => {
                 handle500Error(err.message)
-            })
+            }).finally(() => {
+                setLoading(false)
+            });
         }
     }
 

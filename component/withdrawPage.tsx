@@ -57,7 +57,7 @@ const WithDrawPage = ({ navigation }) => {
             if (data && data.length) {
                 const limit = data.filter((setting) => setting.key === "withdraw_limit")
                 const message = data.filter((setting) => setting.key === "Withdraw_info")
-                if(message){
+                if (message) {
                     setWithdrawMsg(String(message[0].value))
                 }
                 if (limit) {
@@ -117,7 +117,9 @@ const WithDrawPage = ({ navigation }) => {
     }
 
     const handleWithDrawClick = () => {
-        console.log(bankInfo, "kkk", { ...userinfo, email: user?.email, withdrawLimit });
+        // console.log(bankInfo, "kkk", { ...userinfo, email: user?.email, withdrawLimit });
+        console.log("bankInfo", bankInfo, "userinfo.cardInfo", userinfo.cardInfo);
+
         if (userinfo && userinfo.amount && (userinfo.upi_id || userinfo.cardInfo) && withdrawLimit && bankInfo) {
             if (userinfo.amount < withdrawLimit) {
                 return ToastAndroid.showWithGravity(
@@ -161,6 +163,7 @@ const WithDrawPage = ({ navigation }) => {
                     ToastAndroid.CENTER,
                 );
             }
+            console.log("bankInfo", bankInfo, "userinfo.cardInfo", userinfo.cardInfo);
 
             if (!userinfo.cardInfo || !bankInfo) {
                 return ToastAndroid.showWithGravity(
@@ -297,8 +300,8 @@ const WithDrawPage = ({ navigation }) => {
                             />
                         </View>
                     </View>
-                   {withdrawMsg && <View>
-                        <Text style={{color: "#333", fontFamily: 'Roboto-Bold', fontSize: responsiveFontSize(2.2) }}>{withdrawMsg}</Text>
+                    {withdrawMsg && <View>
+                        <Text style={{ color: "#333", fontFamily: 'Roboto-Bold', fontSize: responsiveFontSize(2.2) }}>{withdrawMsg}</Text>
                     </View>}
                     <TouchableOpacity onPress={() => {
                         fetchBankInfo()

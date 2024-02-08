@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Image,
@@ -23,9 +23,9 @@ import { menuItems } from './helper';
 const Profile: React.FC<SupportProps> = ({ navigation }) => {
   const [user, setUser] = useState<null | UserObjType>(null)
 
-  useFocusEffect(() => {
+  useEffect(() => {
     setUserInfo()
-  });
+  },[]);
 
   function handleListClick(title: string) {
     if (title === "My Orders") {
@@ -56,6 +56,8 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
       if (!result) {
         navigation.navigate('LoginScreen');
       } else {
+        console.log(JSON.parse(result).rechargePoints);
+        
         setUser(JSON.parse(result))
       }
     });
@@ -141,7 +143,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                 color: '#000',
                 fontWeight: '700',
                 textAlign: 'center',
-              }}>{"₹" + user?.rechargePoints??0}</Text>
+              }}>{"₹" + (user?.rechargePoints || 0)}</Text>
               <Text style={{
                 fontSize: 12,
                 color: '#000',

@@ -42,7 +42,7 @@ const LuckySpinner = () => {
         console.log(response);
         if (response.data.success) {
           await onPaymentSuccess()
-          await updateUserInfo()
+          updateUserInfo()
         }
       }).catch((error) => {
         console.log(error);
@@ -68,8 +68,8 @@ const LuckySpinner = () => {
     axios.get(backend_url + "/api/v1/settings/getAll").then(({ data }) => {
       console.log(data);
       if (data && data.length) {
-        const upi = data.filter((setting) => setting.key === "upi_id")
-        const prize = data.filter((setting) => setting.key === "get_spinner_chances_in")
+        const upi = data.filter((setting: { key: string; }) => setting.key === "upi_id")
+        const prize = data.filter((setting: { key: string; }) => setting.key === "get_spinner_chances_in")
 
         if (prize.length) {
           setMoreChancePrice(prize[0].value)
@@ -194,10 +194,10 @@ const LuckySpinner = () => {
         transactionRef: 'aaasf-332-aoei-fn',
         transactionNote: 'Riotinto App',
       },
-      async (r) => {
+      async (r: any) => {
         handleMethodSelection("UPI")
       },
-      async (err) => {
+      async (err: { hasOwnProperty: (arg0: string) => any; Status: string; }) => {
         console.log("err", err);
         if (typeof err === "object" && err.hasOwnProperty("Status") && err.Status === "Success") {
           handleMethodSelection("UPI");
@@ -362,7 +362,9 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 18,
-    color: "black"
+    width:90,
+    color: "black",
+    textAlign: "center",
   },
   selected: {
     backgroundColor: 'lightblue',

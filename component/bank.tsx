@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
 import { Dialog } from 'react-native-elements';
@@ -6,7 +6,7 @@ import CommonHeader from './commonHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { updateBankInfo } from './helper';
 
-const Bank = ({ navigation }) => {
+const Bank = ({ navigation }:any) => {
     const [accNumber, setAccNumber] = useState('');
     const [accNumberError, setAccNumberError] = useState('');
     const [accName, setAccName] = useState('');

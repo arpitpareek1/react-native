@@ -30,13 +30,9 @@ const ViewProduct = ({ route, navigation }) => {
     if (paymentMode === "") {
       text = "Please Choose an payment mode!!!"
     } else if (paymentMode === "Recharge") {
-      if (userData && price > userData?.rechargePoints) {
-        text = "You didn't have points to buy the product. please recharge!!"
-      } else {
-        navigation.navigate("BuyProductPage", {
-          ...route.params, paymentMode
-        })
-      }
+      navigation.navigate("AddFundScreen", {
+        pointsToAdd: price
+      })
     } else if (paymentMode === "Balance") {
       console.log(price, userData);
 

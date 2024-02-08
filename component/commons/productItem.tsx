@@ -17,7 +17,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
       "completed": "#355E3B",
       "pending": "#CC7722"
     }
-    return p[status]
+    return p[status] ?? "#000"
   }
 
   return (
@@ -48,7 +48,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
           <Text style={{ fontSize: 18, fontWeight: '500', color: "#000" }}>
             {title}
           </Text>
-          <Text style={{ paddingVertical: 8, fontSize: 14, fontWeight: 600, color: title === "Points Added" ? "#355E3B" : title === "Withdraw Request" ? "#FF0000" : '#000' }}>
+          <Text style={{ paddingVertical: 8, fontSize: 14, fontWeight: 600, color: title === "Points Added" ? "#355E3B" :  ["Withdraw Request", "Buy Spin chances"].includes(title) ? "#FF0000" : '#000' }}>
             {price}
           </Text>
           {desc && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
