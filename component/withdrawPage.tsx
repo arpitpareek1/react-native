@@ -156,6 +156,13 @@ const WithDrawPage = ({ navigation }) => {
             })
 
         } else {
+            if (!userinfo.amount) {
+                return ToastAndroid.showWithGravity(
+                    "Please Fill the Amount.",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER,
+                );
+            }
             if (!userinfo.upi_id) {
                 return ToastAndroid.showWithGravity(
                     "Please Select a UPI Payment Method as well",
@@ -167,7 +174,7 @@ const WithDrawPage = ({ navigation }) => {
 
             if (!userinfo.cardInfo || !bankInfo) {
                 return ToastAndroid.showWithGravity(
-                    "Need to Fill the bank info, Please fill the back info by clicking on bank icon!!",
+                    "Please Fill your bank information.",
                     ToastAndroid.SHORT,
                     ToastAndroid.CENTER,
                 );
