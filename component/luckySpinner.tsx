@@ -43,6 +43,12 @@ const LuckySpinner = () => {
         if (response.data.success) {
           await onPaymentSuccess()
           updateUserInfo()
+        }else {
+          ToastAndroid.showWithGravity(
+            response.data.message,
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
         }
       }).catch((error) => {
         console.log(error);

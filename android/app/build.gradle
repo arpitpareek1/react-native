@@ -90,10 +90,10 @@ android {
             keyPassword 'android'
         }
             release {
-                storeFile file('../keystore.jks')
-                storePassword 'riotindo'
-                keyAlias 'key_alias'
-                keyPassword 'riotindo'
+                storeFile file('debug.keystore')
+                storePassword 'android'
+                keyAlias 'androiddebugkey'
+                keyPassword 'android'
             }
     }
     buildTypes {
