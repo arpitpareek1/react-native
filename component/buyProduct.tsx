@@ -100,15 +100,15 @@ const BuyProductPage = ({ route, navigation }) => {
                                 </View>
                                 {!isHot && <View style={styles.detailsText}>
                                     <Text style={styles.strong}>Daily income </Text>
-                                    <Text style={styles.detailsItem}> {dailyIncome}</Text>
+                                    <Text style={styles.detailsItem}> {dailyIncome} Rs</Text>
                                 </View>}
                                 <View style={styles.detailsText}>
                                     <Text style={styles.strong}>Validity period </Text>
-                                    <Text style={styles.detailsItem}> {validityPeriod}</Text>
+                                    <Text style={styles.detailsItem}> {validityPeriod} Days</Text>
                                 </View>
                                 <View style={styles.detailsText}>
                                     <Text style={styles.strong}>Total revenue </Text>
-                                    <Text style={styles.detailsItem}> {validityPeriod * dailyIncome}</Text>
+                                    <Text style={styles.detailsItem}> {validityPeriod * dailyIncome} Rs</Text>
                                 </View>
                             </View>
                         </View>
