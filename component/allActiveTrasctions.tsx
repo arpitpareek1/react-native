@@ -16,6 +16,7 @@ const AllActiveTrasctions = () => {
         amount: number;
         product_name: string;
         transaction_id: string;
+        status: string;
     }[]>(null)
     const [productsData, setProductsData] = useState<null | ProductType[]>(null)
     const [user, setUser] = useState<null | UserObjType>(null)
@@ -110,6 +111,7 @@ const AllActiveTrasctions = () => {
                                     price={(data.amount).toString()}
                                     title={data.product_name}
                                     transaction_id={data.transaction_id}
+                                    traStatus={data.status || "In Progress"}
                                 />
                             </View>
                         ))
@@ -119,6 +121,7 @@ const AllActiveTrasctions = () => {
                                 flex: 1,
                                 alignItems: 'center',
                                 justifyContent: 'center',
+                                paddingTop: 150,
                             }}>
                                 <Text>Looks like you have no Orders</Text>
                             </View>

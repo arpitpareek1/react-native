@@ -8,7 +8,8 @@ const ProductItem: React.FC<ProductItemProps> = ({
   transaction_id,
   desc,
   status,
-  date
+  date,
+  traStatus
 }) => {
 
   function getColor(status: string) {
@@ -66,6 +67,10 @@ const ProductItem: React.FC<ProductItemProps> = ({
           )}
           {date && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
             {date}
+          </Text>
+          )}
+          {traStatus && (<Text style={{ paddingVertical: 8, fontSize: 14, color: traStatus === "in_progress" ? "#355E3B" : "#FF0000" }}>
+            {traStatus === "in_progress" ? "In Progress" : traStatus}
           </Text>
           )}
         </View>

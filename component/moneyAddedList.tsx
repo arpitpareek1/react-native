@@ -129,6 +129,7 @@ const MoneyToWalletList = () => {
                                 flex: 1,
                                 alignItems: 'center',
                                 justifyContent: 'center',
+                                paddingTop: 150,
                             }}>
                             <Text>Looks like you have no transactions</Text>
                         </View>

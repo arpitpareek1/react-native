@@ -4,7 +4,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import CommonHeader from "./commonHeader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect } from "@react-navigation/native";
 import { UserObjType } from "../interfaces";
 import Loader from "./commons/Loader";
 import axios from "axios";

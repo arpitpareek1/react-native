@@ -41,6 +41,7 @@ const WithDrawPage = ({ navigation }) => {
     const [success, setSuccess] = useState(false);
     const [data, setData] = useState<[] | { label: string, value: string }[]>([])
     const [withdrawLimit, setWithDrawLimit] = useState<null | number>(null)
+    const [maxWithdrawLimit, setMaxWithDrawLimit] = useState<null | number>(null)
     const [withdrawMsg, setWithdrawMsg] = useState('')
 
 
@@ -55,10 +56,14 @@ const WithDrawPage = ({ navigation }) => {
         axios.get(backend_url + "/api/v1/settings/getAll").then(({ data }) => {
             console.log(data);
             if (data && data.length) {
-                const limit = data.filter((setting) => setting.key === "withdraw_limit")
-                const message = data.filter((setting) => setting.key === "Withdraw_info")
+                const limit = data.filter((setting: { key: string; }) => setting.key === "withdraw_limit")
+                const message = data.filter((setting: { key: string; }) => setting.key === "Withdraw_info")
+                const max_limit = data.filter((setting: { key: string; }) => setting.key === "maximum_withdraw_limit")
                 if (message) {
                     setWithdrawMsg(String(message[0].value))
+                }
+                if (max_limit) {
+                    setMaxWithDrawLimit(Number(max_limit[0].value))
                 }
                 if (limit) {
                     setWithDrawLimit(Number(limit[0].value))
@@ -69,7 +74,6 @@ const WithDrawPage = ({ navigation }) => {
                         ToastAndroid.CENTER,
                     );
                 }
-
             } else {
                 ToastAndroid.showWithGravity(
                     "Failed to get UPI settings, Please Try to relaunch the app",
@@ -117,13 +121,12 @@ const WithDrawPage = ({ navigation }) => {
     }
 
     const handleWithDrawClick = () => {
-        // console.log(bankInfo, "kkk", { ...userinfo, email: user?.email, withdrawLimit });
         console.log("bankInfo", bankInfo, "userinfo.cardInfo", userinfo.cardInfo);
 
-        if (userinfo && userinfo.amount && (userinfo.upi_id || userinfo.cardInfo) && withdrawLimit && bankInfo) {
-            if (userinfo.amount < withdrawLimit) {
+        if (userinfo && userinfo.amount && (userinfo.upi_id || userinfo.cardInfo) && withdrawLimit && bankInfo && maxWithdrawLimit) {
+            if (userinfo.amount < Number(withdrawLimit) || userinfo.amount > Number(maxWithdrawLimit)) {
                 return ToastAndroid.showWithGravity(
-                    "Can't withdraw lower then " + withdrawLimit,
+                    "Can't withdraw lower then " + withdrawLimit + " and greater than " + maxWithdrawLimit,
                     ToastAndroid.SHORT,
                     ToastAndroid.CENTER,
                 );
@@ -282,7 +285,12 @@ const WithDrawPage = ({ navigation }) => {
                                     <TextInput
                                         placeholder={'Enter Amount'}
                                         keyboardType={'phone-pad'}
-                                        onChangeText={(text) => { setAmount(text); setUserInfo((prev) => ({ ...prev, amount: Number(text) })) }}
+                                        onChangeText={(text) => {
+                                            setAmount(text);
+                                            setUserInfo((prev) => ({
+                                                ...prev, amount: Number(text)
+                                            }))
+                                        }}
                                         value={amount}
                                         maxLength={5}
                                         placeholderTextColor="#666"
@@ -301,7 +309,13 @@ const WithDrawPage = ({ navigation }) => {
                         </View>
                     </View>
                     {withdrawMsg && <View>
-                        <Text style={{ color: "#333", fontFamily: 'Roboto-Bold', fontSize: responsiveFontSize(2.2) }}>{withdrawMsg}</Text>
+                        <Text style={{
+                            color: "#333",
+                            fontFamily: 'Roboto-Bold',
+                            fontSize: responsiveFontSize(2.2)
+                        }}>
+                            {withdrawMsg}
+                        </Text>
                     </View>}
                     <TouchableOpacity onPress={() => {
                         fetchBankInfo()

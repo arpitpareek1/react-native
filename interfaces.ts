@@ -9,6 +9,7 @@ export interface ProductItemProps {
   transaction_id?: string
   status?: string
   date?: string
+  traStatus?: string
 }
 
 export interface NewsItemProps {
