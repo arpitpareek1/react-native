@@ -20,7 +20,7 @@ const IconRow: React.FC<IconRow> = ({ navigation }) => {
           <Image source={{ uri: Image.resolveAssetSource(DefaultImage1).uri }} style={{ width: 50, height: 50 }} />
         </View>
         <View style={styles.palaceGridText}>
-          <Text style={styles.gridText}>Points</Text>
+          <Text style={styles.gridText}>Redeem</Text>
         </View>
       </TouchableOpacity>
 
@@ -57,7 +57,7 @@ const IconRow: React.FC<IconRow> = ({ navigation }) => {
           <Image source={{ uri: Image.resolveAssetSource(DefaultImage4).uri }} style={{ width: 50, height: 50 }} />
         </View>
         <View style={styles.palaceGridText}>
-          <Text style={styles.gridText}>Services</Text>
+          <Text style={styles.gridText}>Support</Text>
         </View>
       </TouchableOpacity>
     </View>

@@ -43,6 +43,12 @@ const LuckySpinner = () => {
         if (response.data.success) {
           await onPaymentSuccess()
           updateUserInfo()
+        } else {
+          ToastAndroid.showWithGravity(
+            response.data.message,
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
         }
       }).catch((error) => {
         console.log(error);
@@ -136,7 +142,7 @@ const LuckySpinner = () => {
       setChances((pre) => pre - 1)
     }
     else {
-      Alert.alert("Wait !!", "You need to wait to try your luck because you can only try once a day.");
+      Alert.alert("Wait !!", "Please try tomorrow again as you reacted your limit to spin.");
     }
   };
 
@@ -237,7 +243,7 @@ const LuckySpinner = () => {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Text style={styles.modalHeading}>🌟 Exciting Offer! 🌟</Text>
-                <Text style={styles.subHeading}>🎉 Special Deal: Buy 3 extra spin chances for only {moreChancePrize} Rs! 🎉\n\nDon't miss out on this amazing opportunity to increase your chances of winning big. Are you ready to spin and win more? 💰</Text>
+                <Text style={styles.subHeading}>🎉 Special Deal: Buy 3 extra spin Chances for only {moreChancePrize} Rs! 🎉Don't miss out on this amazing opportunity to increase your chances of winning big. Are you ready to spin and win more? 💰</Text>
                 <TouchableOpacity
                   style={styles.option}
                   onPress={() => handleMethodSelection('Recharge')}
@@ -362,7 +368,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 18,
-    width:90,
+    width: 90,
     color: "black",
     textAlign: "center",
   },
