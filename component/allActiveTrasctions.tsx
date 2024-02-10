@@ -1,4 +1,3 @@
-import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 import { backend_url, handle500Error } from "./helper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -12,7 +11,7 @@ import { ProductType, UserObjType } from "../interfaces";
 
 const AllActiveTrasctions = () => {
     const [loading, setLoading] = useState(false)
-    const [transcutionInfo, setTranscutionInfo] = useState<null | {
+    const [transactionInfo, setTransactionInfo] = useState<null | {
         amount: number;
         product_name: string;
         transaction_id: string;
@@ -22,8 +21,7 @@ const AllActiveTrasctions = () => {
     const [user, setUser] = useState<null | UserObjType>(null)
 
     useEffect(() => {
-        console.log("ghfdshadshds");
-
+        console.log("useEffect called");
         getData()
     }, [])
 
@@ -57,8 +55,7 @@ const AllActiveTrasctions = () => {
                     console.log(data);
                     if (data && data.success) {
                         console.log(data.data);
-
-                        setTranscutionInfo(data.data)
+                        setTransactionInfo(data.data)
                     } else {
                         Alert.alert("Error", "Something wend wrong")
                     }
@@ -70,7 +67,7 @@ const AllActiveTrasctions = () => {
             }
         })
     }
-    const handleReedemButton = () => {
+    const handleRedeemButton = () => {
         if (!user || !user.email) {
             Alert.alert("Message", "Something went wrong");
             return
@@ -102,8 +99,8 @@ const AllActiveTrasctions = () => {
             <CommonHeader title="My Orders" previousPage="" />
             <View style={{ flex: 1 }}>
                 <ScrollView style={{ flex: 1 }}>
-                    {transcutionInfo && transcutionInfo.length > 0 && transcutionInfo.filter((tra) => !["ADDED_TO_WALLET", "GETTING_SPINNER_CHANCES", "LUCKY_SPIN_WIN"].includes(tra.product_name)).length ? (
-                        transcutionInfo.filter((tra) => !["ADDED_TO_WALLET","LUCKY_SPIN_WIN", "GETTING_SPINNER_CHANCES"].includes(tra.product_name)).map((data, index) => (
+                    {transactionInfo && transactionInfo.length > 0 && transactionInfo.filter((tra) => !["ADDED_TO_WALLET", "GETTING_SPINNER_CHANCES", "LUCKY_SPIN_WIN", "REFER_TRANSACTION"].includes(tra.product_name)).length ? (
+                        transactionInfo.filter((tra) => !["ADDED_TO_WALLET", "LUCKY_SPIN_WIN", "GETTING_SPINNER_CHANCES", "REFER_TRANSACTION"].includes(tra.product_name)).map((data, index) => (
                             <View key={index}>
                                 <ProductItem
                                     imageSource={getImageUrlFromName(data.product_name) ?? "https://img.freepik.com/free-vector/mobile-banking-return-money-from-purchases-conduct-financial-transactions-remotely-with-mobile-device-vector-isolated-concept-metaphor-illustration_335657-2799.jpg?t=st=1706804653~exp=1706805253~hmac=5ae6c6b305bd9f34f25bcbfd19ad075ab336d487c959336c1f0bafcf04608589"}
@@ -111,7 +108,7 @@ const AllActiveTrasctions = () => {
                                     price={(data.amount).toString()}
                                     title={data.product_name}
                                     transaction_id={data.transaction_id}
-                                    traStatus={data.status || "In Progress"}
+                                    traStatus={data.status || "Active"}
                                 />
                             </View>
                         ))
@@ -129,11 +126,11 @@ const AllActiveTrasctions = () => {
                     )}
                 </ScrollView>
                 <View style={{ padding: 10, alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
-                    {transcutionInfo && transcutionInfo.length ? (
+                    {transactionInfo && transactionInfo.length ? (
                         <Button
                             title="Redeem Your Daily Earning"
                             color="#7a9f86"
-                            onPress={handleReedemButton}
+                            onPress={handleRedeemButton}
                         />
                     ) : <Text></Text>}
                 </View>

@@ -25,7 +25,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
 
   useEffect(() => {
     setUserInfo()
-  },[]);
+  }, []);
 
   function handleListClick(title: string) {
     if (title === "My Orders") {
@@ -57,7 +57,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
         navigation.navigate('LoginScreen');
       } else {
         console.log(JSON.parse(result).rechargePoints);
-        
+
         setUser(JSON.parse(result))
       }
     });
@@ -72,7 +72,9 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
   function logout() {
     AsyncStorage.removeItem("user").then(async () => {
       const p = await AsyncStorage.getAllKeys()
-      await AsyncStorage.multiRemove(p)
+      console.log("allKeys", p);
+      const a = p.filter((key) => key !== "lastSpinner")
+      await AsyncStorage.multiRemove(a)
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -149,7 +151,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                 color: '#000',
                 fontWeight: '400',
                 textAlign: 'center',
-              }}>Recharge</Text>
+              }}>Deposit Cash</Text>
             </View>
             <View style={{
               flex: 1,
@@ -167,7 +169,7 @@ const Profile: React.FC<SupportProps> = ({ navigation }) => {
                 color: '#000',
                 fontWeight: '400',
                 textAlign: 'center',
-              }}>Wallet Balance</Text>
+              }}>Winnings Cash</Text>
             </View>
           </View>
           <View

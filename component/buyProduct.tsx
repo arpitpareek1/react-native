@@ -98,7 +98,7 @@ const BuyProductPage = ({ route, navigation }) => {
                                     <Text style={styles.detailsItem}> {price} Rs</Text>
                                 </View>
                                 {!isHot && <View style={styles.detailsText}>
-                                    <Text style={styles.strong}>Daily income </Text>
+                                    <Text style={styles.strong}>Daily income     </Text>
                                     <Text style={styles.detailsItem}> {dailyIncome} Rs</Text>
                                 </View>}
                                 <View style={styles.detailsText}>

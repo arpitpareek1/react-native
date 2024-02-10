@@ -12,7 +12,7 @@ import { UserObjType } from '../interfaces';
 
 const MoneyToWalletList = () => {
     const [loading, setLoading] = useState(false);
-    const [transcutionInfo, setTranscutionInfo] = useState<
+    const [transactionInfo, setTransactionInfo] = useState<
         | null
         | {
             amount: number;
@@ -60,7 +60,7 @@ const MoneyToWalletList = () => {
                         if (data && data.success) {
                             console.log(data.data);
 
-                            setTranscutionInfo(data.data);
+                            setTransactionInfo(data.data);
                         } else {
                             Alert.alert('Error', 'Something wend wrong');
                         }
@@ -78,7 +78,7 @@ const MoneyToWalletList = () => {
                     .then(({ data }) => {
                         console.log(data);
                         if (data && data.message === "Success") {
-                            console.log("withDawr", data.data);
+                            console.log("withDaws", data.data);
                             setWithDrawData(data.data);
                         } else {
                             Alert.alert('Error', 'Something wend wrong');
@@ -99,7 +99,8 @@ const MoneyToWalletList = () => {
         const p = {
             "ADDED_TO_WALLET": "Add to WALLET",
             "GETTING_SPINNER_CHANCES": "Buy Spin chances",
-            "LUCKY_SPIN_WIN" : "Lucky Spinners winings"
+            "LUCKY_SPIN_WIN": "Lucky Spinners wining",
+            "REFER_TRANSACTION": " Refer Wining Transactions"
         }
 
         return p[name] || name;
@@ -110,20 +111,19 @@ const MoneyToWalletList = () => {
             <CommonHeader title="My Transactions" previousPage="" />
             <View style={{ flex: 1 }}>
                 <ScrollView style={{ flex: 1 }}>
-                    {transcutionInfo && transcutionInfo.length > 0 ? (
-                        transcutionInfo
-                            .map((data, index) => (
-                                <View key={index}>
-                                    <ProductItem
-                                        imageSource={"https://img.freepik.com/free-vector/mobile-banking-return-money-from-purchases-conduct-financial-transactions-remotely-with-mobile-device-vector-isolated-concept-metaphor-illustration_335657-2799.jpg?t=st=1706804653~exp=1706805253~hmac=5ae6c6b305bd9f34f25bcbfd19ad075ab336d487c959336c1f0bafcf04608589"}
-                                        link={''}
-                                        price={" +" + data.amount.toString() + " Cr"}
-                                        title={getName(data.product_name)}
-                                        date={new Date(data.createdAt).toDateString()}
-                                    />
-                                </View>
-                            ))
-                    ) : !loading && !withdrawData?.length && !transcutionInfo?.length ? (
+                    {transactionInfo && transactionInfo.length > 0 && transactionInfo.filter((tra) => ["ADDED_TO_WALLET", "GETTING_SPINNER_CHANCES", "LUCKY_SPIN_WIN", "REFER_TRANSACTION"].includes(tra.product_name)).length ? (
+                        transactionInfo.filter((tra) => ["ADDED_TO_WALLET", "LUCKY_SPIN_WIN", "GETTING_SPINNER_CHANCES", "REFER_TRANSACTION"].includes(tra.product_name)).map((data, index) => (
+                            <View key={index}>
+                                <ProductItem
+                                    imageSource={"https://img.freepik.com/free-vector/mobile-banking-return-money-from-purchases-conduct-financial-transactions-remotely-with-mobile-device-vector-isolated-concept-metaphor-illustration_335657-2799.jpg?t=st=1706804653~exp=1706805253~hmac=5ae6c6b305bd9f34f25bcbfd19ad075ab336d487c959336c1f0bafcf04608589"}
+                                    link={''}
+                                    price={((data.product_name === "GETTING_SPINNER_CHANCES" ? " - " : " + ") + data.amount.toString()) + (data.product_name === "GETTING_SPINNER_CHANCES" ? "Dr" : " Cr")}
+                                    title={getName(data.product_name)}
+                                    date={new Date(data.createdAt).toDateString()}
+                                />
+                            </View>
+                        ))
+                    ) : !loading && !withdrawData?.length && !transactionInfo?.length ? (
                         <View
                             style={{
                                 flex: 1,

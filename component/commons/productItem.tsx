@@ -49,7 +49,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
           <Text style={{ fontSize: 18, fontWeight: '500', color: "#000" }}>
             {title}
           </Text>
-          <Text style={{ paddingVertical: 8, fontSize: 14, fontWeight: 600, color: title === "Points Added" ? "#355E3B" :  ["Withdraw Request", "Buy Spin chances"].includes(title) ? "#FF0000" : '#000' }}>
+          <Text style={{ paddingVertical: 8, fontSize: 14, fontWeight: "600", color: title === "Points Added" ? "#355E3B" : ["Withdraw Request", "Buy Spin chances"].includes(title) ? "#FF0000" : '#000' }}>
             {price}
           </Text>
           {desc && (<Text style={{ paddingVertical: 8, fontSize: 14, color: '#000' }}>
@@ -69,8 +69,8 @@ const ProductItem: React.FC<ProductItemProps> = ({
             {date}
           </Text>
           )}
-          {traStatus && (<Text style={{ paddingVertical: 8, fontSize: 14, color: traStatus === "in_progress" ? "#355E3B" : "#FF0000" }}>
-            {traStatus === "in_progress" ? "In Progress" : traStatus}
+          {traStatus && (<Text style={{ paddingVertical: 8, fontSize: 14, fontWeight:"bold", color: traStatus === "in_progress" ? "#355E3B" : "#FF0000" }}>
+            {traStatus === "in_progress" ? "Active" : traStatus}
           </Text>
           )}
         </View>

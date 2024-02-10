@@ -132,17 +132,33 @@ const LuckySpinner = () => {
   const onSpinPress = async () => {
     winRef.current = null
     const lastSpinnerTime = await AsyncStorage.getItem("lastSpinner");
-    if (!lastSpinnerTime || (new Date().getTime() - Number(lastSpinnerTime) >= 24 * 60 * 60 * 1000)) {
+    console.log(lastSpinnerTime,"lastSpinnerTime");
+    
+    if (lastSpinnerTime) {
+      const filterData = JSON.parse(lastSpinnerTime).filter((item) => item.email === user?.email)
+      console.log("filterData",filterData);
+      
+      if (!filterData.length || (new Date().getTime() - Number(filterData[filterData.length - 1].lastSpin) >= 24 * 60 * 60 * 1000)) {
+        runSpinner()
+        const newObj = { "email": user?.email, "lastSpin": new Date().getTime().toString() }
+        const arr = lastSpinnerTime ? JSON.parse(lastSpinnerTime) : []
+        arr.push(newObj)
+        await AsyncStorage.setItem("lastSpinner", JSON.stringify(arr));
+      }
+      else if (spinChances > 0) {
+        runSpinner();
+        await AsyncStorage.setItem("spinChances", spinChances - 1 + "")
+        setChances((pre) => pre - 1)
+      }
+      else {
+        Alert.alert("Wait !!", "Please try again tomorrow as you reached your limit to spin.");
+      }
+    } else {
       runSpinner()
-      await AsyncStorage.setItem("lastSpinner", new Date().getTime().toString());
-    }
-    else if (spinChances > 0) {
-      runSpinner();
-      await AsyncStorage.setItem("spinChances", spinChances - 1 + "")
-      setChances((pre) => pre - 1)
-    }
-    else {
-      Alert.alert("Wait !!", "Please try tomorrow again as you reacted your limit to spin.");
+      const newObj = { "email": user?.email, "lastSpin": new Date().getTime().toString() }
+      const arr: any = []
+      arr.push(newObj)
+      await AsyncStorage.setItem("lastSpinner", JSON.stringify(arr));
     }
   };
 
