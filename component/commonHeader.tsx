@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-// import { StackHeaderProps } from '@react-navigation/stack';
 
 interface CommonHeaderProps {
     title: string;
@@ -17,7 +16,7 @@ const CommonHeader: React.FC<CommonHeaderProps> = ({ title, previousPage, spinCh
             <View style={styles.walletContainer}>
                 {
                     spinChances ?
-                    (<Text> Your Spin Extra Chances{" "} {spinChances}</Text>): null
+                        (<Text style={{ color: "white" }}>Extra spins{" "} {spinChances}</Text>) : null
                 }
             </View>
         </View>

@@ -19,6 +19,7 @@ const LuckySpinner = () => {
   const [spinChances, setChances] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const winRef = useRef<number | null>(null)
+  const [winState, setWinState] = useState<number | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
   const prize = [
@@ -112,7 +113,10 @@ const LuckySpinner = () => {
   const runSpinner = () => {
     const win = doSpin()
     console.log("win", win);
-    winRef.current = win
+    setTimeout(()=>{
+      setWinState(win);
+      winRef.current = win
+    },1500)
     console.log("mmwin", win);
     if (win) {
       axios.post(backend_url + "/api/v1/transactions/addMoneyToWallet", {
@@ -130,14 +134,15 @@ const LuckySpinner = () => {
   }
 
   const onSpinPress = async () => {
+    setWinState(null)
     winRef.current = null
     const lastSpinnerTime = await AsyncStorage.getItem("lastSpinner");
-    console.log(lastSpinnerTime,"lastSpinnerTime");
-    
+    console.log(lastSpinnerTime, "lastSpinnerTime");
+
     if (lastSpinnerTime) {
       const filterData = JSON.parse(lastSpinnerTime).filter((item) => item.email === user?.email)
-      console.log("filterData",filterData);
-      
+      console.log("filterData", filterData);
+
       if (!filterData.length || (new Date().getTime() - Number(filterData[filterData.length - 1].lastSpin) >= 24 * 60 * 60 * 1000)) {
         runSpinner()
         const newObj = { "email": user?.email, "lastSpin": new Date().getTime().toString() }
@@ -240,12 +245,12 @@ const LuckySpinner = () => {
       <ScrollView contentContainerStyle={styles.container}>
         <ImageBackground
           source={require('./assets/spinning-wheel.png')}
-          style={styles.backgroundImage}
+          style={{...styles.backgroundImage, ...styles.container}}
         >
           <View style={styles.rowContainer}>
             <Text>
-              <Text style={styles.prizeText}>{winRef.current && winRef.current !== 0 ? ("Price: " + winRef.current) : winRef.current === 0 ?? "Better Luck Next Time"}</Text>
-              {winRef.current && winRef.current !== 0 ? (<Image source={require('./assets/prize.png')} style={styles.itemWrap} />) : ""}
+              <Text style={styles.prizeText}>{winState && winState !== 0 ? ("Price: " + winState) : winState === 0 ?? "Better Luck Next Time"}</Text>
+              {winState && winState !== 0 ? (<Image source={require('./assets/prize.png')} style={styles.itemWrap} />) : ""}
             </Text>
           </View>
           <Modal
@@ -293,9 +298,9 @@ const LuckySpinner = () => {
               ref={spinRef}
               onEndSpinCallBack={onEndSpin}
               notShowDividLine={false}
-              spinDuration={500}
+              spinDuration={2000}
               spinReverse={false}
-              spinTime={10}
+              spinTime={5}
               width={SIZE}
               height={SIZE}
               radius={SIZE / 2}
@@ -303,7 +308,7 @@ const LuckySpinner = () => {
               borderStyle={{ borderBlockColor: "#000", borderCurve: 'circular' }}
               wheelStyle={{ columnGap: 30 }}
               offsetEnable={false}
-              source={require('./assets/wheel.png')}
+              source={{ uri: Image.resolveAssetSource(require("./assets/wheel.png")).uri }}
               renderItem={(data, i) => {
                 return (
                   <View key={i} style={styles.itemWrapper}>
@@ -313,7 +318,7 @@ const LuckySpinner = () => {
                 );
               }}
             />
-            <TouchableOpacity style={styles.spinWarp} onPress={onSpinPress}>
+            <TouchableOpacity style={styles.spinWarp} onPress={() => { onSpinPress() }}>
               <Image source={require('./assets/btn.png')} style={styles.spinBtn} />
             </TouchableOpacity>
           </View>
