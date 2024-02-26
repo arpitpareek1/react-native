@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, ScrollView, Linking } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -16,6 +16,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import CommonHeader from './commonHeader';
 import { CommonActions } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 const LoginScreen = ({ navigation }) => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
@@ -46,7 +48,15 @@ const LoginScreen = ({ navigation }) => {
     return phoneRegex.test(phone) && phone.length === 10;
   };
 
-  const handleUserLogin = async userData => {
+  function handlePress(path: string) {
+    if (path === 'whatsApp') {
+      Linking.openURL('https://wa.me/919358271263');
+    } else {
+      Linking.openURL(`https://t.me/+VK2c7kU4TvhkODU1`);
+    }
+  }
+
+  const handleUserLogin = async (userData: any) => {
     try {
       console.log(userData);
       if (!validatePhone(phone) || !password) {
@@ -169,6 +179,14 @@ const LoginScreen = ({ navigation }) => {
               <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
                 <Text style={{ color: '#7a9f86', fontWeight: '700' }}> Register</Text>
               </TouchableOpacity>
+            </View>
+            <View>
+              <View style={{
+                marginBottom: responsiveWidth(5), backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'
+              }}>
+                <FontAwesome name="whatsapp" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} onPress={() => Linking.openURL('https://wa.me/918905608099')} />
+                <FontAwesome name="telegram" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} onPress={() => Linking.openURL(`https://t.me/+VK2c7kU4TvhkODU1`)} />
+              </View>
             </View>
           </View> :
           <Loader visible={true} />
