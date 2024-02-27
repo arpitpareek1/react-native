@@ -181,6 +181,14 @@ const LoginScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <View>
+              <Text style={{
+                color: '#666',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                textAlign:"center",
+                marginTop: 100,
+                marginBottom: responsiveWidth(8),
+              }}>Need Support? Connect us</Text>
               <View style={{
                 marginBottom: responsiveWidth(5), backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'
               }}>

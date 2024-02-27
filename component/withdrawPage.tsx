@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View, Image, TextInput, Text, TouchableOpacity, Alert, SafeAreaView, ToastAndroid } from "react-native";
+import { View, Image, TextInput, Text, TouchableOpacity, Alert, SafeAreaView, ToastAndroid, ScrollView } from "react-native";
 import { responsiveWidth, responsiveFontSize, responsiveHeight } from "react-native-responsive-dimensions";
 import { UserObjType } from "../interfaces";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -43,6 +43,18 @@ const WithDrawPage = ({ navigation }) => {
     const [withdrawLimit, setWithDrawLimit] = useState<null | number>(null)
     const [maxWithdrawLimit, setMaxWithDrawLimit] = useState<null | number>(null)
     const [withdrawMsg, setWithdrawMsg] = useState('')
+    const [weekdays, setWeekDays] = useState('')
+
+
+    const fullWeekdays = [
+        { id: 1, name: 'Monday' },
+        { id: 2, name: 'Tuesday' },
+        { id: 3, name: 'Wednesday' },
+        { id: 4, name: 'Thursday' },
+        { id: 5, name: 'Friday' },
+        { id: 6, name: 'Saturday' },
+        { id: 7, name: 'Sunday' },
+    ];
 
 
     useEffect(() => {
@@ -59,13 +71,17 @@ const WithDrawPage = ({ navigation }) => {
                 const limit = data.filter((setting: { key: string; }) => setting.key === "withdraw_limit")
                 const message = data.filter((setting: { key: string; }) => setting.key === "Withdraw_info")
                 const max_limit = data.filter((setting: { key: string; }) => setting.key === "maximum_withdraw_limit")
-                if (message) {
+                const weekdays = data.filter((setting: { key: string; }) => setting.key === "withdraw_days")
+                if (message.length) {
                     setWithdrawMsg(String(message[0].value))
                 }
-                if (max_limit) {
+                if (weekdays.length) {
+                    setWeekDays(weekdays[0].value)
+                }
+                if (max_limit.length) {
                     setMaxWithDrawLimit(Number(max_limit[0].value))
                 }
-                if (limit) {
+                if (limit.length) {
                     setWithDrawLimit(Number(limit[0].value))
                 } else {
                     ToastAndroid.showWithGravity(
@@ -121,8 +137,14 @@ const WithDrawPage = ({ navigation }) => {
     }
 
     const handleWithDrawClick = () => {
-        console.log("bankInfo", bankInfo, "userinfo.cardInfo", userinfo.cardInfo);
-
+        console.log("bankInfo", bankInfo, "userinfo.cardInfo", new Date().getDay());
+        if (!(JSON.parse(weekdays) as number[]).some((value) => value === new Date().getDay() - 1)) {
+            return ToastAndroid.showWithGravity(
+                "Only withdraw on " + (JSON.parse(weekdays) as number[]).map((v) => fullWeekdays[v].name).join(", "),
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER,
+            );
+        }
         if (userinfo && userinfo.amount && (userinfo.upi_id || userinfo.cardInfo) && withdrawLimit && bankInfo && maxWithdrawLimit) {
             if (userinfo.amount < Number(withdrawLimit) || userinfo.amount > Number(maxWithdrawLimit)) {
                 return ToastAndroid.showWithGravity(
@@ -193,177 +215,190 @@ const WithDrawPage = ({ navigation }) => {
 
     return (
         <>
-            <SafeAreaView style={{ justifyContent: 'center' }}>
-                <View style={{ backgroundColor: '#7a9f86', flexDirection: 'row', alignItems: 'center', padding: responsiveWidth(4.1) }}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Text style={{ fontSize: responsiveFontSize(2.8), color: 'white', fontWeight: '600', marginRight: responsiveWidth(15), alignSelf: 'center', width: responsiveWidth(40) }}>Withdraw Fund</Text>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 2 }}>
-                            <Text style={{ fontSize: responsiveFontSize(2), color: 'white', justifyContent: "flex-end", marginLeft: 60 }}>₹ {user?.money ?? 0}</Text>
-                        </View>
-                    </View>
-                </View>
+            <ScrollView>
 
-                <View style={{ flexDirection: 'column', margin: responsiveWidth(5), gap: responsiveWidth(5) }}>
-                    <Text style={{ fontSize: responsiveFontSize(2.5), fontFamily: 'Roboto-Bold', color: '#333' }}>Payment Method</Text>
-                    <View style={{ flexDirection: 'row', gap: responsiveWidth(2) }}>
-                        <TouchableOpacity onPress={() => {
-                            navigation.navigate('Bank');
-                        }}
-                            style={{ borderRadius: 10, borderWidth: 1, borderColor: '#ccc', flexDirection: 'column', alignItems: 'center', gap: responsiveWidth(1.5), padding: responsiveWidth(1.5), backgroundColor: '#fff' }}
-                        >
-                            <Image
-                                source={bank}
-                                style={{ width: responsiveWidth(16.9), height: responsiveHeight(7.9), borderRadius: 10, }}
-                            />
-                            <Text style={{ fontSize: responsiveFontSize(1.9), color: '#333', fontFamily: 'Roboto-Bold' }}>Bank</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => {
-                            navigation.navigate('Phonepe');
-
-                        }}
-                            style={{ borderRadius: 10, borderWidth: 1, borderColor: '#ccc', flexDirection: 'column', alignItems: 'center', gap: responsiveWidth(1.5), padding: responsiveWidth(1.5), backgroundColor: '#fff' }}
-                        >
-                            <Image
-                                source={phonepe}
-                                style={{ width: responsiveWidth(16.9), height: responsiveHeight(7.9), borderRadius: 10, }}
-                            />
-                            <Text style={{ fontSize: responsiveFontSize(1.9), color: '#333', fontFamily: 'Roboto-Bold' }}>PhonePe</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => {
-                            navigation.navigate('Googlepay');
-
-                        }}
-                            style={{ borderRadius: 10, borderWidth: 1, borderColor: '#ccc', flexDirection: 'column', alignItems: 'center', gap: responsiveWidth(1.5), padding: responsiveWidth(1.5), backgroundColor: '#fff' }}
-                        >
-                            <Image
-                                source={googlepay}
-                                style={{ width: responsiveWidth(16.9), height: responsiveHeight(7.9), borderRadius: 10, }}
-                            />
-                            <Text style={{ fontSize: responsiveFontSize(1.9), color: '#333', fontFamily: 'Roboto-Bold' }}>Google Pay</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => {
-                            navigation.navigate('Paytm');
-
-                        }}
-                            style={{ borderRadius: 10, borderWidth: 1, borderColor: '#ccc', flexDirection: 'column', alignItems: 'center', gap: responsiveWidth(1.5), padding: responsiveWidth(1.5), backgroundColor: '#fff' }}
-                        >
-                            <Image
-                                source={paytm}
-                                style={{ width: responsiveWidth(16.9), height: responsiveHeight(7.9), borderRadius: 10, }}
-                            />
-                            <Text style={{ fontSize: responsiveFontSize(1.9), color: '#333', fontFamily: 'Roboto-Bold' }}>PayTM</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{ flexDirection: 'column', }}>
-                        <Text style={{ fontFamily: 'Roboto-Bold', fontSize: responsiveFontSize(2.5), color: "#333", marginTop: responsiveWidth(1) }}>Withdraw Fund</Text>
-                        <Dropdown
-                            data={data}
-                            placeholderStyle={{ color: '#333', fontSize: responsiveFontSize(2.2), fontFamily: 'Roboto-Bold', alignItems: 'center', textAlign: 'center' }}
-                            placeholder='Select Payment Method'
-                            labelField="label"
-                            valueField="value"
-                            value={value}
-                            style={{ borderColor: "#ccc", borderWidth: 1, padding: responsiveWidth(2), backgroundColor: '#fff', borderRadius: 10, marginTop: responsiveWidth(5) }}
-                            onChange={item => {
-                                setValue(item.value);
-                                if (item.label.includes("bank")) {
-                                    setUserInfo((prev) => ({ ...prev, cardInfo: item.value }))
-                                } else {
-                                    setUserInfo((prev) => ({ ...prev, upi_id: item.value }))
-                                }
-                            }}
-                            selectedTextStyle={{ color: "#333", fontFamily: 'Roboto-Bold', fontSize: responsiveFontSize(2.5) }}
-                            activeColor='#ccc'
-                            itemTextStyle={{ color: "#333" }}
-                        />
-                        <Text style={{ color: 'red', fontSize: responsiveFontSize(1.6), fontFamily: 'Roboto-Regular', marginLeft: responsiveWidth(3), flexWrap: 'wrap', width: responsiveWidth(50), marginTop: responsiveWidth(2), }}>{valueError}</Text>
-                        <View style={{ flexDirection: 'row', gap: responsiveWidth(3), marginTop: responsiveWidth(2) }}>
-                            <View style={{ flexDirection: 'column', gap: responsiveWidth(1.5), flexWrap: 'wrap', width: responsiveWidth(45), }}>
-                                <View
-                                    style={{
-                                        flexDirection: 'row',
-                                        borderRadius: 10,
-                                        borderColor: '#ccc',
-                                        borderWidth: 1,
-                                        paddingBottom: responsiveWidth(2.2),
-                                        width: responsiveWidth(45),
-                                        backgroundColor: '#fff',
-                                    }}>
-                                    <TextInput
-                                        placeholder={'Enter Amount'}
-                                        keyboardType={'phone-pad'}
-                                        onChangeText={(text) => {
-                                            setAmount(text);
-                                            setUserInfo((prev) => ({
-                                                ...prev, amount: Number(text)
-                                            }))
-                                        }}
-                                        value={amount}
-                                        maxLength={5}
-                                        placeholderTextColor="#666"
-                                        style={{ flex: 1, paddingVertical: responsiveWidth(0.5), color: '#666', fontSize: responsiveFontSize(2.2), paddingHorizontal: responsiveWidth(4.1), paddingTop: responsiveWidth(2.2), textAlign: 'center' }}
-                                        editable={true}
-                                    />
-                                </View>
-                                <Text style={{ color: 'red', fontSize: responsiveFontSize(1.6), fontFamily: 'Roboto-Regular', marginLeft: responsiveWidth(1), flexWrap: 'wrap', width: responsiveWidth(65), }}>{amountError}</Text>
+                <SafeAreaView style={{ justifyContent: 'center' }}>
+                    <View style={{ backgroundColor: '#7a9f86', flexDirection: 'row', alignItems: 'center', padding: responsiveWidth(4.1) }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={{ fontSize: responsiveFontSize(2.8), color: 'white', fontWeight: '600', marginRight: responsiveWidth(15), alignSelf: 'center', width: responsiveWidth(40) }}>Withdraw Fund</Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', flex: 2 }}>
+                                <Text style={{ fontSize: responsiveFontSize(2), color: 'white', justifyContent: "flex-end", marginLeft: 60 }}>₹ {user?.money ?? 0}</Text>
                             </View>
-                            <CustomButton
-                                label={' Submit Request'}
-                                onPress={() => {
-                                    handleWithDrawClick()
-                                }}
-                            />
                         </View>
                     </View>
-                    {withdrawMsg && <View>
-                        <Text style={{
-                            color: "#333",
-                            fontFamily: 'Roboto-Bold',
-                            fontSize: responsiveFontSize(2.2)
-                        }}>
-                            {withdrawMsg}
-                        </Text>
-                    </View>}
-                    <TouchableOpacity onPress={() => {
-                        fetchBankInfo()
-                    }}>
-                        <Text style={{
-                            color: "#fefefe",
-                            borderColor: "#7a9f86",
-                            textAlign: "center",
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            backgroundColor: "#7a9f86",
-                            borderWidth: 1,
-                            borderRadius: 14,
-                            padding: 16,
-                            fontWeight: 'bold',
-                        }}>Refresh Payment details</Text>
-                    </TouchableOpacity>
-                </View>
-                <Dialog isVisible={loading} onBackdropPress={() => setLoading(true)}>
-                    <Dialog.Loading />
-                </Dialog>
-                <Dialog
-                    isVisible={success}
-                    onBackdropPress={() => { setSuccess(false); }}
-                    style={{ backgroundColor: '#333' }}
-                >
-                    <Dialog.Title title="Request Sent!" titleStyle={{ color: '#333', }} />
-                    <Text style={{ color: '#333' }}>Amount will be credited in 24hr's in your account.</Text>
-                    <Dialog.Actions>
-                        <Dialog.Button
-                            title="OK"
-                            onPress={() => {
-                                setSuccess(false);
-                                setAmount('');
-                                setValue('');
+
+                    <View style={{ flexDirection: 'column', margin: responsiveWidth(5), gap: responsiveWidth(5) }}>
+                        <Text style={{ fontSize: responsiveFontSize(2.5), fontFamily: 'Roboto-Bold', color: '#333' }}>Payment Method</Text>
+                        <View style={{ flexDirection: 'row', gap: responsiveWidth(2) }}>
+                            <TouchableOpacity onPress={() => {
+                                navigation.navigate('Bank');
                             }}
-                            titleStyle={{ color: 'green' }}
-                        />
-                    </Dialog.Actions>
-                </Dialog>
-            </SafeAreaView >
+                                style={{ borderRadius: 10, borderWidth: 1, borderColor: '#ccc', flexDirection: 'column', alignItems: 'center', gap: responsiveWidth(1.5), padding: responsiveWidth(1.5), backgroundColor: '#fff' }}
+                            >
+                                <Image
+                                    source={bank}
+                                    style={{ width: responsiveWidth(16.9), height: responsiveHeight(7.9), borderRadius: 10, }}
+                                />
+                                <Text style={{ fontSize: responsiveFontSize(1.9), color: '#333', fontFamily: 'Roboto-Bold' }}>Bank</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => {
+                                navigation.navigate('Phonepe');
+
+                            }}
+                                style={{ borderRadius: 10, borderWidth: 1, borderColor: '#ccc', flexDirection: 'column', alignItems: 'center', gap: responsiveWidth(1.5), padding: responsiveWidth(1.5), backgroundColor: '#fff' }}
+                            >
+                                <Image
+                                    source={phonepe}
+                                    style={{ width: responsiveWidth(16.9), height: responsiveHeight(7.9), borderRadius: 10, }}
+                                />
+                                <Text style={{ fontSize: responsiveFontSize(1.9), color: '#333', fontFamily: 'Roboto-Bold' }}>PhonePe</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => {
+                                navigation.navigate('Googlepay');
+
+                            }}
+                                style={{ borderRadius: 10, borderWidth: 1, borderColor: '#ccc', flexDirection: 'column', alignItems: 'center', gap: responsiveWidth(1.5), padding: responsiveWidth(1.5), backgroundColor: '#fff' }}
+                            >
+                                <Image
+                                    source={googlepay}
+                                    style={{ width: responsiveWidth(16.9), height: responsiveHeight(7.9), borderRadius: 10, }}
+                                />
+                                <Text style={{ fontSize: responsiveFontSize(1.9), color: '#333', fontFamily: 'Roboto-Bold' }}>Google Pay</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => {
+                                navigation.navigate('Paytm');
+
+                            }}
+                                style={{ borderRadius: 10, borderWidth: 1, borderColor: '#ccc', flexDirection: 'column', alignItems: 'center', gap: responsiveWidth(1.5), padding: responsiveWidth(1.5), backgroundColor: '#fff' }}
+                            >
+                                <Image
+                                    source={paytm}
+                                    style={{ width: responsiveWidth(16.9), height: responsiveHeight(7.9), borderRadius: 10, }}
+                                />
+                                <Text style={{ fontSize: responsiveFontSize(1.9), color: '#333', fontFamily: 'Roboto-Bold' }}>PayTM</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ flexDirection: 'column', }}>
+                            <Text style={{ fontFamily: 'Roboto-Bold', fontSize: responsiveFontSize(2.5), color: "#333", marginTop: responsiveWidth(1) }}>Withdraw Fund</Text>
+                            <Dropdown
+                                data={data}
+                                placeholderStyle={{ color: '#333', fontSize: responsiveFontSize(2.2), fontFamily: 'Roboto-Bold', alignItems: 'center', textAlign: 'center' }}
+                                placeholder='Select Payment Method'
+                                labelField="label"
+                                valueField="value"
+                                value={value}
+                                style={{ borderColor: "#ccc", borderWidth: 1, padding: responsiveWidth(2), backgroundColor: '#fff', borderRadius: 10, marginTop: responsiveWidth(5) }}
+                                onChange={item => {
+                                    setValue(item.value);
+                                    if (item.label.includes("bank")) {
+                                        setUserInfo((prev) => ({ ...prev, cardInfo: item.value }))
+                                    } else {
+                                        setUserInfo((prev) => ({ ...prev, upi_id: item.value }))
+                                    }
+                                }}
+                                selectedTextStyle={{ color: "#333", fontFamily: 'Roboto-Bold', fontSize: responsiveFontSize(2.5) }}
+                                activeColor='#ccc'
+                                itemTextStyle={{ color: "#333" }}
+                            />
+                            <Text style={{ color: 'red', fontSize: responsiveFontSize(1.6), fontFamily: 'Roboto-Regular', marginLeft: responsiveWidth(3), flexWrap: 'wrap', width: responsiveWidth(50), marginTop: responsiveWidth(2), }}>{valueError}</Text>
+                            <View style={{ flexDirection: 'row', gap: responsiveWidth(3), marginTop: responsiveWidth(2) }}>
+                                <View style={{ flexDirection: 'column', gap: responsiveWidth(1.5), flexWrap: 'wrap', width: responsiveWidth(45), }}>
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            borderRadius: 10,
+                                            borderColor: '#ccc',
+                                            borderWidth: 1,
+                                            paddingBottom: responsiveWidth(2.2),
+                                            width: responsiveWidth(45),
+                                            backgroundColor: '#fff',
+                                        }}>
+                                        <TextInput
+                                            placeholder={'Enter Amount'}
+                                            keyboardType={'phone-pad'}
+                                            onChangeText={(text) => {
+                                                setAmount(text);
+                                                setUserInfo((prev) => ({
+                                                    ...prev, amount: Number(text)
+                                                }))
+                                            }}
+                                            value={amount}
+                                            maxLength={5}
+                                            placeholderTextColor="#666"
+                                            style={{ flex: 1, paddingVertical: responsiveWidth(0.5), color: '#666', fontSize: responsiveFontSize(2.2), paddingHorizontal: responsiveWidth(4.1), paddingTop: responsiveWidth(2.2), textAlign: 'center' }}
+                                            editable={true}
+                                        />
+                                    </View>
+                                    <Text style={{ color: 'red', fontSize: responsiveFontSize(1.6), fontFamily: 'Roboto-Regular', marginLeft: responsiveWidth(1), flexWrap: 'wrap', width: responsiveWidth(65), }}>{amountError}</Text>
+                                </View>
+                                <CustomButton
+                                    label={' Submit Request'}
+                                    onPress={() => {
+                                        handleWithDrawClick()
+                                    }}
+                                />
+                            </View>
+                        </View>
+                        {withdrawMsg && <View>
+                            <Text style={{
+                                color: "#333",
+                                fontFamily: 'Roboto-Bold',
+                                fontSize: responsiveFontSize(2.2)
+                            }}>
+                                {withdrawMsg}
+                            </Text>
+                        </View>}
+                        {weekdays && <View>
+                            <Text style={{
+                                color: "#333",
+                                fontFamily: 'Roboto-Bold',
+                                fontSize: responsiveFontSize(2.2)
+                            }}>
+                                You can only request for withdraw on {(JSON.parse(weekdays) as number[]).map((v) => fullWeekdays[v].name).join(", ")}
+                            </Text>
+                        </View>}
+                        <TouchableOpacity onPress={() => {
+                            fetchBankInfo()
+                        }}>
+                            <Text style={{
+                                color: "#fefefe",
+                                borderColor: "#7a9f86",
+                                textAlign: "center",
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                backgroundColor: "#7a9f86",
+                                borderWidth: 1,
+                                borderRadius: 14,
+                                padding: 16,
+                                fontWeight: 'bold',
+                            }}>Refresh Payment details</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <Dialog isVisible={loading} onBackdropPress={() => setLoading(true)}>
+                        <Dialog.Loading />
+                    </Dialog>
+                    <Dialog
+                        isVisible={success}
+                        onBackdropPress={() => { setSuccess(false); }}
+                        style={{ backgroundColor: '#333' }}
+                    >
+                        <Dialog.Title title="Request Sent!" titleStyle={{ color: '#333', }} />
+                        <Text style={{ color: '#333' }}>Amount will be credited in 24hr's in your account.</Text>
+                        <Dialog.Actions>
+                            <Dialog.Button
+                                title="OK"
+                                onPress={() => {
+                                    setSuccess(false);
+                                    setAmount('');
+                                    setValue('');
+                                }}
+                                titleStyle={{ color: 'green' }}
+                            />
+                        </Dialog.Actions>
+                    </Dialog>
+                </SafeAreaView >
+            </ScrollView>
+
             <Loader visible={withdrawLimit === null}></Loader>
         </>
 
