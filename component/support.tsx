@@ -9,7 +9,7 @@ const Support = () => {
     if (path === 'whatsApp') {
       Linking.openURL('https://wa.me/919358271263');
     } else {
-      Linking.openURL(`https://t.me/+VK2c7kU4TvhkODU1`);
+      Linking.openURL(`https://t.me/Riotintominess`);
     }
   }
   return (

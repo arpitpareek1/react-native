@@ -5,7 +5,7 @@ import DefaultImage1 from './assets/tab1.png';
 import DefaultImage2 from './assets/tab2.png';
 import DefaultImage3 from './assets/tab3.png';
 import DefaultImage4 from './assets/tab4.png';
-
+import DefaultImage5 from './assets/spin.png';
 interface IconRow {
   navigation: any;
 }
@@ -32,6 +32,16 @@ const IconRow: React.FC<IconRow> = ({ navigation }) => {
         </View>
         <View style={styles.palaceGridText}>
           <Text style={styles.gridText}>About</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.palaceGrid} onPress={() => {
+        navigation('LuckySpinner')
+      }}>
+        <View style={styles.palaceGridIcon}>
+        <Image source={{ uri: Image.resolveAssetSource(DefaultImage5).uri }} style={{ width: 50, height: 50 }} />
+        </View>
+        <View style={styles.palaceGridText}>
+          <Text style={styles.gridText}>Spinner</Text>
         </View>
       </TouchableOpacity>
 
@@ -75,7 +85,7 @@ const styles = StyleSheet.create({
   },
   palaceGrid: {
     alignItems: 'center',
-    width: '25%'
+    width: '20%'
   },
   palaceGridIcon: {
     marginBottom: 5,

@@ -184,11 +184,11 @@ const HomeScreen: React.FC<SupportProps> = ({ navigation }) => {
           }}></View>
       </ScrollView>
 
-      <TouchableOpacity onPress={() => { navigation.navigate('LuckySpinner') }}>
+      {/* <TouchableOpacity onPress={() => { navigation.navigate('LuckySpinner') }}>
         <View style={{ position: 'absolute', right: 12, bottom: 75, backgroundColor: '#7a9f86', borderRadius: 10, padding: 8 }}>
           <Image source={{ uri: Image.resolveAssetSource(DefaultImage1).uri }} style={{ width: 40, height: 40 }} />
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <BottomNavigation navigation={navigation.navigate} />
     </>

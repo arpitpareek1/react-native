@@ -52,7 +52,7 @@ const LoginScreen = ({ navigation }) => {
     if (path === 'whatsApp') {
       Linking.openURL('https://wa.me/919358271263');
     } else {
-      Linking.openURL(`https://t.me/+VK2c7kU4TvhkODU1`);
+      Linking.openURL(`https://t.me/Riotintominess`);
     }
   }
 
@@ -193,7 +193,7 @@ const LoginScreen = ({ navigation }) => {
                 marginBottom: responsiveWidth(5), backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'
               }}>
                 <FontAwesome name="whatsapp" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} onPress={() => Linking.openURL('https://wa.me/918905608099')} />
-                <FontAwesome name="telegram" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} onPress={() => Linking.openURL(`https://t.me/+VK2c7kU4TvhkODU1`)} />
+                <FontAwesome name="telegram" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} onPress={() => Linking.openURL(`https://t.me/Riotintominess`)} />
               </View>
             </View>
           </View> :

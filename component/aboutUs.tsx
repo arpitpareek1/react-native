@@ -30,7 +30,7 @@ const AboutUs = () => {
                 <View style={{ ...styles.paragraph, backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     {/* <FontAwesome name="instagram" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} /> */}
                     <FontAwesome name="whatsapp" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} onPress={() => Linking.openURL('https://wa.me/918905608099')} />
-                    <FontAwesome name="telegram" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} onPress={() => Linking.openURL(`https://t.me/+VK2c7kU4TvhkODU1`)} />
+                    <FontAwesome name="telegram" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} onPress={() => Linking.openURL(`https://t.me/Riotintominess`)} />
                 </View>
 
 
