@@ -192,7 +192,7 @@ const LoginScreen = ({ navigation }) => {
               <View style={{
                 marginBottom: responsiveWidth(5), backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'
               }}>
-                <FontAwesome name="whatsapp" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} onPress={() => Linking.openURL('https://wa.me/918905608099')} />
+                <FontAwesome name="whatsapp" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} onPress={() => Linking.openURL('https://wa.me/919358271263')} />
                 <FontAwesome name="telegram" size={responsiveWidth(6)} color="#666" style={{ marginRight: responsiveWidth(1.5) }} onPress={() => Linking.openURL(`https://t.me/Riotintominess`)} />
               </View>
             </View>
