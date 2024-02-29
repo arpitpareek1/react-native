@@ -140,7 +140,7 @@ const WithDrawPage = ({ navigation }) => {
         console.log("bankInfo", bankInfo, "userinfo.cardInfo", new Date().getDay());
         if (!(JSON.parse(weekdays) as number[]).some((value) => value === new Date().getDay() - 1)) {
             return ToastAndroid.showWithGravity(
-                "Only withdraw on " + (JSON.parse(weekdays) as number[]).map((v) => fullWeekdays[v].name).join(", "),
+                "Only withdraw on " + (JSON.parse(weekdays) as number[]).map((v) => fullWeekdays.filter((p)=>p.id===v)[0].name).join(", "),
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
             );
@@ -354,7 +354,7 @@ const WithDrawPage = ({ navigation }) => {
                                 fontFamily: 'Roboto-Bold',
                                 fontSize: responsiveFontSize(2.2)
                             }}>
-                                You can only request for withdraw on {(JSON.parse(weekdays) as number[]).map((v) => fullWeekdays[v].name).join(", ")}
+                                You can only request for withdraw on {(JSON.parse(weekdays) as number[]).map((v) => fullWeekdays.filter((p)=>p.id===v)[0].name).join(", ")}
                             </Text>
                         </View>}
                         <TouchableOpacity onPress={() => {
