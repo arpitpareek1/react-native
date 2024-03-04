@@ -137,8 +137,9 @@ const WithDrawPage = ({ navigation }) => {
     }
 
     const handleWithDrawClick = () => {
-        console.log("bankInfo", bankInfo, "userinfo.cardInfo", new Date().getDay());
-        if (!(JSON.parse(weekdays) as number[]).some((value) => value === new Date().getDay() - 1)) {
+        if (!(JSON.parse(weekdays) as number[]).some((value) =>{
+            return value === new Date().getDay() || (new Date().getDay() === 0 && value===7)
+        })) {
             return ToastAndroid.showWithGravity(
                 "Only withdraw on " + (JSON.parse(weekdays) as number[]).map((v) => fullWeekdays.filter((p)=>p.id===v)[0].name).join(", "),
                 ToastAndroid.SHORT,
